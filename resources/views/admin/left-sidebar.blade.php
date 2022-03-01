@@ -31,7 +31,6 @@
                         <li><a href="{{url('admin/create-company')}}">Create Company</a></li>
                         <li><a href="{{url('admin/company-list')}}">Company List</a></li>
                         <li><a href="{{url('admin/view-company')}}">View Company</a></li>
-                        <li><a href="{{url('admin/update-company')}}">Update Company</a></li>
                     </ul>
                 </li>
                 <li>
@@ -43,7 +42,6 @@
                         <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li>
                         <li><a href="{{url('admin/employee-list')}}">Employee List</a></li>
                         <li><a href="{{url('admin/view-employee')}}">View Employee</a></li>
-                        <li><a href="{{url('admin/update-employee')}}">Update Employee</a></li>
                     </ul>
                 </li>
                 <li>
@@ -55,7 +53,6 @@
                         <li><a href="{{url('admin/add-distributor')}}">Add Distributor</a></li>
                         <li><a href="{{url('admin/distributor-list')}}">Distributor List</a></li>
                         <li><a href="{{url('admin/view-distributor')}}">View Distributor</a></li>
-                        <li><a href="{{url('admin/update-distributor')}}">Update Distributor</a></li>
                     </ul>
                 </li>
                 <li>

@@ -73,41 +73,32 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
 
     Route::get('admin/add-distributor', [AdminController::class, 'addDistributor'])->name('admin.add-distributor');
     Route::get('admin/view-distributor', [AdminController::class, 'viewDistributor'])->name('admin.view-distributor');
-    Route::get('admin/update-distributor', [AdminController::class, 'updateDistributor'])->name('admin.update-distributor');
+    Route::get('admin/update-distributor/{distributorid}', [AdminController::class, 'updateDistributor'])->name('admin.update-distributor.{distributorid}');
     Route::get('admin/distributor-list', [AdminController::class, 'distributorList'])->name('admin.distributor-list');
+    Route::post('uploadDistributorData',[AdminController::class, 'uploadDistributorData'])->name('uploadDistributorData');
+    Route::post('updateDistributorData', [AdminController::class, 'updateDistributorData'])->name('updateDistributorData');
     
     Route::get('admin/user-list', [AdminController::class, 'userList'])->name('admin.user-list');
     
     Route::get('admin/create-project', [AdminController::class, 'createProject'])->name('admin.create-project');
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');
     Route::get('admin/project-list', [AdminController::class, 'projectList'])->name('admin.project-list');
+    Route::post('uploadProjectCategory', [AdminController::class, 'uploadProjectCategory'])->name('uploadProjectCategory');
+    Route::post('uploadProjectData', [AdminController::class, 'uploadProjectData'])->name('uploadProjectData');
 
     Route::get('admin/add-employee', [AdminController::class, 'addEmployee'])->name('admin.add-employee');
     Route::get('admin/view-employee', [AdminController::class, 'viewEmployee'])->name('admin.view-employee');
-    Route::get('admin/update-employee', [AdminController::class, 'updateEmployee'])->name('admin.update-employee');
+    Route::get('admin/update-employee/{employeeid}', [AdminController::class, 'updateEmployee'])->name('admin.update-employee.{employeeid}');
     Route::get('admin/employee-list', [AdminController::class, 'employeeList'])->name('admin.employee-list');
+    Route::post('addEmployee', [AdminController::class, 'addEmployeeData'])->name('addEmployee');
+    Route::post('updateEmployee', [AdminController::class, 'updateEmployeeData'])->name('updateEmployee');
 
     Route::get('admin/create-company',[AdminController::class,'createCompany'])->name('admin.create-company');
     Route::get('admin/company-list',[AdminController::class,'companyList'])->name('admin.company-list');
     Route::get('admin/view-company',[AdminController::class,'viewCompany'])->name('admin.view-company');
-    Route::get('admin/update-company',[AdminController::class,'updateCompany'])->name('admin.update-company');
-
-    Route::get('admin/view-teacher', [AdminController::class, 'viewTeacher'])->name('admin.view-teacher');
-    Route::get('admin/update-teacher', [AdminController::class, 'updateTeacher'])->name('admin.update-teacher');
-    Route::get('admin/remove-teacher', [AdminController::class, 'removeTeacher'])->name('admin.remove-teacher');
-    Route::get('admin/teacher-list', [AdminController::class, 'teacherList'])->name('admin.teacher-list');
-
-
-    Route::get('admin/receive-payment', [AdminController::class, 'receivePayment'])->name('admin.receive-payment');
-    Route::get('admin/view-payment-details', [AdminController::class, 'viewPaymentDetails'])->name('admin.view-payment-details');
-
-    Route::get('admin/view-attendance', [AdminController::class, 'viewAttendace'])->name('admin.view-attendace');
-    Route::get('admin/make-attendance', [AdminController::class, 'makeAttendace'])->name('admin.make-attendace');
-    Route::get('admin/set-teacher-routine', [AdminController::class, 'setTeacherRoutine'])->name('admin.set-teacher-routine');
-    Route::get('admin/set-classtime-table', [AdminController::class, 'setClassTimeTable'])->name('admin.set-classtime-table');
-
-    Route::get('admin/employee-salary', [AdminController::class, 'employeeSalary'])->name('admin.employee-salary');
-    Route::get('admin/teacher-salary', [AdminController::class, 'teacherSalary'])->name('admin.teacher-salary');
+    Route::get('admin/update-company/{companyid}',[AdminController::class,'updateCompany'])->name('admin.update-company.{companyid}');
+    Route::post('admin/create-company', [AdminController::class,'createHtrustCompany'])->name('admin.create-company');
+    Route::post('admin/update-company', [AdminController::class,'updateHtrustCompany'])->name('admin.update-company');
 
     Route::get('admin/add-course', [AdminController::class, 'addCourse'])->name('admin.add-course');
     Route::get('admin/course-list', [AdminController::class, 'courseList'])->name('admin.course-list');

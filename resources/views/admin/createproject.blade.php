@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">@yield('title')</h4>
+                    <h4 class="mb-sm-0 text-white bg-primary p-2 rounded">@yield('title')</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Project</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('admin/home')}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
@@ -26,50 +26,70 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form method="post" action="" enctype="multipart/form-data" class="card-body">
-                        <h4 class="card-title font-weight-bold text-uppercase">Project Details:-</h4><hr>
+                    <div class="col-sm-12">
+                        <div class="flash-message">
+                            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                                @if (Session::has('alert-' . $msg))
+                                    <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+                                        {{ Session::get('alert-' . $msg) }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <form method="post" action="{{route('uploadProjectData')}}" enctype="multipart/form-data" class="card-body">
+                        @csrf
+                        <h4 class="card-title font-weight-bold text-uppercase text-primary">Project Details:-</h4><hr>
                         <div class="container">
                             <div class="row mb-3">
                                 <div class="col-sm-4">
                                     <label for="Company" class="col-form-label">Select Company <star>*</star></label>
                                     <select class="form-control" required type="text" name="company_id" id="Company">
-                                        <option value="1">Company A</option>
-                                        <option value="1">Company B</option>
+                                        @foreach ($companydata as $citem)
+                                            <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
+                                        @endforeach
                                     </select>
+                                    <small class="form-text text-danger">@error('company_id') Project category name is required. @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="Project" class="col-form-label">Select Project Category<star>*</star></label>
                                     <select class="form-control" required type="text" name="project_id" id="Project">
-                                        <option value="1">Project A</option>
-                                        <option value="1">Project B</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="ProjectName" class="col-form-label">Project Name <star>*</star></label>
-                                    <input class="form-control" required type="text" name="project_name" placeholder="Project Name" id="ProjectName">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="ProjectNumber" class="col-form-label">Project Number <star>*</star></label>
-                                    <input class="form-control" required type="text" name="project_number" placeholder="Project Number" id="ProjectNumber">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="ProjectTitle" class="col-form-label">Project Title <star>*</star></label>
-                                    <input class="form-control" required type="text" name="project_title" placeholder="Project Title" id="ProjectTitle">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="Project Amount" class="col-form-label">Project Amount <star>*</star></label>
-                                    <input class="form-control" required type="text" name="project_amount" placeholder="Project Amount" id="ProjectAmount">
+                                        @foreach ($projectdata as $pitem)
+                                            <option value="{{$pitem->project_cat_id}}">{{$pitem->project_category}}</option>                                            
+                                        @endforeach
+                                    </select>  
+                                    <small class="form-text text-danger">@error('project_id') Project category name is required. @enderror</small> 
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="distributorID" class="col-form-label">Select Distributor <star>*</star></label>
                                     <select class="form-control" required name="distributor_id" id="distributorID">
-                                        <option value="1">Rana</option>
-                                        <option value="1">A</option>
-                                        <option value="1">C</option>
+                                        @foreach ($distributordata as $ditem)
+                                        @php
+                                            $get_dist_name = \App\Models\User::where('user_id',$ditem->user_id)->first();
+                                        @endphp
+                                            <option value="{{$ditem->distributor_reg}}">{{$get_dist_name->name}}</option>                                            
+                                        @endforeach
                                     </select>
+                                    <small class="form-text text-danger">@error('distributor_id') Project category name is required. @enderror</small>
                                 </div>
-                                <div class="col-sm-12 mt-3">
-                                    <button name="add_teacher" type="submit" class="btn btn-info">Save</button>
+                                <div class="col-sm-4">
+                                    <label for="ProjectName" class="col-form-label">Project Name <star>*</star></label>
+                                    <input class="form-control" required type="text" name="project_name" placeholder="Project Name" id="ProjectName">
+                                    <small class="form-text text-danger">@error('project_name') Project category name is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="ProjectNumber" class="col-form-label">Project Number <star>*</star></label>
+                                    <input class="form-control" required type="text" name="project_number" placeholder="Project Number" id="ProjectNumber">
+                                    <small class="form-text text-danger">@error('project_number') Project category name is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="Project Amount" class="col-form-label">Project Amount <star>*</star></label>
+                                    <input class="form-control" required type="text" name="project_amount" placeholder="Project Amount" id="ProjectAmount">
+                                    <small class="form-text text-danger">@error('project_amount') Project category name is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-12 mt-3 text-center">
+                                    <button name="add_project" type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Create Project</button>
                                 </div>
                             </div>
                         </div>

@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\User;
 use App\Models\Logo;
 use App\Models\Contact_detail;
 use App\Models\Course;
+use App\Models\Distributor;
+use App\Models\Employee;
 use App\Models\Social_link;
 use App\Models\Slider;
 use App\Models\Event;
 use App\Models\Gallery;
 use App\Models\Notice;
+use App\Models\Project_category;
+use App\Models\Project;
+use Illuminate\Support\Facades\Hash;
+
 // use Image;
 
 class AdminController extends Controller
@@ -65,66 +72,15 @@ class AdminController extends Controller
     }
 
     public function createProject(){
+        $companydata = Company::get();
+        $projectdata = Project_category::get();
+        $distributordata = Distributor::get();
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/createproject',$data);
+        return view('admin/createproject',$data, compact('companydata', 'projectdata', 'distributordata'));
     }
     public function createProjectCategory(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/createprojectcategory',$data);
-    }
-    public function addDistributor(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/adddistributor',$data);
-    }
-    public function distributorList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/distributorlist',$data);
-    }
-
-    public function addEmployee(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/addemployee',$data);
-    }
-    public function employeeList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/employeelist',$data);
-    }
-    public function viewEmployee(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewemployee',$data);
-    }
-    public function updateEmployee(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/updateemployee',$data);
-    }
-    
-    public function createCompany(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/createcompany',$data);
-    }
-    public function companyList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/companylist',$data);
-    }
-    public function viewCompany(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewcompany',$data);
-    }
-    public function updateCompany(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/updatecompany',$data);
-    }
-    public function updateStudent(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/updatestudent',$data);
-    }
-    public function viewDistributor(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewdistributor',$data);
-    }
-    public function updateDistributor(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/updadistributor',$data);
     }
     
     public function addCourse(){
@@ -517,4 +473,483 @@ class AdminController extends Controller
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
         } 
     }
+
+    
+    // Start Company Code
+    // View Code
+    public function createCompany(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/createcompany',$data);
+    }
+    public function companyList(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/companylist',$data);
+    }
+    public function viewCompany(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/viewcompany',$data);
+    }
+    public function updateCompany($companyid){
+        $coid = Company::where('company_id',$companyid)->first();
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/updatecompany',$data, compact('coid'));
+    }
+
+    //Create Code
+    public function createHtrustCompany(Request $request){
+        $request->validate([
+            'established_date' => 'required|date',
+            'company_name' => 'required',
+            'owner_name' => 'required',
+            'landmark' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'pin_code' => 'required',
+            'mobile_no' => 'required',
+            'email' => 'required|email',
+            'company_logo' => 'required|max:300|image|mimes:jpg,jpeg,png,svg'
+        ]);
+
+        $createcompany = new Company;
+        $createcompany->company_id = time().date('md');
+        $createcompany->registration_number = time().date('Ymd');
+        $createcompany->company_name = $request->company_name;
+        $createcompany->owner_name = $request->owner_name;
+        $createcompany->pan_number = $request->panno;
+        $createcompany->gst_number = $request->gst;
+        $createcompany->land_mark = $request->landmark;
+        $createcompany->city = $request->city;
+        $createcompany->state = $request->state;
+        $createcompany->country = $request->country;
+        $createcompany->pin_code = $request->pin_code;
+        $createcompany->mobile = $request->mobile_no;
+        $createcompany->alt_mobile = $request->alt_mobile_no;
+        $createcompany->email = $request->email;
+        $createcompany->established_date = $request->established_date;
+        if ($request->hasfile('company_logo')) {
+            $file = $request->file('company_logo');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'company-logo-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/company-logo'), $filename);
+        }
+        $createcompany->logo = $filename;
+        $createcompany->save();
+        if ($createcompany) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Company Data Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+
+    //Update Code
+
+    public function updateHtrustCompany(Request $request){
+        $request->validate([
+            'company_id' => 'required',
+            'established_date' => 'required|date',
+            'company_name' => 'required',
+            'owner_name' => 'required',
+            'landmark' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'pin_code' => 'required',
+            'mobile_no' => 'required',
+            'email' => 'required|email',
+        ]);
+        // dd($request->input());die;
+        $updatecompany = Company::where('company_id', $request->company_id)
+                                    ->update([
+                                    'company_name' => $request->company_name,
+                                    'owner_name' => $request->owner_name,
+                                    'pan_number' => $request->panno,
+                                    'gst_number' => $request->gst,
+                                    'land_mark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pin_code' => $request->pin_code,
+                                    'mobile' => $request->mobile_no,
+                                    'alt_mobile' => $request->alt_mobile,
+                                    'email' => $request->email,
+                                    'established_date' => $request->established_date
+                                    ]);
+        if ($updatecompany) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Company Data Successfully Updated'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+
+    // End Company Code
+
+    // Start Employee Code
+    public function addEmployee(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/addemployee',$data);
+    }
+    public function employeeList(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/employeelist',$data);
+    }
+    public function viewEmployee(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/viewemployee',$data);
+    }
+    public function updateEmployee($employeeid){
+        $empdata = Employee::where('user_id', $employeeid)->first();
+        $empudata = User::where('user_id', $employeeid)->first();
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/updateemployee',$data, compact('empdata', 'empudata'));
+    }
+    // Employee Data Upload Start
+    public function addEmployeeData(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'qualification' => 'required|string|max:150',
+            'experience' => 'required|max:10',
+            'dob' => 'required|string',
+            'gender' => 'required|string',
+            'aadhar_card' => 'required|max:2048|mimes:pdf',
+            'pan_card' => 'required|max:2048|mimes:pdf',
+            'voter_id' => 'required|max:2048|mimes:pdf',
+            'landmark' => 'required|string|max:180',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'pincode' => 'required|max:10',
+            'mobile_no' => 'required|string',
+            'email' => 'required|email',
+            'photo' => 'required|max:300|image|mimes:jpg,jpeg,png',
+        ]);
+
+        $employeeadd = new Employee;
+        $lastUserId = User::orderBy('id', 'desc')->first();
+        if (isset($lastUserId)) {
+            // Sum 1 + last id
+            $euserid = $lastUserId->user_id+1;
+        } else {
+            $euserid = date('md').rand(111,999);
+        }
+        // $euserid = time().rand(1111,9999);
+        $employeeadd->user_id = $euserid;
+        $employeeadd->qualification = $request->qualification;
+        $employeeadd->experience = $request->experience;
+        $employeeadd->dob = $request->dob;
+        $employeeadd->gender = $request->gender;
+        if ($request->hasfile('aadhar_card')) {
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadharcard = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $aadharcard);
+        }
+        $employeeadd->aadhar_card = $aadharcard;
+        if ($request->hasfile('pan_card')) {
+            $file = $request->file('pan_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $pancard = 'pan_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $pancard);
+        }
+        $employeeadd->pan_card = $pancard;
+        if ($request->hasfile('voter_id')) {
+            $file = $request->file('voter_id');
+            $extenstion = $file->getClientOriginalExtension();
+            $voterid = 'voter_id-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $voterid);
+        }
+        $employeeadd->voter_id = $voterid;
+        $employeeadd->landmark = $request->landmark;
+        $employeeadd->city = $request->city;
+        $employeeadd->state = $request->state;
+        $employeeadd->country = $request->country;
+        $employeeadd->pincode = $request->pincode;
+        $employeeadd->alt_mobile = $request->alt_mobile;
+        if ($request->hasfile('photo')) {
+            $file = $request->file('photo');
+            $extenstion = $file->getClientOriginalExtension();
+            $employeephoto = 'employees-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $employeephoto);
+        }
+        $employeeadd->employee_photo = $employeephoto;
+        $employeeadd->save();
+
+        $loginemployee = new User;
+        $loginemployee->user_id = $euserid;
+        $alphabet = 'abcdefghijklmnopqrstuvwxyz@#$123456789';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $passwordis = implode($pass);
+        // $loginemployee->password = Hash::make($passwordis);
+        $loginemployee->password = $passwordis;
+        $loginemployee->name = $request->name;
+        $loginemployee->mobile = $request->mobile_no;
+        $loginemployee->email = $request->email;
+        $loginemployee->role = 2;
+        $loginemployee->save();
+        if ($employeeadd && $loginemployee) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Employee Successfully Registered'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    // Employee Data Upload End
+
+    // Employee Data Update Start
+    public function updateEmployeeData(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'qualification' => 'required|string|max:150',
+            'experience' => 'required|max:10',
+            'dob' => 'required|string',
+            'gender' => 'required|string',
+            'landmark' => 'required|string|max:180',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'pincode' => 'required|max:10',
+            'mobile_no' => 'required|string',
+            'email' => 'required|email',
+        ]);
+        $updateemployeedata = Employee::where('user_id', $request->employeeid)
+                                    ->update([
+                                    'qualification' => $request->qualification,
+                                    'experience' => $request->experience,
+                                    'dob' => $request->dob,
+                                    'gender' => $request->gender,
+                                    'landmark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pincode' => $request->pincode,
+                                    'alt_mobile' => $request->alt_mobile_no,
+                                    ]);
+        $uupdateemployeedata = User::where('user_id', $request->employeeid)
+                                    ->update([
+                                    'name' => $request->name,
+                                    'mobile' => $request->mobile_no,
+                                    'email' => $request->email,
+                                    ]);
+        if ($uupdateemployeedata && $updateemployeedata) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Employee Data Successfully Updated'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    //Employee Data Update End 
+
+    // End Employee Code
+
+    //distributor code start    
+    public function addDistributor(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/adddistributor',$data);
+    }
+    public function distributorList(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/distributorlist',$data);
+    }
+    public function viewDistributor(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/viewdistributor',$data);
+    }
+    public function updateDistributor($distributorid){
+        $distdata = Distributor::where('user_id', $distributorid)->first();
+        $distudata = User::where('user_id', $distributorid)->first();
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('admin/updatedistributor',$data, compact('distdata', 'distudata'));
+    }
+    //Distributor Data Upload Start
+    public function uploadDistributorData(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'dob' => 'required|string',
+            'gender' => 'required|string',
+            'aadhar_card' => 'required|max:2048|mimes:pdf',
+            'pan_card' => 'required|max:2048|mimes:pdf',
+            'voter_id' => 'required|max:2048|mimes:pdf',
+            'landmark' => 'required|string|max:180',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'pincode' => 'required|max:10',
+            'mobile_no' => 'required|string',
+            'email' => 'required|email',
+            'photo' => 'required|max:300|image|mimes:jpg,jpeg,png',
+        ]);
+
+        $distributoradd = new Distributor;
+        $lastUserId = User::orderBy('id', 'desc')->first();
+        if (isset($lastUserId)) {
+            // Sum 1 + last id
+            $euserid = $lastUserId->user_id+1;
+        } else {
+            $euserid = date('md').rand(111,999);
+        }
+        $distributor_id_gen = date('d').time().rand(111,999);
+        // $euserid = time().rand(1111,9999);
+        $distributoradd->user_id = $euserid;
+        $distributoradd->distributor_reg = $distributor_id_gen;
+        $distributoradd->dob = $request->dob;
+        $distributoradd->gender = $request->gender;
+        if ($request->hasfile('aadhar_card')) {
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadharcard = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $aadharcard);
+        }
+        $distributoradd->aadhar_card = $aadharcard;
+        if ($request->hasfile('pan_card')) {
+            $file = $request->file('pan_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $pancard = 'pan_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $pancard);
+        }
+        $distributoradd->pan_card = $pancard;
+        if ($request->hasfile('voter_id')) {
+            $file = $request->file('voter_id');
+            $extenstion = $file->getClientOriginalExtension();
+            $voterid = 'voter_id-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $voterid);
+        }
+        $distributoradd->voter_id = $voterid;
+        $distributoradd->landmark = $request->landmark;
+        $distributoradd->city = $request->city;
+        $distributoradd->state = $request->state;
+        $distributoradd->country = $request->country;
+        $distributoradd->pincode = $request->pincode;
+        $distributoradd->alt_mobile = $request->alt_mobile;
+        if ($request->hasfile('photo')) {
+            $file = $request->file('photo');
+            $extenstion = $file->getClientOriginalExtension();
+            $distributorphoto = 'distributor-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/documents'), $distributorphoto);
+        }
+        $distributoradd->distributor_photo = $distributorphoto;
+        $distributoradd->save();
+
+        $logindistributor = new User;
+        $logindistributor->user_id = $euserid;
+        $alphabet = 'abcdefghijklmnopqrstuvwxyz@#$123456789';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $passwordis = implode($pass);
+        // $loginemployee->password = Hash::make($passwordis);
+        $logindistributor->password = $passwordis;
+        $logindistributor->name = $request->name;
+        $logindistributor->mobile = $request->mobile_no;
+        $logindistributor->email = $request->email;
+        $logindistributor->role = 3;
+        $logindistributor->save();
+        if ($distributoradd && $logindistributor) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Distributor Successfully Registered'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    //Distributor Data Upload End
+
+    //Distributor data update start
+    public function updateDistributorData(Request $request){
+        $request->validate([
+            'distributorid' => 'required',
+            'name' => 'required|string',
+            'dob' => 'required|string',
+            'gender' => 'required|string',
+            'landmark' => 'required|string|max:180',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'pincode' => 'required|max:10',
+            'mobile_no' => 'required|string',
+            'email' => 'required|email',
+        ]);
+        $updatedistributordata = Distributor::where('user_id', $request->distributorid)
+                                    ->update([
+                                    'dob' => $request->dob,
+                                    'gender' => $request->gender,
+                                    'landmark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pincode' => $request->pincode,
+                                    'alt_mobile' => $request->alt_mobile_no,
+                                    ]);
+        $uupdatedistributordata = User::where('user_id', $request->distributorid)
+                                    ->update([
+                                    'name' => $request->name,
+                                    'mobile' => $request->mobile_no,
+                                    'email' => $request->email,
+                                    ]);
+        if ($uupdatedistributordata && $updatedistributordata) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Distributor Data Successfully Updated'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    //Distributor Data update end
+    //distributor code end   
+
+    //Project Category Code Start
+    public function uploadProjectCategory(Request $request){
+        $request->validate([
+            'project_cat_name' => 'required|max:250',
+            'project_amount' => 'required',
+        ]);
+
+        $projectcat = new Project_category;
+        $project_id_get = Project_category::orderBy('id','desc')->first();
+        if (isset($project_id_get)) {
+            $projectcatid = $project_id_get->project_cat_id+1;
+        } else {
+            $projectcatid = date('d').time().rand(1111,9999);
+        }
+        
+        $projectcat->project_cat_id = $projectcatid;
+        $projectcat->project_category = $request->project_cat_name;
+        $projectcat->project_amount = $request->project_amount;
+        $projectcat->save();
+        if ($projectcat) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Project Category Successfully Created'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    //Project Category Code End
+
+    //Project Create Code Start
+    public function uploadProjectData(Request $request){
+        $request->validate([
+            'company_id' => 'required',
+            'project_id' => 'required',
+            'distributor_id' => 'required',
+            'project_name' => 'required|max:250',
+            'project_number' => 'required',
+            'project_amount' => 'required',
+        ]);
+
+        $createproject = new Project;
+        $createproject->project_id = date('md').time().rand(1111,9999);
+        $createproject->company_id = $request->company_id;
+        $createproject->project_cat = $request->project_id;
+        $createproject->distributor_id = $request->distributor_id;
+        $createproject->project_name = $request->project_name;
+        $createproject->project_number = $request->project_number;
+        $createproject->amount = $request->project_amount;
+        $createproject->save();
+        if ($createproject) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Project Successfully Created'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    //Project Create Code End
 }
