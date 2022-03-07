@@ -38,5 +38,17 @@ class UserController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('user/uploadvideo',$data);
     }
+    public function viewProfile(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('user/viewprofile',$data);
+    }
+    public function updateProfile(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('user/updateprofile',$data);
+    }
+    public function changePassword(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('user/changepassword',$data);
+    }
     
 }

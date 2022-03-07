@@ -50,7 +50,13 @@ class AdminController extends Controller
     }
     public function adminHome(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/home', $data);
+        $distributor = User::where('role','3')->count();
+        $totalemployee = User::where('role','2')->count();
+        $totaluser = User::where('role','4')->count();
+        $totalcompany = Company::count();
+        $totalproject = Project::count();
+        $totalprojectcategory = Project_category::count();
+        return view('admin/home', $data, compact('distributor', 'totalcompany', 'totalemployee', 'totaluser', 'totalprojectcategory', 'totalproject'));
     }
     public function updateContactDetails(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -96,9 +102,22 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/addevent', $data);
     }
-    public function eventList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/eventlist', $data);
+    public function eventList()
+    {
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedUser'))->first()];
+        $eventlists = Event::paginate(10);
+        return view('admin/event-list', $data, compact('eventlists'));
+    }
+    public function deleteEvent(Request $request){
+        $request->validate([
+            'eventid' => 'required',
+        ]);
+        $eventdelete = Event::where('eventID',$request->eventid)->delete();
+        if ($eventdelete) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Event Successfully Deleted'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
     public function addNotice(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -120,9 +139,22 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/addgallery', $data);
     }
-    public function galleryList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/gallerylist', $data);
+    public function galleryList()
+    {
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedUser'))->first()];
+        $gallerylists = Gallery::paginate(10);
+        return view('admin/gallerylist', $data, compact('gallerylists'));
+    }
+    public function deleteGalleryImage(Request $request){
+        $request->validate([
+            'galleryid' => 'required',
+        ]);
+        $gallerydelete = Gallery::where('id',$request->galleryid)->delete();
+        if ($gallerydelete) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Gallery Image Successfully Deleted'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
     public function addSlider(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -483,7 +515,8 @@ class AdminController extends Controller
     }
     public function companyList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/companylist',$data);
+        $company = Company::paginate(10);
+        return view('admin/companylist',$data, compact('company'));
     }
     public function viewCompany(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -591,7 +624,9 @@ class AdminController extends Controller
     }
     public function employeeList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/employeelist',$data);
+        $employee = Employee::join('users', 'users.user_id', '=', 'employees.user_id')
+                ->get(['employees.*', 'users.*']);
+       return view('admin/employeelist',$data, compact('employee'));
     }
     public function viewEmployee(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -751,7 +786,9 @@ class AdminController extends Controller
     }
     public function distributorList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/distributorlist',$data);
+        $distributor = Distributor::join('users', 'users.user_id', '=', 'distributors.user_id')
+        ->get(['distributors.*', 'users.*']);
+        return view('admin/distributorlist',$data, compact('distributor'));
     }
     public function viewDistributor(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -763,6 +800,18 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/updatedistributor',$data, compact('distdata', 'distudata'));
     }
+    public function projectList(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $project = Project::join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                ->get(['project_categories.*', 'projects.*']);
+        return view('admin/projectlist', $data, compact('project'));
+    }
+    public function projectCategoryList(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $projectcategory = Project_category::paginate(10);
+        return view('admin/projectcategorylist', $data, compact('projectcategory'));
+    }
+    
     //Distributor Data Upload Start
     public function uploadDistributorData(Request $request){
         $request->validate([
@@ -952,4 +1001,6 @@ class AdminController extends Controller
         } 
     }
     //Project Create Code End
+
+    
 }

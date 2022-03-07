@@ -28,29 +28,32 @@
                     <div class="card-body">
 
                         <h4 class="card-title">@yield('title')</h4>
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
+                                <th>User ID</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>qualification</th>
+                                <th>Dob</th>
+                              </tr>
                             </thead>
 
 
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
-
+                                @foreach ($employee as $item)
+                                <tr>
+                                    <td>{{$item->user_id}}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->mobile}}</td>
+                                    <td>{{$item->email}}</td>
+                                    <td>{{$item->password}}</td>
+                                    <td>{{$item->qualification}}</td>
+                                    <td>{{$item->dob}}</td>
+                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
 

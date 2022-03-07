@@ -31,25 +31,29 @@
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Company ID</th>
+                                <th>Registration No.</th>
+                                <th>Company Name</th>
+                                <th>Owner Name</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Logo</th>
                             </tr>
                             </thead>
 
 
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
+                           @foreach ($company as $item)
+                           <tr>
+                            <td>{{$item->company_id}}</td>
+                            <td>{{$item->registration_number}}</td>
+                            <td>{{$item->company_name}}</td>
+                            <td>{{$item->owner_name}}</td>
+                            <td>{{$item->mobile}}</td>
+                            <td>{{$item->email}}</td>
+                            <td><img style="height:100px;" class="img-thumbnail" src="{{asset('uploads/company-logo/'.$item->logo)}}" alt=""></td>
+                        </tr>
+                           @endforeach
 
                             </tbody>
                         </table>

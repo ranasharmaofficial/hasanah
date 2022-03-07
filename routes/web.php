@@ -56,6 +56,9 @@ Route::get('user/applied-project',[UserController::class,'appliedProject']);
 Route::get('user/my-project',[UserController::class,'myProject']);
 Route::get('user/upload-image',[UserController::class,'uploadImage']);
 Route::get('user/upload-video',[UserController::class,'uploadVideo']);
+Route::get('user/view-profile',[UserController::class,'viewProfile']);
+Route::get('user/update-profile',[UserController::class,'updateProfile']);
+Route::get('user/change-password',[UserController::class,'changePassword']);
 
 Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
@@ -83,6 +86,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/create-project', [AdminController::class, 'createProject'])->name('admin.create-project');
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');
     Route::get('admin/project-list', [AdminController::class, 'projectList'])->name('admin.project-list');
+    Route::get('admin/project-category-list', [AdminController::class, 'projectCategoryList'])->name('admin.project-category-list');
     Route::post('uploadProjectCategory', [AdminController::class, 'uploadProjectCategory'])->name('uploadProjectCategory');
     Route::post('uploadProjectData', [AdminController::class, 'uploadProjectData'])->name('uploadProjectData');
 
@@ -105,9 +109,11 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
 
     Route::get('admin/add-event', [AdminController::class, 'addEvent'])->name('admin.add-event');
     Route::get('admin/event-list', [AdminController::class, 'eventList'])->name('admin.event-list');
+    Route::post('deleteEvent', [AdminController::class, 'deleteEvent'])->name('deleteEvent');
 
     Route::get('admin/add-gallery', [AdminController::class, 'addGallery'])->name('admin.add-gallery');
     Route::get('admin/gallery-list', [AdminController::class, 'galleryList'])->name('admin.gallery-list');
+    Route::post('deleteGalleryImage', [AdminController::class, 'deleteGalleryImage'])->name('deleteGalleryImage');
 
     Route::get('admin/add-notice', [AdminController::class, 'addNotice'])->name('admin.add-notice');
     Route::get('admin/notice-list', [AdminController::class, 'noticeList'])->name('admin.notice-list');

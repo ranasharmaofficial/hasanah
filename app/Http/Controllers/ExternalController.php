@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Contact;
+use App\Models\Gallery;
 
 class ExternalController extends Controller
 {

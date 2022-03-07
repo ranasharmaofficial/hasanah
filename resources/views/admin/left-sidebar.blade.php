@@ -63,6 +63,8 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('admin/create-project-category')}}">Create Project Category</a></li>
                         <li><a href="{{url('admin/create-project')}}">Create Project</a></li>
+                        <li><a href="{{url('admin/project-list')}}">Project List</a></li>
+                        <li><a href="{{url('admin/project-category-list')}}">Project Category List</a></li>
                     </ul>
                 </li>
                <li>
@@ -189,9 +191,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('distributor/user-list')}}" class="waves-effect">
+                    <a href="{{url('user/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
-                        <span>User List</span>
+                        <span>View Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('user/update-profile')}}" class="waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Update Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('user/change-password')}}" class="waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Change Password</span>
                     </a>
                 </li>
                 <!--User Menu End-->

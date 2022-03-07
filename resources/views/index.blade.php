@@ -126,7 +126,7 @@
                 <div class="col-md-3 single-item">
                     <div class="item">
                         <div class="thumb bg-primary">
-                            <img class="img-fluid" src="{{asset('front_assets/img/team.png')}}" alt="Thumb">
+                            <img class="img-fluid" src="{{asset('front_assets/team/chairman.jpeg')}}" alt="Thumb">
                             <div class="overlay">
                                 <h4>Mufizuddin Al-Riyadhi</h4>
                                <div class="social">
@@ -226,7 +226,7 @@
                 <div class="col-md-3 single-item">
                     <div class="item">
                         <div class="thumb bg-primary">
-                            <img class="img-fluid" src="{{asset('front_assets/img/team.png')}}" alt="Thumb">
+                            <img class="img-fluid" src="{{asset('front_assets/team/advisor.jpeg')}}" alt="Thumb">
                             <div class="overlay">
                                 <h4>Muhammad Hamza </h4>
                                <div class="social">
@@ -288,6 +288,38 @@
                             <span>A board member of the Trust</span>
                         </div>
                     </div>
+                </div><!---Team End---><div class="col-md-3 single-item">
+                    <div class="item">
+                        <div class="thumb bg-primary">
+                            <img class="img-fluid" src="{{asset('front_assets/team/technician.jpeg')}}" alt="Thumb">
+                            <div class="overlay">
+                                <h4>Mr. Nasirul Islam</h4>
+                               <div class="social">
+                                    <ul>
+                                        <li class="twitter">
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li class="pinterest">
+                                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                                        </li>
+                                        <li class="instagram">
+                                            <a href="#"><i class="fa fa-instagram"></i></a>
+                                        </li>
+                                        <li class="vimeo">
+                                            <a href="#"><i class="fa fa-whatsapp"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <span class="message">
+                                <a href="#"><i class="fa fa-envelope-open"></i></a>
+                            </span>
+                            <h4>Mr. Nasirul Islam</h4>
+                            <span>Technician & Assistant Executive Manager</span>
+                        </div>
+                    </div>
                 </div><!---Team End--->
                 
             </div>
@@ -310,6 +342,7 @@
                         <h2>Register Now <span>Get free access to our courses</span></h2>
                     </div>
                     <form action="#" method="post">
+                        
                         <div class="form-group">
                             <input type="text" class="form-control" id="name" placeholder="Name">
                         </div>
@@ -319,7 +352,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="phone" placeholder="Phone">
                         </div>
-                      <button type="submit" class="btn btn-primary">Register Now</button>
+                      <button type="button" class="btn btn-primary">Register Now</button>
                     </form>
                 </div>
             </div>

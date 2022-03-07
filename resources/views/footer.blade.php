@@ -3,7 +3,7 @@
                 <div class="widget-wrap row">
                     <div class="col-md-3 xs-padding">
                         <div class="widget-content">
-                            <img style="max-width:140px;" src="{{asset('front_assets/img/logo.jpeg')}}" alt="Prabuddham Academy logo">
+                            <img style="max-width:140px;" src="{{asset('front_assets/img/logo.png')}}" alt="Hasanah Girls college logo">
                             <p>Place of Al-Hasanah Educational Trust is in Araria, Bihar (India)</p>
                             <ul class="social-icon">
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>

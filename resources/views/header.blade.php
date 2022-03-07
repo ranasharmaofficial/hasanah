@@ -27,7 +27,7 @@
             <div class="bottom-content-wrap row">
                 <div class="col-md-3">
                     <div class="site-branding">
-                        <a href="{{url('/')}}"><img src="{{asset('front_assets/img/logo.jpeg')}}" alt="Brand"></a>
+                        <a href="{{url('/')}}"><img src="{{asset('front_assets/img/logo.png')}}" alt="Brand"></a>
                     </div>
                 </div>
                 <div class="col-md-9 d-none d-md-block text-right">
@@ -44,12 +44,12 @@
                                 <li><a href="{{url('teacher')}}">Team</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{url('blog')}}">Blog</a>
+                        <li><a href="javascript:void(0)">Blog</a>
                            
                         </li>
                         <li> <a href="{{url('contact')}}">Contact</a></li>
                     </ul>
-                    <a href="#" class="default-btn">Register Now</a>
+                    <a href="{{url('user/registers')}}" class="default-btn">Register Now</a>
                 </div>
             </div>
         </div>

@@ -79,7 +79,7 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <textarea id="message" name="message" cols="30" rows="5" class="form-control message"
-                                    placeholder="Message" required>value="{{old('message')}}"</textarea>
+                                    placeholder="Message" required>{{old('message')}}</textarea>
                                     <span class="form-text text-danger">@error('message')
                                         {{$message}}
                                     @enderror</span>
