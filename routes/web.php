@@ -76,6 +76,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
 
     Route::get('admin/add-distributor', [AdminController::class, 'addDistributor'])->name('admin.add-distributor');
     Route::get('admin/view-distributor', [AdminController::class, 'viewDistributor'])->name('admin.view-distributor');
+    Route::post('admin/view-distributor', [AdminController::class, 'viewDistributor'])->name('admin.view-distributor');
     Route::get('admin/update-distributor/{distributorid}', [AdminController::class, 'updateDistributor'])->name('admin.update-distributor.{distributorid}');
     Route::get('admin/distributor-list', [AdminController::class, 'distributorList'])->name('admin.distributor-list');
     Route::post('uploadDistributorData',[AdminController::class, 'uploadDistributorData'])->name('uploadDistributorData');
@@ -92,6 +93,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
 
     Route::get('admin/add-employee', [AdminController::class, 'addEmployee'])->name('admin.add-employee');
     Route::get('admin/view-employee', [AdminController::class, 'viewEmployee'])->name('admin.view-employee');
+    Route::post('admin/view-employee', [AdminController::class, 'viewEmployee'])->name('admin.view-employee');
     Route::get('admin/update-employee/{employeeid}', [AdminController::class, 'updateEmployee'])->name('admin.update-employee.{employeeid}');
     Route::get('admin/employee-list', [AdminController::class, 'employeeList'])->name('admin.employee-list');
     Route::post('addEmployee', [AdminController::class, 'addEmployeeData'])->name('addEmployee');
@@ -100,6 +102,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/create-company',[AdminController::class,'createCompany'])->name('admin.create-company');
     Route::get('admin/company-list',[AdminController::class,'companyList'])->name('admin.company-list');
     Route::get('admin/view-company',[AdminController::class,'viewCompany'])->name('admin.view-company');
+    Route::post('admin/viewcompany',[AdminController::class,'viewCompany'])->name('admin.viewcompany');
     Route::get('admin/update-company/{companyid}',[AdminController::class,'updateCompany'])->name('admin.update-company.{companyid}');
     Route::post('admin/create-company', [AdminController::class,'createHtrustCompany'])->name('admin.create-company');
     Route::post('admin/update-company', [AdminController::class,'updateHtrustCompany'])->name('admin.update-company');

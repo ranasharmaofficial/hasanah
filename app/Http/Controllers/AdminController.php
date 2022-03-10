@@ -19,6 +19,7 @@ use App\Models\Project_category;
 use App\Models\Project;
 use Illuminate\Support\Facades\Hash;
 
+
 // use Image;
 
 class AdminController extends Controller
@@ -518,9 +519,19 @@ class AdminController extends Controller
         $company = Company::paginate(10);
         return view('admin/companylist',$data, compact('company'));
     }
-    public function viewCompany(){
+    public function viewCompany(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewcompany',$data);
+        $getcompanyid = $request->post('company_id');
+        $flag = false;
+        if ($getcompanyid !== null) {
+            $flag = true;
+            $companydata = Company::where('company_id', $getcompanyid)->first();
+            //  dd($companydata);die;
+           
+            return view('admin/viewcompany', $data, compact('companydata', 'flag'));
+        } else {
+            return view('admin/viewcompany', $data, compact('flag'));
+        }
     }
     public function updateCompany($companyid){
         $coid = Company::where('company_id',$companyid)->first();
@@ -628,9 +639,19 @@ class AdminController extends Controller
                 ->get(['employees.*', 'users.*']);
        return view('admin/employeelist',$data, compact('employee'));
     }
-    public function viewEmployee(){
+    public function viewEmployee(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewemployee',$data);
+        $employeecode = $request->post('employeecode');
+        $flag = false;
+        if ($employeecode !== null) {
+            $flag = true;
+            $employeedata = Employee::where('user_id', $employeecode)->first();
+            $userdata = User::where('user_id', $employeedata->user_id)->first();
+            // dd($employeedata);die;
+            return view('admin/viewemployee', $data, compact('employeedata', 'flag', 'userdata'));
+        } else {
+            return view('admin/viewemployee', $data, compact('flag'));
+        }
     }
     public function updateEmployee($employeeid){
         $empdata = Employee::where('user_id', $employeeid)->first();
@@ -790,9 +811,19 @@ class AdminController extends Controller
         ->get(['distributors.*', 'users.*']);
         return view('admin/distributorlist',$data, compact('distributor'));
     }
-    public function viewDistributor(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/viewdistributor',$data);
+    public function viewDistributor(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id', '=', session('LoggedUser'))->first()];
+        $distributorcode = $request->post('distributorcode');
+        $flag = false;
+        if ($distributorcode !== null) {
+            $flag = true;
+            $distributordata = Distributor::where('user_id', $distributorcode)->first();
+            $userdata = User::where('user_id', $distributordata->user_id)->first();
+            return view('admin/viewdistributor', $data, compact('distributordata', 'flag', 'userdata'));
+        } else {
+            return view('admin/viewdistributor', $data, compact('flag'));
+        }
+        
     }
     public function updateDistributor($distributorid){
         $distdata = Distributor::where('user_id', $distributorid)->first();
