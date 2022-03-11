@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('user.layouts.master')
 @section('title','Work List')
 @section('content')
  <div class="page-content">

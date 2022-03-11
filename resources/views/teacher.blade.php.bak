@@ -189,8 +189,7 @@
                             <span>A board member of the Trust</span>
                         </div>
                     </div>
-                </div><!---Team End--->
-				<div class="col-md-3 single-item">
+                </div><!---Team End---><div class="col-md-3 single-item">
                     <div class="item">
                         <div class="thumb bg-primary">
                             <img class="img-fluid" src="{{asset('front_assets/team/technician.jpeg')}}" alt="Thumb">

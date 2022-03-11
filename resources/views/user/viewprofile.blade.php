@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('user.layouts.master')
 @section('title','My Profile')
 @section('content')
  <div class="page-content">

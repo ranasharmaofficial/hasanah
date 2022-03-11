@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('user.layouts.master')
 @section('title','Applied Project List')
 @section('content')
  <div class="page-content">
