@@ -1033,5 +1033,38 @@ class AdminController extends Controller
     }
     //Project Create Code End
 
+    //Distributor Remove Code Start
+    public function removeDistributor(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+        $distributorupdate = Distributor::where('user_id', $request->userid)
+                                        ->update(['status' => 0]);
+
+        $distributoruserupdate = User::where('user_id', $request->userid)
+                                        ->update(['status' => 0]);
+        if ($distributorupdate && $distributoruserupdate) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Distributor Successfully Blocked'));
+        }
+        return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+    }
+    //Distributor Remove Code End
+
+    //Distributor Un-Block Code Start
+    public function unBlockDistributor(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+        $distributorupdate = Distributor::where('user_id', $request->userid)
+                                        ->update(['status' => 1]);
+
+        $distributoruserupdate = User::where('user_id', $request->userid)
+                                        ->update(['status' => 1]);
+        if ($distributorupdate && $distributoruserupdate) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Distributor Successfully Un-Blocked'));
+        }
+        return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+    }
+    //Distributor Un-Block Code End
     
 }

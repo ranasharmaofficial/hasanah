@@ -25,8 +25,19 @@
 
     <body class="auth-body-bg">
         <div>
-            <div class="container-fluid p-0">
-                <div class="row g-0">
+            <div class="container-fluid p-0 mt-5">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="authentication-bg">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-lg-7">
                         <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
                             <div class="w-100">
@@ -37,11 +48,11 @@
                                                 <div class="mt-5">
                                                     <a href="{{url('')}}" class="logo"><img src="{{asset('assets_admin/images/logo-light.png')}}" style="max-height:100px;" alt="Hasanah Girls College"></a>
                                                 </div>
-                                                 <h4 class="font-size-18 mt-4">Register !</h4>
+                                                 <h4 class="font-size-18 mt-3">Register Now</h4>
                                             </div>
 
                                             <div class="p-2 mt-2">
-                                                <form class="form" action="#" method="POST">   
+                                                <form class="form" action="{{route('user.registration')}}" method="POST">   
                                                     @csrf
                                                     <div class="flash-message">
                                                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -59,7 +70,7 @@
                                                             <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                                                                 <label for="name">Name</label>
-                                                                <input type="text" name="name" class="form-control" id="name" required placeholder="Enter username" value="{{old('username')}}">
+                                                                <input type="text" name="name" autofocus="true" class="form-control" id="name" required placeholder="Enter username" value="{{old('username')}}">
                                                                 <small class="form-text text-danger">@error('name') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
@@ -81,14 +92,6 @@
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="mb-3 auth-form-group-custom mb-4">
-                                                                <i class="ri-fingerprint-fill auti-custom-input-icon"></i>
-                                                                <label for="useraadharnumber">Aadhar number</label>
-                                                                <input type="tel" name="aadhar_no" class="form-control" id="useraadharnumber" required placeholder="Enter aadhar number">
-                                                                <small class="form-text text-danger">@error('aadhar_no') {{ $message }} @enderror</small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-home-7-line auti-custom-input-icon"></i>
                                                                 <label for="useraddress">Address</label>
                                                                 <input type="tel" name="address" class="form-control" id="useraadharnumber" required placeholder="Enter address">
@@ -98,24 +101,32 @@
                                                         <div class="col-sm-6">
                                                             <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                                                                <label for="userpassword">Password</label>
-                                                                <input type="password" name="password" class="form-control" id="userpassword" required placeholder="Enter password">
+                                                                <label for="userpassword">New Password</label>
+                                                                <input type="password" name="password" class="form-control" id="userpassword" required placeholder="Enter New Password">
                                                                 <small class="form-text text-danger">@error('password') {{ $message }} @enderror</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="mb-3 auth-form-group-custom mb-4">
+                                                                <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                                                                <label for="confirmpassword">Confirm Password</label>
+                                                                <input type="tel" name="confirm_password" class="form-control" id="confirmpassword" required placeholder="Enter Confirm Password">
+                                                                <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="customControlInline">
-                                                        <label class="form-check-label" for="customControlInline">Agree Terms & Conditions</label>
+                                                        <input type="checkbox" checked class="form-check-input" id="customControlInline">
+                                                        <label class="form-check-label" for="customControlInline">I accept all terms & conditions.</label>
                                                     </div>
 
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-9">
+                                                        <div class="col-lg-12">
                                                             <div class="mt-4 text-center">
-                                                                <p>Have an account ? <a href="{{url('user/login')}}" class="fw-medium text-primary"> Login </a> </p>
+                                                                <p class="p-0 m-0">Have an account ? <a href="{{url('user/login')}}" class="fw-medium text-primary"> Login </a> </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -133,17 +144,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="authentication-bg">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     
                 </div>
             </div>

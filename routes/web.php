@@ -49,7 +49,7 @@ Route::post('adminAuthLogin', [AdminController::class, 'adminAuthLogin'])->name(
 //User Register
 // Route::view('user/register','registers');
 Route::get('user/registers',[UserController::class,'registers']);
-Route::get('user/login',[UserController::class,'login']);
+Route::get('user/login',[UserController::class,'login'])->name('user.login');
 Route::get('user/work-list',[UserController::class,'workList']);
 Route::get('user/work-details',[UserController::class,'workDetails']);
 Route::get('user/applied-project',[UserController::class,'appliedProject']);
@@ -59,6 +59,9 @@ Route::get('user/upload-video',[UserController::class,'uploadVideo']);
 Route::get('user/view-profile',[UserController::class,'viewProfile']);
 Route::get('user/update-profile',[UserController::class,'updateProfile']);
 Route::get('user/change-password',[UserController::class,'changePassword']);
+Route::post('user/registration', [UserController::class, 'registerUser'])->name('user.registration');
+Route::get('user/mailVerification/{code}/{userid}', [UserController::class, 'verifyUser'])->name('user.mailVerification.{code}.{userid}');
+
 
 Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
@@ -81,6 +84,8 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/distributor-list', [AdminController::class, 'distributorList'])->name('admin.distributor-list');
     Route::post('uploadDistributorData',[AdminController::class, 'uploadDistributorData'])->name('uploadDistributorData');
     Route::post('updateDistributorData', [AdminController::class, 'updateDistributorData'])->name('updateDistributorData');
+    Route::post('admin/removeDistributor', [AdminController::class, 'removeDistributor'])->name('admin.removeDistributor');
+    Route::post('admin/unBlockDistributor', [AdminController::class, 'unBlockDistributor'])->name('admin.unBlockDistributor');
     
     Route::get('admin/user-list', [AdminController::class, 'userList'])->name('admin.user-list');
     
