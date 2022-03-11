@@ -23,10 +23,10 @@
     <script type="text/JavaScript" src='{{asset('assets_admin/images/search/state.js')}}'></script>
 <style>
     .userbackcolor{
-        background-color:#34495E!important;
+        background-color:#5D327B!important;
     }
     .usernavbar{
-        background-color:#34495E!important;
+        background-color:#5D327B!important;
     }
     body{
         background-color:#E8F8F5;
