@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Models\Logo;
 use App\Models\Contact_detail;
+use App\Models\Contractor;
 use App\Models\Course;
 use App\Models\Distributor;
 use App\Models\Employee;
@@ -75,7 +76,48 @@ class AdminController extends Controller
     }
     public function userList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/userlist', $data);
+        $userdatas = User::where('role', '4')->paginate(10);
+        return view('admin/userlist', $data, compact('userdatas'));
+    }
+
+    public function blockUserContract(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+
+        $userblock = User::where('user_id', $request->userid)
+                            ->update([
+                                    'status' => 0,
+                                ]);
+        $contractorblock = Contractor::where('user_id', $request->userid)
+                            ->update([
+                                    'status' => 0,
+                                ]);
+        
+        if ($userblock && $contractorblock) {
+            return redirect()->back()->with(session()->flash('alert-info', 'User Successfully Blocked.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));        
+    }
+
+    public function unBlockUserContract(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+
+        $userunblock = User::where('user_id', $request->userid)
+                            ->update([
+                                    'status' => 1,
+                                ]);
+        $contractorunblock = Contractor::where('user_id', $request->userid)
+                            ->update([
+                                    'status' => 1,
+                                ]);
+        
+        if ($userunblock && $contractorunblock) {
+            return redirect()->back()->with(session()->flash('alert-success', 'User Successfully Un-Blocked.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));        
     }
 
     public function createProject(){

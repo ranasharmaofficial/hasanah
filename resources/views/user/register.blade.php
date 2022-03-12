@@ -52,8 +52,7 @@
                                             </div>
 
                                             <div class="p-2 mt-2">
-                                                <form class="form" action="{{route('user.registration')}}" method="POST">   
-                                                    @csrf
+                                                <form class="form" action="{{route('user.registration')}}" method="POST"> 
                                                     <div class="flash-message">
                                                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                                                             @if (Session::has('alert-' . $msg))
