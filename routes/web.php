@@ -48,6 +48,7 @@ Route::post('adminAuthLogin', [AdminController::class, 'adminAuthLogin'])->name(
 
 //User Register
 // Route::view('user/register','registers');
+Route::get('user/home', [UserController::class, 'userHome']);
 Route::get('user/registers',[UserController::class,'registers']);
 Route::get('user/login',[UserController::class,'login'])->name('user.login');
 Route::get('user/work-list',[UserController::class,'workList']);

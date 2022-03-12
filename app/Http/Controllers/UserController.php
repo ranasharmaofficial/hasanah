@@ -16,6 +16,10 @@ class UserController extends Controller
     public function login(){
         return view('user/login');
     }
+    public function userHome(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        return view('user/home', $data);
+    }
     public function workList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('user/worklist',$data);

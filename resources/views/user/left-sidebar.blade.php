@@ -9,6 +9,12 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">USER Menu</li>
                  <li>
+                    <a href="{{url('user/home')}}" class="waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{url('user/my-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>My Project</span>
