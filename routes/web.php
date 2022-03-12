@@ -88,6 +88,8 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('admin/unBlockDistributor', [AdminController::class, 'unBlockDistributor'])->name('admin.unBlockDistributor');
     
     Route::get('admin/user-list', [AdminController::class, 'userList'])->name('admin.user-list');
+    Route::post('blockUserContract', [AdminController::class, 'blockUserContract'])->name('blockUserContract');
+    Route::post('unBlockUserContract', [AdminController::class, 'unBlockUserContract'])->name('unBlockUserContract');
     
     Route::get('admin/create-project', [AdminController::class, 'createProject'])->name('admin.create-project');
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');
