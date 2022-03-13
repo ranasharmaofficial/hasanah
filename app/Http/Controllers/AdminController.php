@@ -1123,7 +1123,7 @@ class AdminController extends Controller
             'userid' => 'required',
         ]);
 
-        $disapprove = User::where('user_id', $request->userid)->update(['is_approve' => 0]);
+        $disapprove = User::where('user_id', $request->userid)->update(['is_approve' => 2]);
         if ($disapprove) {
             return redirect()->back()->with(session()->flash('alert-success', 'User Successfully Dis-Approve'));
         }

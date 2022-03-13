@@ -25,7 +25,7 @@
 
     <body class="auth-body-bg">
         <div>
-            <div class="container-fluid p-0 mt-5">
+            <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="authentication-bg">
@@ -121,20 +121,11 @@
 
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
+                                                        <p class="p-0 mt-4">Already have an account ? <a href="{{url('user/login')}}" class="fw-medium text-primary"> Login </a> </p>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="mt-4 text-center">
-                                                                <p class="p-0 m-0">Have an account ? <a href="{{url('user/login')}}" class="fw-medium text-primary"> Login </a> </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    
                                                 </form>
                                             </div>
-                                            <div class="mt-5 text-center">
-                                                
+                                            <div class="text-center">                                                
                                                 <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Girls College. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
                                             </div>
                                         </div>

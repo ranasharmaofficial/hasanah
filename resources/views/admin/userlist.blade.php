@@ -113,7 +113,7 @@ table.border-modal > tbody > tr > td{
 </div>
 <!-- End Page-content -->
 <!--  Modal content for the above example -->
-<div class="modal fade bs-example-modal-lg" id="userDetails" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="userDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="background-color: #ECF8FE;">
             <div class="modal-header bg-success">

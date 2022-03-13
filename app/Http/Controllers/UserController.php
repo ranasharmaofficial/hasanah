@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 // use App\Http\Controllers\MailController;
 use App\Models\Contractor;
@@ -11,14 +9,39 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function registers(){
-       return view('user/register');
+       return view('user/auth/register');
     }
     public function login(){
-        return view('user/login');
+        return view('user/auth/login');
+    }
+    public function userAuthLogin(Request $request){
+        $request->validate([
+            'username'=>'required',
+            'password'=>'required',
+        ]);
+
+        $userInfo = User::where('user_id','=',$request->username)->where('role', '4')->where('status', '1')->first();
+        if (!$userInfo) {
+            return redirect()->route('user.login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
+        } else if ($userInfo->status !== '1') {
+            return redirect()->route('user.login')->with(session()->flash('alert-danger', 'Your account is blocked. Please! contact company for un-block.'));
+        } else if ($request->password === $userInfo->password) {
+            $request->session()->put('LoggedContractUser', $userInfo->id);
+            return redirect('user/home');
+        } else {
+            return redirect()->route('user.login')->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
+        }
+    }    
+    public function userLogout(){
+        if (session()->has('LoggedContractUser')) {
+            session()->pull('LoggedContractUser');
+            return redirect('user/login')->with(session()->flash('alert-success', 'You are successfully logged out'));
+        }
     }
     public function userHome(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/home', $data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        return view('user/home', $data, compact('contractdata'));
     }
     public function workList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -117,6 +140,45 @@ class UserController extends Controller
             return redirect()->route('user.login')->with(session()->flash('alert-info', 'Your account is already active.'));
         }
         return redirect()->route('user.login')->with(session()->flash('alert-warning', 'Invalid verification code!'));
+    }
+
+    public function updateProfileData(Request $request){
+        $request->validate([
+            'userid' => 'required',
+            'aadharNumber' => 'required',
+            'panNumber' => 'required',
+            'landmark' => 'required|max:150',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'pincode' => 'required',
+            'passportphoto' => 'required|image|mimes:jpeg,png,jpg|max:500'
+        ]);
+
+        if ($request->hasfile('passportphoto')) {
+            $file = $request->file('passportphoto');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'passportsize-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/contractor'), $filename);
+        }
+
+        $userupdate = Contractor::where('user_id', $request->userid)
+                                ->update([
+                                    'aadharNumber' => $request->aadharNumber,
+                                    'panNumber' => $request->aadharNumber,
+                                    'landmark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pincode' => $request->pincode,
+                                    'altMobile' => $request->altMobile,
+                                    'photo' => $filename,
+                                    'is_upload' => 1,
+                                ]);
+        if ($userupdate) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Your data successfully received. Please wait for verification.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again.'));
     }
     
 }

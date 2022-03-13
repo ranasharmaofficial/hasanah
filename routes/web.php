@@ -48,20 +48,26 @@ Route::post('adminAuthLogin', [AdminController::class, 'adminAuthLogin'])->name(
 
 //User Register
 // Route::view('user/register','registers');
-Route::get('user/home', [UserController::class, 'userHome']);
+Route::get('user/login',[UserController::class,'login'])->name('user.login')->middleware('AlreadyLoggedUser');
+Route::post('user/login',[UserController::class,'userAuthLogin'])->name('user.login')->middleware('AlreadyLoggedUser');
 Route::get('user/registers',[UserController::class,'registers']);
-Route::get('user/login',[UserController::class,'login'])->name('user.login');
-Route::get('user/work-list',[UserController::class,'workList']);
-Route::get('user/work-details',[UserController::class,'workDetails']);
-Route::get('user/applied-project',[UserController::class,'appliedProject']);
-Route::get('user/my-project',[UserController::class,'myProject']);
-Route::get('user/upload-image',[UserController::class,'uploadImage']);
-Route::get('user/upload-video',[UserController::class,'uploadVideo']);
-Route::get('user/view-profile',[UserController::class,'viewProfile']);
-Route::get('user/update-profile',[UserController::class,'updateProfile']);
-Route::get('user/change-password',[UserController::class,'changePassword']);
 Route::post('user/registration', [UserController::class, 'registerUser'])->name('user.registration');
 Route::get('user/mailVerification/{code}/{userid}', [UserController::class, 'verifyUser'])->name('user.mailVerification.{code}.{userid}');
+
+Route::group(['middleware'=>['UserAuthCheck']], function(){
+    Route::get('user/home', [UserController::class, 'userHome']);
+    Route::get('user/work-list',[UserController::class,'workList']);
+    Route::get('user/work-details',[UserController::class,'workDetails']);
+    Route::get('user/applied-project',[UserController::class,'appliedProject']);
+    Route::get('user/my-project',[UserController::class,'myProject']);
+    Route::get('user/upload-image',[UserController::class,'uploadImage']);
+    Route::get('user/upload-video',[UserController::class,'uploadVideo']);
+    Route::get('user/view-profile',[UserController::class,'viewProfile']);
+    Route::post('user/update-profile', [UserController::class, 'updateProfileData'])->name('user.update-profile');
+    Route::get('user/update-profile',[UserController::class,'updateProfile']);
+    Route::get('user/change-password',[UserController::class,'changePassword']);
+    Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
+});
 
 
 Route::group(['middleware'=>['AdminAuthCheck']], function () {

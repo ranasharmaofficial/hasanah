@@ -69,14 +69,14 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{asset('assets_admin/images/users/avatar-2.jpg')}}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">{{ $LoggedUserInfo['name'] }}</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{ $LoggedContractInfo['name'] }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i>Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="{{url('admin/logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                    <a class="dropdown-item text-danger" href="{{url('user/logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>
             </div>
 

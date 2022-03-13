@@ -41,7 +41,7 @@
                                             </div>
 
                                             <div class="p-2 mt-2">
-                                                <form class="form" action="#" method="POST">   
+                                                <form class="form" action="{{route('user.login')}}" method="POST">   
                                                     @csrf
                                                     <div class="flash-message">
                                                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -72,7 +72,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="customControlInline">
+                                                        <input type="checkbox" class="form-check-input" checked id="customControlInline">
                                                         <label class="form-check-label" for="customControlInline">Agree Terms & Conditions</label>
                                                     </div>
 
