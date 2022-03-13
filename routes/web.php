@@ -91,6 +91,9 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/user-list', [AdminController::class, 'userList'])->name('admin.user-list');
     Route::post('blockUserContract', [AdminController::class, 'blockUserContract'])->name('blockUserContract');
     Route::post('unBlockUserContract', [AdminController::class, 'unBlockUserContract'])->name('unBlockUserContract');
+    Route::post('getuserdetails', [AdminController::class, 'getuserdetails'])->name('getuserdetails');
+    Route::post('disApproveContractor', [AdminController::class, 'disApproveContractor'])->name('disApproveContractor');
+    Route::post('approveContractor', [AdminController::class, 'approveContractor'])->name('approveContractor');
     
     Route::get('admin/create-project', [AdminController::class, 'createProject'])->name('admin.create-project');
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');

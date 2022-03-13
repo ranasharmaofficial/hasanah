@@ -1108,5 +1108,41 @@ class AdminController extends Controller
         return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
     }
     //Distributor Un-Block Code End
+
+    //User Details Get start
+    public function getuserdetails(Request $request){
+        $userid = $request->post('userid');
+        $contractors = Contractor::where('user_id', $userid)->get()->toJson();
+        return $contractors;
+    }
+    //User Details Get End
+
+    //Contractor DisApprove Start
+    public function disApproveContractor(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+
+        $disapprove = User::where('user_id', $request->userid)->update(['is_approve' => 0]);
+        if ($disapprove) {
+            return redirect()->back()->with(session()->flash('alert-success', 'User Successfully Dis-Approve'));
+        }
+        return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+    }
+    //Contractor DisApprove End
+
+    //Contractor Approve Start
+    public function approveContractor(Request $request){
+        $request->validate([
+            'userid' => 'required',
+        ]);
+
+        $disapprove = User::where('user_id', $request->userid)->update(['is_approve' => 1]);
+        if ($disapprove) {
+            return redirect()->back()->with(session()->flash('alert-success', 'User Successfully Approve'));
+        }
+        return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+    }
+    //Contractor Approve End
     
 }
