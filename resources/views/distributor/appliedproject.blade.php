@@ -1,5 +1,5 @@
 @extends('distributor.layouts.master')
-@section('title','Project Request List')
+@section('title','Applied Project List')
 @section('content')
  <div class="page-content">
     <div class="container-fluid">
@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h4 class="card-title text-white">@yield('title')</h4>
-                        <p class="p-0 m-0 text-white">Total Project Request: <b>{{$projectrequest->total();}}</b>, Page No: <b>{{$projectrequest->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Applied Project: <b>{{$appliedproject->total();}}</b>, Page No: <b>{{$appliedproject->currentPage();}}</b></p>
                         
                     </div>
                     <div class="card-body">
@@ -46,9 +46,9 @@
 
 
                             <tbody>
-                                @foreach ($projectrequest as $key => $data)
+                                @foreach ($appliedproject as $key => $data)
                                 <tr>
-                                    <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
+                                    <td>{{($appliedproject->currentpage()-1) * $appliedproject->perpage() + $key + 1}}</td>
                                     <td>{{$data->project_name}}</td>
                                     <td>Rs&nbsp;{{$data->amount}}</td>
                                      
@@ -63,7 +63,7 @@
                                     <td colspan="7">
                                         <nav aria-label="...">
                                             <ul class="pagination justify-content-end mb-0">
-                                                {{$projectrequest->links();}}
+                                                {{$appliedproject->links();}}
                                             </ul>
                                         </nav>
                                     </td>

@@ -1,7 +1,7 @@
-@extends('admin.layouts.master')
+@extends('distributor.layouts.master')
 @section('title','Create Project')
 @section('content')
-    
+
 <div class="page-content">
     <div class="container-fluid">
 
@@ -22,28 +22,35 @@
             </div>
         </div>
         <!-- end page title -->
-        
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <form method="post" action="" enctype="multipart/form-data" class="card-body">
-                        <h4 class="card-title font-weight-bold text-uppercase">Project Details:-</h4><hr>
+                        <h4 class="card-title font-weight-bold text-uppercase">Project Details:-</h4>
+                        <hr>
                         <div class="container">
                             <div class="row mb-3">
                                 <div class="col-sm-4">
                                     <label for="ProjectName" class="col-form-label">Project Name <star>*</star></label>
-                                    <input class="form-control" type="text" name="project_name" placeholder="Project Name" id="ProjectName">
+                                    <input class="form-control" type="text" name="project_name"
+                                        placeholder="Project Name" id="ProjectName">
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="ProjectTitle" class="col-form-label">Project Title <star>*</star></label>
-                                    <input class="form-control" type="text" name="project_title" placeholder="Project Title" id="ProjectTitle">
+                                    <label for="ProjectTitle" class="col-form-label">Project Title <star>*</star>
+                                        </label>
+                                    <input class="form-control" type="text" name="project_title"
+                                        placeholder="Project Title" id="ProjectTitle">
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="Project Amount" class="col-form-label">Project Amount <star>*</star></label>
-                                    <input class="form-control" type="text" name="project_amount" placeholder="Project Amount" id="ProjectAmount">
+                                    <label for="Project Amount" class="col-form-label">Project Amount <star>*</star>
+                                        </label>
+                                    <input class="form-control" type="text" name="project_amount"
+                                        placeholder="Project Amount" id="ProjectAmount">
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="distributorID" class="col-form-label">Select Distributor <star>*</star></label>
+                                    <label for="distributorID" class="col-form-label">Select Distributor <star>*</star>
+                                        </label>
                                     <select class="form-control" name="distributor_id" id="distributorID">
                                         <option value="1">Rana</option>
                                         <option value="1">A</option>
@@ -61,7 +68,7 @@
             </div> <!-- end col -->
         </div>
         <!-- end row -->
-     </div> <!-- container-fluid -->
+    </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
 @endsection

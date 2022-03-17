@@ -1,5 +1,5 @@
-@extends('user.layouts.master')
-@section('title','User Home')
+@extends('distributor.layouts.master')
+@section('title','Distributor Dashboard')
 
 @section('content')
 <!-- jquery.vectormap css -->
@@ -15,11 +15,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">User Dashboard</h4>
+                    <h4 class="mb-0">Distributor Dashboard</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item active">User Dashboard</li>
+                            <li class="breadcrumb-item active">Distributor Dashboard</li>
                         </ol>
                     </div>
 
@@ -41,47 +41,7 @@
                                 @endif
                             @endforeach
                         </div>
-                        @if ($LoggedContractInfo->is_approve == '0')
                         
-                        @if ($contractdata->is_upload == '1')
-                        <div class="card rounded bg-primary">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <h6 class="mb-2 text-white">Your data successfully received. Please! wait for verification.</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        @else
-                        <div class="card rounded bg-danger">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="font-size-14 mb-2 text-white">Your Account has been Created, Update your Profile Details.</p>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-sm btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                        @elseif ($LoggedContractInfo->is_approve == '2')
-                        <div class="card rounded bg-warning">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="font-size-14 mb-2 text-white">Your account verification rejected. Please Upload your data again.</p>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card">
@@ -734,74 +694,7 @@
 
 </div>
 <!-- End Page-content -->
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-top" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="staticBackdropLabel">Update Details</h5>&nbsp;
-                <div class="text-success">send for verification&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{route('user.update-profile')}}" method="POST" enctype="multipart/form-data" class="row">
-                    @csrf
-                    <input type="hidden" value="{{$LoggedContractInfo->user_id}}" required name="userid">                    
-                    <div class="col-sm-6">
-                        <label for="Aadhar" class="col-form-label">Aadhar Number <star>*</star></label>
-                        <input type="text" class="form-control" value="" name="aadharNumber" id="Aadhar" placeholder="Enter Your Aadhar Number" required>
-                        <small class="form-text text-danger">@error('aadharNumber') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="Pan" class="col-form-label">Pan Number <star>*</star></label>
-                        <input type="text" class="form-control" name="panNumber" id="Pan" placeholder="Enter Your Pan Number" required>
-                        <small class="form-text text-danger">@error('panNumber') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="AltMobile" class="col-form-label">Alternate Mobile (optional)</label>
-                        <input type="text" class="form-control" name="altMobile" id="AltMobile" placeholder="Enter Your Alternate Number">
-                        <small class="form-text text-danger">@error('altMobile') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="landmark" class="col-form-label">Landmark<star>*</star></label>
-                        <input type="text" class="form-control" name="landmark" id="landmark" placeholder="Enter Your Landmark" required>
-                        <small class="form-text text-danger">@error('landmark') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="City" class="col-form-label">City<star>*</star></label>
-                        <input type="text" class="form-control" name="city" id="City" placeholder="Enter Your City" required>
-                        <small class="form-text text-danger">@error('city') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="State" class="col-form-label">State<star>*</star></label>
-                        <input type="text" class="form-control" name="state" id="State" placeholder="Enter Your State" required>
-                        <small class="form-text text-danger">@error('state') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="Country" class="col-form-label">Country <star>*</star></label>
-                        <input type="text" class="form-control" name="country" id="Country" value="India" placeholder="Enter Your Country" required>
-                        <small class="form-text text-danger">@error('country') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="pincode" class="col-form-label">pin Code <star>*</star></label>
-                        <input type="text" class="form-control" name="pincode" id="pincode" placeholder="Enter Your Pin Code" required>
-                        <small class="form-text text-danger">@error('pincode') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-12">
-                        <label for="passportphoto" class="col-form-label">Passport Size Photo <star>*</star></label>
-                        <input type="file" class="form-control" name="passportphoto" id="passportphoto" required />
-                        <small class="text-danger">Upload your passport size photo. Maximum size 500KB</small>
-                        <small class="form-text text-danger">@error('passportphoto') {{ $message }} @enderror</small>
-                    </div>
-                    <div class="col-sm-12 mt-3 text-center">
-                        <button name="submit" type="submit" class="btn btn-primary btn-md"><i class="fa fa-paper-plane"></i> Submit Now</button>
-                    </div>
-                </form>
-            </div>
-            
-        </div>
-    </div>
-</div>
+
 <!-- apexcharts -->
 <script src="{{asset('assets_admin/libs/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{asset('assets_admin/js/pages/dashboard.init.js')}}"></script>

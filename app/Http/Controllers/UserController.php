@@ -5,6 +5,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Contractor;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Company;
+use App\Models\Project_category;
+use App\Models\Apply_project;
 
 class UserController extends Controller
 {
@@ -23,7 +27,7 @@ class UserController extends Controller
         $userInfo = User::where('user_id','=',$request->username)->where('role', '4')->where('status', '1')->first();
         if (!$userInfo) {
             return redirect()->route('user.login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
-        } else if ($userInfo->status !== '1') {
+        } else if ($userInfo->status == '0') {
             return redirect()->route('user.login')->with(session()->flash('alert-danger', 'Your account is blocked. Please! contact company for un-block.'));
         } else if ($request->password === $userInfo->password) {
             $request->session()->put('LoggedContractUser', $userInfo->id);
@@ -44,40 +48,87 @@ class UserController extends Controller
         return view('user/home', $data, compact('contractdata'));
     }
     public function workList(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/worklist',$data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $worklist = Project::join('companies', 'companies.company_id', '=', 'projects.company_id')
+                            ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+        ->select(['companies.*', 'projects.*', 'project_categories.*'])
+        ->paginate(10);
+        // dd($worklist);
+        // die;
+        return view('user/worklist',$data, compact('worklist'));
     }
-    public function workDetails(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/workdetails',$data);
+    public function workDetails(Request $request){
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $projectidcode = $request->post('projectid');
+        $flag = false;
+        if($projectidcode !== null){
+            $flag = true;
+            $projectdata = Project::where('project_id', $projectidcode)->first();
+            $companydata = Company::where('company_id', $projectdata->company_id)->first();
+            // dd($companydata);
+            // die;
+            $projectCateData = Project_category::where('project_cat_id', $projectdata->project_cat)->first();
+            $distributordata = User::where('user_id', $projectdata->distributor_id)->first();
+            return view('user/workdetails', $data, compact('projectdata', 'flag', 'companydata', 'projectCateData', 'distributordata'));
+        }
+        else{
+            return view('user/workdetails',$data, compact('flag'));
+        }
+        
+    }
+    public function applyForProject(Request $request){
+        $request->validate([
+            'project_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        $applyproject = Apply_project::create([
+            "project_id" => "$request->project_id",
+            "user_id" => "$request->user_id"
+        ]);
+        if($applyproject){
+            return redirect()->back()->with(session()->flash('alert-success', 'Project Applied Successfully!'));
+        }else{
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something Went Wrong. Please Try Again!'));  
+        }
     }
     public function appliedProject(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/appliedproject',$data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $appliedproject = Apply_project::where('user_id', '=', session('LoggedContractUser'))
+                                        ->join('projects', 'projects.project_id', '=', 'apply_projects.project_id')
+                                        ->select(['projects.*', 'apply_projects.*'])
+                                        ->paginate(10);
+        // dd($appliedproject);
+        // die;
+        return view('user/appliedproject',$data, compact('appliedproject'));
     }
     public function myProject(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         return view('user/myproject',$data);
     }
     public function uploadImage(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         return view('user/uploadimage',$data);
     }
     public function uploadVideo(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         return view('user/uploadvideo',$data);
     }
     public function viewProfile(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/viewprofile',$data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $userData = User::where('id', '=', session('LoggedContractUser'))->first();
+        $contractorData = Contractor::where('user_id', '=', $userData->user_id)->first();
+        return view('user/viewprofile',$data, compact('userData', 'contractorData'));
     }
     public function updateProfile(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/updateprofile',$data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $userData = User::where('id', '=', session('LoggedContractUser'))->first();
+        $contractorData = Contractor::where('user_id', '=', $userData->user_id)->first();
+        return view('user/updateprofile',$data, compact('userData', 'contractorData'));
     }
     public function changePassword(){
-        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('user/changepassword',$data);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        return view('user/changepassword',$data, compact('contractdata'));
     }
     public function registerUser(Request $request){
         $request->validate([

@@ -1,4 +1,4 @@
-@extends('user.layouts.master')
+@extends('distributor.layouts.master')
 @section('title','My Profile')
 @section('content')
  <div class="page-content">
@@ -30,21 +30,21 @@
                                 <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                     <div class="dastone-profile-main">
                                         <div class="dastone-profile-main-pic">
-                                            <img src="{{asset('uploads/contractor/'.$contractorData['photo'])}}" alt="" height="110" class="rounded-circle">
+                                            <img src="{{asset('uploads/documents/'.$distributordetails['distributor_photo'])}}" alt="" height="110" class="rounded-circle">
                                             <span class="dastone-profile_main-pic-change">
                                                 <i class="fas fa-camera"></i>
                                             </span>
                                         </div>
                                         <div class="dastone-profile_user-detail">
-                                            <h5 class="dastone-user-name">Name:&nbsp;{{$userData->name}}</h5>                                                        
-                                            <p class="mb-0 dastone-user-name-post">User Id:&nbsp;{{$userData->user_id}}</p>                                                        
+                                            <h5 class="dastone-user-name">Name:&nbsp;{{$distributordata->name}}</h5>                                                        
+                                            <p class="mb-0 dastone-user-name-post">User Id:&nbsp;{{$distributordata->user_id}}</p>                                                        
                                         </div>
                                     </div>                                                
                                 </div><!--end col-->
                                 <div class="col-lg-4 ms-auto align-self-center">
                                     <ul class="list-unstyled personal-detail mb-0">
-                                        <li class=""><i class="ti ti-mobile me-2 text-secondary font-16 align-middle"></i> <b> Phone </b> : +91 {{$userData->mobile}}</li>
-                                        <li class="mt-2"><i class="ti ti-email text-secondary font-16 align-middle me-2"></i> <b> Email </b> : {{$userData->email}}</li>
+                                        <li class=""><i class="ti ti-mobile me-2 text-secondary font-16 align-middle"></i> <b> Phone </b> : +91 {{$distributordata->mobile}}</li>
+                                        <li class="mt-2"><i class="ti ti-email text-secondary font-16 align-middle me-2"></i> <b> Email </b> : {{$distributordata->email}}</li>
                                     </ul>
                                    
                                 </div><!--end col-->
@@ -66,31 +66,31 @@
                             <tbody>
                                 <tr>
                                     <td>Name</td>
-                                    <td class="text-right">{{$userData->name}}</td>
+                                    <td class="text-right">{{$distributordata->name}}</td>
                                 </tr>
                                 <tr>
                                     <td>Mobile</td>
-                                    <td class="text-right">{{$userData->mobile}}</td>
+                                    <td class="text-right">{{$distributordata->mobile}}</td>
                                 </tr>
                                 <tr>
                                     <td>Alternate Mobile</td>
-                                    <td class="text-right">{{$contractorData->altMobile}}</td>
+                                    <td class="text-right">{{$distributordetails->altMobile}}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td class="text-right">{{$userData->email}}</td>
+                                    <td class="text-right">{{$distributordata->email}}</td>
                                 </tr>
                                 <tr>
                                     <td>Aadhar Number</td>
-                                    <td class="text-right">{{$contractorData->aadharNumber}}</td>
+                                    <td class="text-right">{{$distributordetails->aadharNumber}}</td>
                                 </tr>
                                 <tr>
                                     <td>Pan Number</td>
-                                    <td class="text-right">{{$contractorData->panNumber}}</td>
+                                    <td class="text-right">{{$distributordetails->panNumber}}</td>
                                 </tr>
                                 <tr>
                                     <td>Address</td>
-                                    <td class="text-right">{{$contractorData->landmark}}, {{$contractorData->city}}, {{$contractorData->state}} - {{$contractorData->pincode}}</td>
+                                    <td class="text-right">{{$distributordetails->landmark}}, {{$distributordetails->city}}, {{$distributordetails->state}} - {{$distributordetails->pincode}}</td>
                                 </tr>
                             </tbody>
                         </table>   

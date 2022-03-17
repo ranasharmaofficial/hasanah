@@ -33,12 +33,24 @@ Route::view('teacher', 'teacher');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');
 Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
-// Dashboard Modules Start
 
-Route::get('dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
-Route::get('dashboard/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-Route::get('dashboard/auth/login', [DashboardController::class, 'login'])->name('dashboard.auth.login');
-Route::get('dashboard/auth/forget-password', [DashboardController::class, 'forgetPassword'])->name('dashboard.auth.forget-password');
+// Dashboard Modules Start
+Route::get('distributor/login',[DistributorController::class,'login'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');
+Route::post('distributor/login',[DistributorController::class,'distributorAuthLogin'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');
+
+Route::group(['middleware'=>['DistributorAuthCheck']], function(){
+    Route::get('distributor/home', [DistributorController::class, 'distributorHome'])->name('distributor.home');
+    Route::get('distributor/user-list',[DistributorController::class,'userList'])->name('distributor.user-list');
+    Route::get('distributor/create-project',[DistributorController::class,'createProject'])->name('distributor.create-project');
+    Route::get('distributor/project-list',[DistributorController::class,'projectList'])->name('distributor.project-list');
+    Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
+    Route::get('distributor/view-profile', [DistributorController::class,'viewProfile'])->name('distributor.view-profile');
+    Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
+
+    Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
+    Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
+    Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');
+});
 
 // Dashboard Modules End
 
@@ -58,7 +70,9 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/home', [UserController::class, 'userHome']);
     Route::get('user/work-list',[UserController::class,'workList']);
     Route::get('user/work-details',[UserController::class,'workDetails']);
+    Route::post('user/work-details', [UserController::class, 'workDetails'])->name('user.workdetails');
     Route::get('user/applied-project',[UserController::class,'appliedProject']);
+    Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
     Route::get('user/upload-image',[UserController::class,'uploadImage']);
     Route::get('user/upload-video',[UserController::class,'uploadVideo']);
@@ -69,13 +83,16 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
 });
 
+// Route::get('distributor/login', [DistributorController::class, 'login']);
 
 Route::group(['middleware'=>['AdminAuthCheck']], function () {
-    Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
-    Route::get('distributor/user-list',[DistributorController::class,'userList'])->name('distributor.user-list');
-    Route::get('distributor/create-project',[DistributorController::class,'createProject'])->name('distributor.create-project');
-    Route::get('distributor/project-list',[DistributorController::class,'projectList'])->name('distributor.project-list');
-    Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
+    
+    // Route::get('distributor/home', [DistributorController::class, 'distributorHome'])->name('distributor.home');
+    // Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
+    // Route::get('distributor/user-list',[DistributorController::class,'userList'])->name('distributor.user-list');
+    // Route::get('distributor/create-project',[DistributorController::class,'createProject'])->name('distributor.create-project');
+    // Route::get('distributor/project-list',[DistributorController::class,'projectList'])->name('distributor.project-list');
+    // Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
 
     Route::get('admin/home', [AdminController::class, 'adminHome'])->name('admin.home');
     Route::get('admin/add-student', [AdminController::class, 'addStudent'])->name('admin.add-student');
