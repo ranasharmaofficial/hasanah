@@ -1025,6 +1025,9 @@ class AdminController extends Controller
         $request->validate([
             'project_cat_name' => 'required|max:250',
             'project_amount' => 'required',
+            'categorytype' => 'required|max:120',
+            'datefrom' => 'required|date',
+            'dateto' => 'required|date',
         ]);
 
         $projectcat = new Project_category;
@@ -1038,6 +1041,9 @@ class AdminController extends Controller
         $projectcat->project_cat_id = $projectcatid;
         $projectcat->project_category = $request->project_cat_name;
         $projectcat->project_amount = $request->project_amount;
+        $projectcat->type = $request->categorytype;
+        $projectcat->datefrom = $request->datefrom;
+        $projectcat->dateto = $request->dateto;
         $projectcat->save();
         if ($projectcat) {
             return redirect()->back()->with(session()->flash('alert-success', 'Project Category Successfully Created'));
@@ -1144,5 +1150,14 @@ class AdminController extends Controller
         return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
     }
     //Contractor Approve End
-    
+
+    //Get Project Amount Start
+    public function getamountofproject(Request $request){
+        $category = $request->post('cid');
+        
+        $getamountpro = Project_category::where('project_cat_id', $category)->first();
+        $getamount = $getamountpro->project_amount;
+        return $getamount;
+    }
+    //Get Project Amount End
 }

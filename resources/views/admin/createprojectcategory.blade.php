@@ -52,9 +52,27 @@
                                     <label for="ProjectAmount" class="col-form-label">Set Project Amount <star>*</star></label>
                                     <input class="form-control" required type="number" name="project_amount" value="{{old('project_amount')}}" placeholder="Enter Project Amount" id="ProjectAmount">
                                     <small class="form-text text-danger">@error('project_amount') Project amount is required. @enderror</small>
-                                </div>                                
+                                </div>  
+                                <div class="col-sm-4">
+                                    <label for="categorytype" class="col-form-label">Select Type <star>*</star></label>
+                                    <select name="categorytype" id="categorytype" class="form-select">
+                                        <option value="Normal">Normal</option>
+                                        <option value="Emergency">Emergency</option>
+                                    </select>
+                                    <small class="form-text text-danger">@error('categorytype') Category type is required. @enderror</small>
+                                </div>  
+                                <div class="col-sm-4">
+                                    <label for="datefrom" class="col-form-label">Select Date From <star>*</star></label>
+                                    <input type="date" class="form-control" id="datefrom" title="Date From" name="datefrom" required placeholder="Select Date From">
+                                    <small class="form-text text-danger">@error('datefrom') Date from is required. @enderror</small>
+                                </div> 
+                                <div class="col-sm-4">
+                                    <label for="dateto" class="col-form-label">Select Date To <star>*</star></label>
+                                    <input type="date" class="form-control" id="dateto" title="Date To" name="dateto" required placeholder="Select Date To">
+                                    <small class="form-text text-danger">@error('dateto') Date to is required. @enderror</small>
+                                </div>                             
                                 <div class="col-sm-12 mt-3 text-center">
-                                    <button name="add_project_category" type="submit" class="btn btn-info"><i class="fa fa-paper-plane"></i> Upload</button>
+                                    <button name="add_project_category" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit Now</button>
                                 </div>
                             </div>
                         </div>
