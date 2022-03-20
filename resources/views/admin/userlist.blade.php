@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','User List')
+@section('title','Supervisor List')
 @section('content')
 <style>
 table.border-modal{
@@ -52,7 +52,7 @@ table.border-modal > tbody > tr > td{
                     </div> 
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total User: <b>{{$userdatas->total();}}</b>, Page No: <b>{{$userdatas->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Supervisor: <b>{{$userdatas->total();}}</b>, Page No: <b>{{$userdatas->currentPage();}}</b></p>
                     </div>
                     <div class="card-body table-responsive">                        
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -117,7 +117,7 @@ table.border-modal > tbody > tr > td{
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="background-color: #ECF8FE;">
             <div class="modal-header bg-success">
-                <h5 class="modal-title text-white" id="myExtraLargeModalLabel">User Details - (User ID: <span id="userid"></span>)</h5>
+                <h5 class="modal-title text-white" id="myExtraLargeModalLabel">Supervisor Details - (User ID: <span id="userid"></span>)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="userdetailsshow">

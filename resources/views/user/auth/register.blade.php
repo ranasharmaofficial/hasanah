@@ -67,6 +67,18 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="mb-3 auth-form-group-custom mb-4">
+                                                                <i class="ri-community-fill auti-custom-input-icon"></i>
+                                                                <label for="name">Select Company</label>
+                                                                <select class="form-control" required type="text" name="company_id" id="Company">
+                                                                    @foreach ($companydata as $citem)
+                                                                        <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
+                                                                    @endforeach
+                                                                </select>
+                                                                <small class="form-text text-danger">@error('company_id') Project category name is required. @enderror</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                                                                 <label for="name">Name</label>
                                                                 <input type="text" name="name" autofocus="true" class="form-control" id="name" required placeholder="Enter username" value="{{old('username')}}">
@@ -113,7 +125,38 @@
                                                                 <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-12">
+                                                            <label for="confirmpassword">Select Category</label>
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" id="Cat1">
+                                                                        <label class="form-check-label" for="Cat1">Category One</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" id="Cat2">
+                                                                        <label class="form-check-label" for="Cat2">Category One</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" id="Cat3">
+                                                                        <label class="form-check-label" for="Cat3">Category One</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" id="Cat4">
+                                                                        <label class="form-check-label" for="Cat4">Category One</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                </br>
+                                                </br>
                                                     <div class="form-check">
                                                         <input type="checkbox" checked class="form-check-input" id="customControlInline">
                                                         <label class="form-check-label" for="customControlInline">I accept all terms & conditions.</label>

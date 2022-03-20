@@ -129,7 +129,8 @@ class AdminController extends Controller
     }
     public function createProjectCategory(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/createprojectcategory',$data);
+        $companydata = Company::get();
+        return view('admin/createprojectcategory',$data, compact('companydata'));
     }
     
     public function addCourse(){

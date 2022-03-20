@@ -13,7 +13,8 @@ use App\Models\Apply_project;
 class UserController extends Controller
 {
     public function registers(){
-       return view('user/auth/register');
+        $companydata = Company::get();
+       return view('user/auth/register', compact('companydata'));
     }
     public function login(){
         return view('user/auth/login');

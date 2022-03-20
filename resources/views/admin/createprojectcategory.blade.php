@@ -43,12 +43,21 @@
                         <h4 class="card-title font-weight-bold text-uppercase text-primary">Project Category Details:-</h4><hr>
                         <div class="container">
                             <div class="row mb-3">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <label for="Company" class="col-form-label">Select Company <star>*</star></label>
+                                    <select class="form-select" required type="text" name="company_id" id="Company">
+                                        @foreach ($companydata as $citem)
+                                            <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-danger">@error('company_id') Project category name is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-4">
                                     <label for="ProjectName" class="col-form-label">Project Category Name <star>*</star></label>
                                     <input class="form-control" required type="text" name="project_cat_name" placeholder="Project Category Name" value="{{old('project_cat_name')}}" id="ProjectName">
                                     <small class="form-text text-danger">@error('project_cat_name') Project category name is required. @enderror</small>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <label for="ProjectAmount" class="col-form-label">Set Project Amount <star>*</star></label>
                                     <input class="form-control" required type="number" name="project_amount" value="{{old('project_amount')}}" placeholder="Enter Project Amount" id="ProjectAmount">
                                     <small class="form-text text-danger">@error('project_amount') Project amount is required. @enderror</small>

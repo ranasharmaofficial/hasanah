@@ -19,10 +19,10 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
-                        <span>User</span>
+                        <span>Supervisor </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('admin/user-list')}}">User List</a></li>
+                        <li><a href="{{url('admin/user-list')}}">Supervisor List</a></li>
                     </ul>
                 </li>
                 <li>
