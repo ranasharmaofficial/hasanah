@@ -126,9 +126,19 @@
                                                                 <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
+                                                        {{-- @if($getcategory) --}}
                                                         <div class="col-sm-12">
                                                             <label for="confirmpassword">Select Category</label>
-                                                            <div class="row" id="categorylist">
+                                                            <div class="row">
+                                                                <div class="categorylist"></div>
+                                                                {{-- @foreach ($getcategory as $item)
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat1" onClick="webfinicChange(this)">
+                                                                        <label class="form-check-label" for="Cat1">{{$item->project_category}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                @endforeach --}}
                                                                 {{-- <div class="col-sm-4">
                                                                     <div class="form-check">
                                                                         <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat1" onClick="webfinicChange(this)">
@@ -155,6 +165,7 @@
                                                                 </div> --}}
                                                             </div>
                                                         </div>
+                                                        {{-- @endif --}}
                                                     </div>
                                                 </br>
                                                 </br>
@@ -205,13 +216,13 @@
                 type:'post',
                 data:'companyid='+cid+'&_token={{csrf_token()}}',
                 success:function(result){
-                    console.log(result);
-                    // $.each(result, function (i) {
-                    //     $.each(result[i], function (key, val) {
-                    //         jQuery('#categorylist').html('<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+key+'." onClick="webfinicChange(this)"><label class="form-check-label" for="Cat2">Category One</label></div></div>');
-                    //         console.log(key+val);
-                    //     });
-                    // });
+                    // console.log(result);
+                    $.each(result, function (i) {
+                        $.each(result, function (key, val) {
+                            jQuery('.categorylist').html('<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+result[i].project_cat_id+'" onClick="webfinicChange(this)"><label class="form-check-label" for="Cat2">'+result[i].project_category+'</label></div></div>');
+                            console.log(result[i].project_category);
+                        });
+                    });
                 }
             });
         });
