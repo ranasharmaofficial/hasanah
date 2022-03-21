@@ -1024,6 +1024,7 @@ class AdminController extends Controller
     //Project Category Code Start
     public function uploadProjectCategory(Request $request){
         $request->validate([
+            'company_id' => 'required|max:150',
             'project_cat_name' => 'required|max:250',
             'project_amount' => 'required',
             'categorytype' => 'required|max:120',
@@ -1039,6 +1040,7 @@ class AdminController extends Controller
             $projectcatid = date('d').time().rand(1111,9999);
         }
         
+        $projectcat->company_id = $request->company_id;
         $projectcat->project_cat_id = $projectcatid;
         $projectcat->project_category = $request->project_cat_name;
         $projectcat->project_amount = $request->project_amount;
@@ -1161,4 +1163,12 @@ class AdminController extends Controller
         return $getamount;
     }
     //Get Project Amount End
+
+    //Get Category Start
+    public function getcategoryname(Request $request){
+        $companyid = $request->post('companyid');
+        $getcategory = Project_category::where('company_id', $companyid)->get();
+        return $getcategory;
+    }
+    //Get Category End
 }

@@ -181,5 +181,6 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('uploadEvent', [AdminController::class, 'uploadEvent'])->name('uploadEvent');
     Route::post('uploadGalleryImage', [AdminController::class, 'uploadGalleryImage'])->name('uploadGalleryImage');
     Route::post('uploadNotice', [AdminController::class, 'uploadNotice'])->name('uploadNotice');
+    Route::post('getcategoryname', [AdminController::class, 'getcategoryname'])->name('getcategoryname');
 });
 // Admin Modules End

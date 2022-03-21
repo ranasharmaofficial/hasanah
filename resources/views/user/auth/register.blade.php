@@ -68,8 +68,8 @@
                                                         <div class="col-sm-6">
                                                             <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-community-fill auti-custom-input-icon"></i>
-                                                                <label for="name">Select Company</label>
-                                                                <select class="form-control" required type="text" name="company_id" id="Company">
+                                                                <label for="selectcompany">Select Company</label>
+                                                                <select class="form-control" required type="text" name="company_id" id="selectcompany">
                                                                     <option value="" selected disabled>---Select Company---</option>
                                                                     @foreach ($companydata as $citem)
                                                                         <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
@@ -128,31 +128,31 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <label for="confirmpassword">Select Category</label>
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
+                                                            <div class="row" id="categorylist">
+                                                                {{-- <div class="col-sm-4">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="Cat1">
+                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat1" onClick="webfinicChange(this)">
                                                                         <label class="form-check-label" for="Cat1">Category One</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="Cat2">
+                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat2" onClick="webfinicChange(this)">
                                                                         <label class="form-check-label" for="Cat2">Category One</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="Cat3">
+                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat3" onClick="webfinicChange(this)">
                                                                         <label class="form-check-label" for="Cat3">Category One</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="Cat4">
+                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat4" onClick="webfinicChange(this)">
                                                                         <label class="form-check-label" for="Cat4">Category One</label>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -194,6 +194,50 @@
         <script src="{{asset('assets_admin/libs/node-waves/waves.min.js')}}"></script>
 
         <script src="{{asset('assets_admin/js/app.js')}}"></script>
-
+        {{-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> --}}
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#selectcompany').change(function(){
+            let cid=jQuery(this).val();
+            // console.log(cid)
+            jQuery.ajax({
+                url:'{{url('getcategoryname')}}',
+                type:'post',
+                data:'companyid='+cid+'&_token={{csrf_token()}}',
+                success:function(result){
+                    console.log(result);
+                    // $.each(result, function (i) {
+                    //     $.each(result[i], function (key, val) {
+                    //         jQuery('#categorylist').html('<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+key+'." onClick="webfinicChange(this)"><label class="form-check-label" for="Cat2">Category One</label></div></div>');
+                    //         console.log(key+val);
+                    //     });
+                    // });
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function webfinicChange(webfinicType){
+        var webfinicName = document.getElementsByName(webfinicType.name);
+        var checked = document.getElementById(webfinicType.id);
+    
+        if (checked.checked) {
+            for(var i=0; i < webfinicName.length; i++){
+    
+                if(!webfinicName[i].checked){
+                    webfinicName[i].disabled = true;
+                }else{
+                    webfinicName[i].disabled = false;
+                }
+            } 
+        }
+        else {
+            for(var i=0; i < webfinicName.length; i++){
+            webfinicName[i].disabled = false;
+            } 
+        }    
+    }
+</script>
     </body>
 </html>
