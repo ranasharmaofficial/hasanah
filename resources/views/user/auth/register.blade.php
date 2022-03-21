@@ -20,6 +20,10 @@
     {
         overflow-x: hidden;
     }
+    .processing{
+        font-weight: 600;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
 </style>
     </head>
 
@@ -69,7 +73,7 @@
                                                             <div class="mb-3 auth-form-group-custom mb-4">
                                                                 <i class="ri-community-fill auti-custom-input-icon"></i>
                                                                 <label for="selectcompany">Select Company</label>
-                                                                <select class="form-control" required type="text" name="company_id" id="selectcompany">
+                                                                <select class="form-control" required name="company_id" id="selectcompany">
                                                                     <option value="" selected disabled>---Select Company---</option>
                                                                     @foreach ($companydata as $citem)
                                                                         <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
@@ -126,46 +130,11 @@
                                                                 <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
-                                                        {{-- @if($getcategory) --}}
-                                                        <div class="col-sm-12">
-                                                            <label for="confirmpassword">Select Category</label>
-                                                            <div class="row">
-                                                                <div class="categorylist"></div>
-                                                                {{-- @foreach ($getcategory as $item)
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat1" onClick="webfinicChange(this)">
-                                                                        <label class="form-check-label" for="Cat1">{{$item->project_category}}</label>
-                                                                    </div>
-                                                                </div>
-                                                                @endforeach --}}
-                                                                {{-- <div class="col-sm-4">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat1" onClick="webfinicChange(this)">
-                                                                        <label class="form-check-label" for="Cat1">Category One</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat2" onClick="webfinicChange(this)">
-                                                                        <label class="form-check-label" for="Cat2">Category One</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat3" onClick="webfinicChange(this)">
-                                                                        <label class="form-check-label" for="Cat3">Category One</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="categoryselect" class="form-check-input" id="Cat4" onClick="webfinicChange(this)">
-                                                                        <label class="form-check-label" for="Cat4">Category One</label>
-                                                                    </div>
-                                                                </div> --}}
-                                                            </div>
+                                                        <div class="col-sm-12 d-none" id="selecategory">
+                                                            <p class="p-0 m-0 processing d-none text-primary" id="processing">Processing...</p>
+                                                            <label for="selectcategory">Select Category</label>
+                                                            <div class="row" id="categorylist"></div>
                                                         </div>
-                                                        {{-- @endif --}}
                                                     </div>
                                                 </br>
                                                 </br>
@@ -173,7 +142,6 @@
                                                         <input type="checkbox" checked class="form-check-input" id="customControlInline">
                                                         <label class="form-check-label" for="customControlInline">I accept all terms & conditions.</label>
                                                     </div>
-
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
                                                         <p class="p-0 mt-4">Already have an account ? <a href="{{url('user/login')}}" class="fw-medium text-primary"> Login </a> </p>
@@ -189,8 +157,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>
@@ -209,20 +175,30 @@
 <script>
     jQuery(document).ready(function(){
         jQuery('#selectcompany').change(function(){
+            let datas = "";
             let cid=jQuery(this).val();
             // console.log(cid)
+            // $('#selecategory').empty();
+            $('#processing').removeClass("d-none");
+            $('#processing').addClass("d-block");
             jQuery.ajax({
                 url:'{{url('getcategoryname')}}',
                 type:'post',
                 data:'companyid='+cid+'&_token={{csrf_token()}}',
                 success:function(result){
-                    // console.log(result);
-                    $.each(result, function (i) {
-                        $.each(result, function (key, val) {
-                            jQuery('.categorylist').html('<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+result[i].project_cat_id+'" onClick="webfinicChange(this)"><label class="form-check-label" for="Cat2">'+result[i].project_category+'</label></div></div>');
-                            console.log(result[i].project_category);
-                        });
-                    });
+                    if (result == '') {
+                        datas += '<div class="col-sm-12"><div class="alert alert-danger">Not found. Please! select other company.</div></div>';
+                    } else{
+                        // console.log(result);
+                        $.each(result, function (i) {
+                            datas += '<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+result[i].project_cat_id+'" onClick="webfinicChange(this)" value="'+result[i].project_cat_id+'"><label class="form-check-label" for="'+result[i].project_cat_id+'">'+result[i].project_category+'</label></div></div>';
+                            // console.log(datas);
+                        });                    
+                    }
+                    jQuery('#categorylist').html(datas);
+                    jQuery('#selecategory').addClass("d-block");
+                    jQuery('#selecategory').removeClass("d-none");
+                    $('#processing').addClass("d-none");
                 }
             });
         });

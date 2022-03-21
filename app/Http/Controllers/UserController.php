@@ -133,12 +133,14 @@ class UserController extends Controller
     }
     public function registerUser(Request $request){
         $request->validate([
+            'company_id' => 'required|max:190',
             'name' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
             'address' => 'required',
             'password' => 'required|string',
             'confirm_password' => 'required|string',
+            'categoryselect' => 'required|max:190',
         ]);
 
         if ($request->password === $request->confirm_password) {
@@ -154,6 +156,8 @@ class UserController extends Controller
             $verificationcode = sha1(time());
             $userdata->user_id = $euserid;
             $userdata->contractorID = date('md').time();
+            $userdata->company_id = $request->company_id;
+            $userdata->category_id = $request->categoryselect;
             $userdata->save();
 
             $usersdata->user_id = $euserid;
