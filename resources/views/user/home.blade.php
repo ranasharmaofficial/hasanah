@@ -83,13 +83,25 @@
                         </div>
                         @endif
                         <div class="row">
+                            <div class="card rounded bg-info">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-1 overflow-hidden">
+                                            <p class="font-size-14 mb-2 text-white">Request for New Project.</p>
+                                        </div>
+                                        <div class="text-primary ms-auto">
+                                            <button data-bs-toggle="modal" data-bs-target="#requestProject" class="btn btn-sm btn-primary">Request</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">My Project</p>
-                                                  <h4 class="mb-0">654</h4>  
+                                                  <h4 class="mb-0">0</h4>  
                                             </div>
                                             <div class="text-primary ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
@@ -104,7 +116,7 @@
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Requested Project</p>
-                                                  <h4 class="mb-0">654</h4>  
+                                                  <h4 class="mb-0">0</h4>  
                                             </div>
                                             <div class="text-primary ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
@@ -119,7 +131,7 @@
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Total Earned</p>
-                                                  <h4 class="mb-0">654</h4>  
+                                                  <h4 class="mb-0">0</h4>  
                                             </div>
                                             <div class="text-primary ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
@@ -793,6 +805,60 @@
                         <small class="text-danger">Upload your passport size photo. Maximum size 500KB</small>
                         <small class="form-text text-danger">@error('passportphoto') {{ $message }} @enderror</small>
                     </div>
+                    <div class="col-sm-12 mt-3 text-center">
+                        <button name="submit" type="submit" class="btn btn-primary btn-md"><i class="fa fa-paper-plane"></i> Submit Now</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Request Project Modal -->
+<div class="modal fade" id="requestProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white" id="staticBackdropLabel">Request for New Project</h5>&nbsp;
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data" class="row">
+                    @csrf
+                    <input type="hidden" value="{{$LoggedContractInfo->user_id}}" required name="userid">                    
+                    <div class="col-sm-6">
+                        <label for="projectCategory" class="col-form-label">Project Category <star>*</star></label>
+                        <select type="text" class="form-control" name="projectCategory" id="projectCategory" required>
+							<option value="">Selected Project Category</option>
+						</select>
+                        <small class="form-text text-danger">@error('projectCategory') {{ $message }} @enderror</small>
+                    </div>
+					<div class="col-sm-6">
+                        <label for="BeneficiaryName" class="col-form-label">Beneficiary Name <star>*</star></label>
+                        <input type="text" class="form-control" value="" name="beneficiaryName" id="BeneficiaryName" placeholder="Enter Beneficiary Name" required>
+                        <small class="form-text text-danger">@error('beneficiaryName') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="BeneficiaryAddress" class="col-form-label">Beneficiary Full Address <star>*</star></label>
+                        <textarea type="text" class="form-control" value="" name="beneficiaryFullAddress" id="BeneficiaryAddress" placeholder="Enter Beneficiary Full Address" required></textarea>
+                        <small class="form-text text-danger">@error('beneficiaryFullAddress') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="Photo" class="col-form-label">Proposal Photo <star>*</star></label>
+                        <input type="file" accept="gallery" class="form-control" multiple name="proposalPhoto" id="Photo" required>
+                        <small class="form-text text-danger">@error('proposalPhoto') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="Video" class="col-form-label">Proposal Video <star>*</star></label>
+                        <input type="file" accept="gallery" class="form-control" multiple name="proposalVideo" id="Video" required>
+                        <small class="form-text text-danger">@error('proposalVideo') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="AltMobile" class="col-form-label">Select Google Location</label>
+                        <input type="text" class="form-control" name="altMobile" id="AltMobile" placeholder="Enter Your Alternate Number">
+                    </div>
+                    
                     <div class="col-sm-12 mt-3 text-center">
                         <button name="submit" type="submit" class="btn btn-primary btn-md"><i class="fa fa-paper-plane"></i> Submit Now</button>
                     </div>

@@ -70,6 +70,7 @@
                                                                 <i class="ri-community-fill auti-custom-input-icon"></i>
                                                                 <label for="name">Select Company</label>
                                                                 <select class="form-control" required type="text" name="company_id" id="Company">
+                                                                    <option value="" selected disabled>---Select Company---</option>
                                                                     @foreach ($companydata as $citem)
                                                                         <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
                                                                     @endforeach
