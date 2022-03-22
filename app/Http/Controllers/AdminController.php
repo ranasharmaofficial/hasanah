@@ -1065,6 +1065,7 @@ class AdminController extends Controller
             'project_name' => 'required|max:250',
             'project_number' => 'required',
             'project_amount' => 'required',
+            'distribute_amount' => 'required',
         ]);
 
         $createproject = new Project;
@@ -1075,6 +1076,7 @@ class AdminController extends Controller
         $createproject->project_name = $request->project_name;
         $createproject->project_number = $request->project_number;
         $createproject->amount = $request->project_amount;
+        $createproject->distribute_amount = $request->distribute_amount;
         $createproject->save();
         if ($createproject) {
             return redirect()->back()->with(session()->flash('alert-success', 'Project Successfully Created'));
@@ -1153,6 +1155,14 @@ class AdminController extends Controller
         return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
     }
     //Contractor Approve End
+    
+    //Get Project Name Start
+    public function getProjectName(Request $request){
+        $companyid = $request->post('company');
+        $projectdetails = Project_category::where('company_id', $companyid)->get();
+        return $projectdetails;
+    }
+    //Get Project Name End
 
     //Get Project Amount Start
     public function getamountofproject(Request $request){

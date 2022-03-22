@@ -839,6 +839,20 @@
                         <input type="text" class="form-control" value="" name="beneficiaryName" id="BeneficiaryName" placeholder="Enter Beneficiary Name" required>
                         <small class="form-text text-danger">@error('beneficiaryName') {{ $message }} @enderror</small>
                     </div>
+                    <div class="col-sm-6">
+                        <label for="beneficiaryMobile" class="col-form-label">Beneficiary Mobile Number <star>*</star></label>
+                        <input type="tel" class="form-control" value="" name="beneficiary_mobile" id="beneficiaryMobile" placeholder="Enter Beneficiary Mobile" required>
+                        <small class="form-text text-danger">@error('beneficiary_mobile') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="altMobileNo" class="col-form-label">Alternate Mobile Number <star>*</star></label>
+                        <input type="tel" class="form-control" value="" name="altmobile" id="altMobileNo" placeholder="Enter Alternate Mobile" required>
+                        <small class="form-text text-danger">@error('altmobile') {{ $message }} @enderror</small>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="selectLocation" class="col-form-label">Select Google Location</label>
+                        <input type="button" class="bg-primary text-white form-control" id="selectLocation" value="Select Location">
+                    </div>
                     <div class="col-sm-12">
                         <label for="BeneficiaryAddress" class="col-form-label">Beneficiary Full Address <star>*</star></label>
                         <textarea type="text" class="form-control" value="" name="beneficiaryFullAddress" id="BeneficiaryAddress" placeholder="Enter Beneficiary Full Address" required></textarea>
@@ -854,11 +868,6 @@
                         <input type="file" accept="gallery" class="form-control" multiple name="proposalVideo" id="Video" required>
                         <small class="form-text text-danger">@error('proposalVideo') {{ $message }} @enderror</small>
                     </div>
-                    <div class="col-sm-6">
-                        <label for="AltMobile" class="col-form-label">Select Google Location</label>
-                        <input type="text" class="form-control" name="altMobile" id="AltMobile" placeholder="Enter Your Alternate Number">
-                    </div>
-                    
                     <div class="col-sm-12 mt-3 text-center">
                         <button name="submit" type="submit" class="btn btn-primary btn-md"><i class="fa fa-paper-plane"></i> Submit Now</button>
                     </div>

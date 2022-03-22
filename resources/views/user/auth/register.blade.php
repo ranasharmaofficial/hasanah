@@ -171,7 +171,7 @@
         <script src="{{asset('assets_admin/libs/node-waves/waves.min.js')}}"></script>
 
         <script src="{{asset('assets_admin/js/app.js')}}"></script>
-        {{-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> --}}
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
     jQuery(document).ready(function(){
         jQuery('#selectcompany').change(function(){
