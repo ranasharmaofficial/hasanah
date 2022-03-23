@@ -63,6 +63,7 @@ Route::post('adminAuthLogin', [AdminController::class, 'adminAuthLogin'])->name(
 Route::get('user/login',[UserController::class,'login'])->name('user.login')->middleware('AlreadyLoggedUser');
 Route::post('user/login',[UserController::class,'userAuthLogin'])->name('user.login')->middleware('AlreadyLoggedUser');
 Route::get('user/registers',[UserController::class,'registers']);
+Route::post('getcategoryname', [AdminController::class, 'getcategoryname'])->name('getcategoryname');
 Route::post('user/registration', [UserController::class, 'registerUser'])->name('user.registration');
 Route::get('user/mailVerification/{code}/{userid}', [UserController::class, 'verifyUser'])->name('user.mailVerification.{code}.{userid}');
 
@@ -182,6 +183,5 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('uploadEvent', [AdminController::class, 'uploadEvent'])->name('uploadEvent');
     Route::post('uploadGalleryImage', [AdminController::class, 'uploadGalleryImage'])->name('uploadGalleryImage');
     Route::post('uploadNotice', [AdminController::class, 'uploadNotice'])->name('uploadNotice');
-    Route::post('getcategoryname', [AdminController::class, 'getcategoryname'])->name('getcategoryname');
 });
 // Admin Modules End

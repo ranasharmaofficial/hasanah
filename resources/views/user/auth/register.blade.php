@@ -165,13 +165,14 @@
 
         <!-- JAVASCRIPT -->
         {{-- <script src="{{asset('assets_admin/libs/jquery/jquery.min.js')}}"></script> --}}
-        <script src="{{asset('assets_admin/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        {{-- <script src="{{asset('assets_admin/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <script src="{{asset('assets_admin/libs/metismenu/metisMenu.min.js')}}"></script>
         <script src="{{asset('assets_admin/libs/simplebar/simplebar.min.js')}}"></script>
         <script src="{{asset('assets_admin/libs/node-waves/waves.min.js')}}"></script>
 
-        <script src="{{asset('assets_admin/js/app.js')}}"></script>
-        {{-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> --}}
+        <script src="{{asset('assets_admin/js/app.js')}}"></script> --}}
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     jQuery(document).ready(function(){
         jQuery('#selectcompany').change(function(){
@@ -186,13 +187,14 @@
                 type:'post',
                 data:'companyid='+cid+'&_token={{csrf_token()}}',
                 success:function(result){
+                    // console.log(result);
                     if (result == '') {
                         datas += '<div class="col-sm-12"><div class="alert alert-danger">Not found. Please! select other company.</div></div>';
                     } else{
                         // console.log(result);
                         $.each(result, function (i) {
                             datas += '<div class="col-sm-4"><div class="form-check"><input type="checkbox" name="categoryselect" class="form-check-input" id="'+result[i].project_cat_id+'" onClick="webfinicChange(this)" value="'+result[i].project_cat_id+'"><label class="form-check-label" for="'+result[i].project_cat_id+'">'+result[i].project_category+'</label></div></div>';
-                            // console.log(datas);
+                            // console.log(result);
                         });                    
                     }
                     jQuery('#categorylist').html(datas);

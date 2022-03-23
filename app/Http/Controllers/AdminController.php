@@ -1166,8 +1166,7 @@ class AdminController extends Controller
 
     //Get Project Amount Start
     public function getamountofproject(Request $request){
-        $category = $request->post('cid');
-        
+        $category = $request->post('cid');        
         $getamountpro = Project_category::where('project_cat_id', $category)->first();
         $getamount = $getamountpro->project_amount;
         return $getamount;
