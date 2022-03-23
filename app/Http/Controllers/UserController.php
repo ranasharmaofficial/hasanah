@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Project_category;
 use App\Models\Apply_project;
 
+
 class UserController extends Controller
 {
     public function registers(){
@@ -46,7 +47,10 @@ class UserController extends Controller
     public function userHome(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
-        return view('user/home', $data, compact('contractdata'));
+        $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
+        // dd($userprojectcategory);
+        // die;
+        return view('user/home', $data, compact('contractdata', 'userprojectcategory'));
     }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];

@@ -20,12 +20,12 @@
                         <span>My Project</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{url('user/work-list')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Work List</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{url('user/work-details')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>

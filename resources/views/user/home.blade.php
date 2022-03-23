@@ -830,7 +830,7 @@
                     <div class="col-sm-6">
                         <label for="projectCategory" class="col-form-label">Project Category <star>*</star></label>
                         <select type="text" class="form-control" name="projectCategory" id="projectCategory" required>
-							<option value="">Selected Project Category</option>
+							<option value="">{{$userprojectcategory->project_category}}</option>
 						</select>
                         <small class="form-text text-danger">@error('projectCategory') {{ $message }} @enderror</small>
                     </div>
