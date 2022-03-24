@@ -9,7 +9,7 @@ use App\Models\Project;
 use App\Models\Company;
 use App\Models\Project_category;
 use App\Models\Apply_project;
-
+use App\Models\Project_request;
 
 class UserController extends Controller
 {
@@ -237,6 +237,47 @@ class UserController extends Controller
                                 ]);
         if ($userupdate) {
             return redirect()->back()->with(session()->flash('alert-success', 'Your data successfully received. Please wait for verification.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again.'));
+    }
+
+    public function userPostRequest(Request $request){
+        $request->validate([
+            'userid' => 'required',
+            'projectCategory' => 'required',
+            'beneficiaryName' => 'required',
+            'beneficiary_mobile' => 'required',
+            'altmobile' => 'required',
+            'beneficiaryFullAddress' => 'required',
+            'proposalPhoto' => 'required|max:500|image|mimes:jpg,jpeg,png',
+            'proposalVideo' => 'required',
+        ]);
+
+        if ($request->hasfile('proposalPhoto')) {
+            $file = $request->file('proposalPhoto');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'proposalPhoto-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/proposal'), $filename);
+        }
+
+        if ($request->hasfile('proposalVideo')) {
+            $file = $request->file('proposalVideo');
+            $extenstion = $file->getClientOriginalExtension();
+            $vfilename = 'proposalVideo-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/proposal'), $vfilename);
+        }
+        
+        $projectrequest = new Project_request;
+        $projectrequest->category = $request->projectCategory;
+        $projectrequest->beneficiray_name = $request->beneficiaryName;
+        $projectrequest->beneficiary_mobile = $request->beneficiary_mobile;
+        $projectrequest->alt_mobile_number = $request->altmobile;
+        $projectrequest->full_address = $request->beneficiaryFullAddress;
+        $projectrequest->proposal_photo = $filename;
+        $projectrequest->proposal_video = $vfilename;
+        $projectrequest->save();
+        if ($projectrequest) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Request successfully sended. Please! wait for response.'));
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again.'));
     }

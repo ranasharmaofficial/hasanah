@@ -82,6 +82,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/update-profile',[UserController::class,'updateProfile']);
     Route::get('user/change-password',[UserController::class,'changePassword']);
     Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
+    Route::post('user/postrequest', [UserController::class, 'userPostRequest'])->name('user.postrequest');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);

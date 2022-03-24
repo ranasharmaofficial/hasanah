@@ -824,13 +824,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data" class="row">
+                <form action="{{route('user.postrequest')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <input type="hidden" value="{{$LoggedContractInfo->user_id}}" required name="userid">                    
                     <div class="col-sm-6">
                         <label for="projectCategory" class="col-form-label">Project Category <star>*</star></label>
                         <select type="text" class="form-control" name="projectCategory" id="projectCategory" required>
-							<option value="">{{$userprojectcategory->project_category}}</option>
+							<option value="{{$userprojectcategory->project_cat_id}}">{{$userprojectcategory->project_category}}</option>
 						</select>
                         <small class="form-text text-danger">@error('projectCategory') {{ $message }} @enderror</small>
                     </div>
@@ -851,7 +851,8 @@
                     </div>
                     <div class="col-sm-12">
                         <label for="selectLocation" class="col-form-label">Select Google Location</label>
-                        <input type="button" class="bg-primary text-white form-control" id="selectLocation" value="Select Location">
+                        <input type="button" class="btn btn-primary text-white form-control" id="selectLocation" value="Select Location" onclick="getLocation()">
+                        <div class="mt-2" id="printlocation"></div>
                     </div>
                     <div class="col-sm-12">
                         <label for="BeneficiaryAddress" class="col-form-label">Beneficiary Full Address <star>*</star></label>
@@ -889,4 +890,19 @@
 <!-- Responsive examples -->
 <script src="{{asset('assets_admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets_admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+<script>
+    var x = document.getElementById("printlocation");
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    
+    function showPosition(position) {
+      x.innerHTML = "<b class='text-primary'>Latitude:</b> " + position.coords.latitude +
+      ",&nbsp;<b class='text-primary'>Longitude:</b> " + position.coords.longitude;
+    }
+</script>
 @endsection
