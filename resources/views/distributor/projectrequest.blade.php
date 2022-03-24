@@ -37,8 +37,12 @@
                             <thead>
                             <tr>
                                 <th>Sl. No.</th>
-                                <th>Project</th>
-                                <th>Project Amount</th>
+                                <th>Beneficiary Name</th>
+                                <th>Beneficiary Mobile</th>
+                                <th>Alt Mobile</th>
+                                <th>Full Address</th>
+                                <th>Picture</th>
+                                <th>Video</th>
                                  <th>Created At</th>
                                 <th>Action</th>
                             </tr>
@@ -49,8 +53,12 @@
                                 @foreach ($projectrequest as $key => $data)
                                 <tr>
                                     <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
-                                    <td>{{$data->project_name}}</td>
-                                    <td>Rs&nbsp;{{$data->amount}}</td>
+                                    <td>{{$data->beneficiray_name}}</td>
+                                    <td>{{$data->beneficiary_mobile}}</td>
+                                    <td>{{$data->alt_mobile_number}}</td>
+                                    <td>{{$data->full_address}}</td>
+                                    <td><img style="max-width:120px;" src="{{asset('uploads/proposal/'.$data->proposal_photo)}}" alt="" class="img-thumbanil"></td>
+                                    <td><video width='220px' height='220px' src="{{asset('uploads/proposal/'.$data->proposal_video)}}" controls></video></td>
                                      
                                     <td>{{$data->created_at}}</td>
                                     <td>

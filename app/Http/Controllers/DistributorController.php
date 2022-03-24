@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Distributor;
 use App\Models\Project;
+use App\Models\Project_request;
 
 class DistributorController extends Controller
 {
@@ -49,10 +50,11 @@ class DistributorController extends Controller
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
-         $projectrequest = Project::where('distributor_id', $distributordetails->distributor_reg)
-                                   ->join('distributors', 'distributors.distributor_reg', '=', 'projects.distributor_id')
-                                   ->select(['projects.*', 'distributors.*'])
-                                   ->paginate(10);
+        //  $projectrequest = Project::where('distributor_id', $distributordetails->distributor_reg)
+        //                            ->join('distributors', 'distributors.distributor_reg', '=', 'projects.distributor_id')
+        //                            ->select(['projects.*', 'distributors.*'])
+        //                            ->paginate(10);
+        $projectrequest = Project_request::paginate(10);
                                         // dd($projectrequest);
                                         // die;
         return view('distributor/projectrequest',$data, compact('distributordata','projectrequest'));
