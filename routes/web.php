@@ -47,6 +47,7 @@ Route::group(['middleware'=>['DistributorAuthCheck']], function(){
     Route::get('distributor/view-profile', [DistributorController::class,'viewProfile'])->name('distributor.view-profile');
     Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
 
+    Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
     Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
     Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
     Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');

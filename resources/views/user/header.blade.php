@@ -14,10 +14,10 @@
 
                 <a href="{{url('admin/home')}}" class="logo logo-light">
                     <span class="logo-sm text-white font-weight-bold">
-                        HGC
+                        HET
                     </span>
                     <span class="logo-lg text-white font-weight-bold">
-                        Hasanah Girls College
+                        Hasanah Educational Trust
                     </span>
                 </a>
             </div>

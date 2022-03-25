@@ -218,3 +218,26 @@ tr:first-child>td>.fc-day-grid-event {
     font-size: 18px !important;
 }
 
+
+/* Css by Rana Sharma*/
+@media only screen and (min-device-width:280px){
+    .imagefix{
+        max-width:60px!important;
+    }
+}
+
+@media only screen and (min-device-width:600px){
+    .imagefix{
+        max-width:90!important;
+    }
+}
+@media only screen and (min-device-width:768px){
+    .imagefix{
+        max-width:100px!important;
+    }
+}
+@media only screen and (min-device-width:1200px){
+    .imagefix{
+        max-width:100px!important;
+    }
+}

@@ -57,6 +57,7 @@
                                     <td>{{$data->beneficiary_mobile}}</td>
                                     <td>{{$data->alt_mobile_number}}</td>
                                     <td>{{$data->full_address}}</td>
+                                    <td><button type="button" onclick="showDetails(this)" id="{{$data->id}}" class="btn btn-primary">View&nbsp;Image</button></td>
                                     <td><img style="max-width:120px;" src="{{asset('uploads/proposal/'.$data->proposal_photo)}}" alt="" class="img-thumbanil"></td>
                                     <td><video width='220px' height='220px' src="{{asset('uploads/proposal/'.$data->proposal_video)}}" controls></video></td>
                                      
@@ -86,5 +87,46 @@
      </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
+<!--  Modal content for the above example -->
+<div class="modal fade bs-example-modal-xl" id="imagedetails" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Project Request - <span id="imagereqid"></span>)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="coursedetailsshow" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+<script type="text/javascript">
+    function showDetails(showdetails){
+        $('#imagedetails').modal('show'); 
+		let datas = '';
+        let imagereqid = $(showdetails).attr('id');
+        $('#imagereqid').html(imagereqid);
+        $.ajax({
+            url: '{{url('getImageDetails')}}',
+            type: 'post',
+            data:'imagereqid='+imagereqid+'&_token={{csrf_token()}}',
+            success:function(respons){
+                //$('#coursedetailsshow').html(respons);
+				console.log(respons);
+                if(respons = '')
+                {
+
+                }
+                else{
+                    datas += '<img style="max-width:120px;" src="{{asset("uploads/proposal/+respons+")}}" alt="" class="img-thumbanil">';
+                }
+				 
+            console.log(datas);
+			}
+        })
+    }
+
+</script>
 @endsection

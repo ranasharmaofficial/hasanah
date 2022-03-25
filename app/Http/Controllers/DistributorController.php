@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Distributor;
 use App\Models\Project;
 use App\Models\Project_request;
+use App\Models\Company;
 
 class DistributorController extends Controller
 {
@@ -44,7 +45,9 @@ class DistributorController extends Controller
     public function distributorHome(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
-        return view('distributor/home', $data, compact('distributordata'));
+        $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $companydata = Company::where('company_id',$distributordetails->company_id)->first();
+        return view('distributor/home', $data, compact('distributordata','distributordetails','companydata'));
     }
     public function projectRequest(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
@@ -100,5 +103,10 @@ class DistributorController extends Controller
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         return view('distributor/changepassword',$data, compact('distributordata'));
+    }
+    public function getImageDetails(Request $request){
+        $imagereqid = $request->post('imagereqid');
+        $data = Project_request::where('id',$imagereqid)->pluck('proposal_photo')->first();
+        return $data;        
     }
 }

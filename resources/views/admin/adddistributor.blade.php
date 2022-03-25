@@ -44,6 +44,16 @@
                         <div class="container">
                             <div class="row mb-3">
                                 <div class="col-sm-4">
+                                    <label for="Company" class="col-form-label">Select Company <star>*</star></label>
+                                    <select class="form-select" required type="text" name="company_id" id="Company">
+                                        <option selected disabled value="">---Select Company---</option>
+                                        @foreach ($companydata as $citem)
+                                            <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-danger">@error('company_id') This field is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-4">
                                     <label for="fullname" class="col-form-label">Full Name <star>*</star></label>
                                     <input class="form-control" type="text" required name="name" value="{{old('fullname')}}" placeholder="Enter Full Name" id="fullname">
                                     <small class="form-text text-danger">@error('name') {{$message}} @enderror</small>

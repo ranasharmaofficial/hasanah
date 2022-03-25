@@ -29,8 +29,22 @@
         <!-- end page title -->
         <div class="row">
             <div class="col-xl-12">
+                <div class="col-sl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-1 overflow-hidden">
+                                   <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
+                                </div>
+                                <div class="text-primary ms-auto">
+                                    <h4 style="vertical-align:middle;" class="mb-0 margin-auto">{{$companydata->company_name}}</h4>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--End column--->
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="flash-message">
                             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                                 @if (Session::has('alert-' . $msg))
@@ -43,6 +57,66 @@
                         </div>
                         
                         <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Last Login Time</p>
+                                                  <h4 class="mb-0">2022-03-23 02:04:02</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-map-pin-time-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Logged in as, </p>
+                                                  <h4 class="mb-0">{{ $distributordata['name'] }}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-account-circle-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">User Id </p>
+                                                  <h4 class="mb-0">{{ $distributordata['user_id'] }}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-account-circle-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Designation </p>
+                                                  <h4 class="mb-0">{{ $distributordata['user_id'] }}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-account-circle-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-body">

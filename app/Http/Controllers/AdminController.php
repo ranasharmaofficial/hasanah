@@ -846,7 +846,8 @@ class AdminController extends Controller
     //distributor code start    
     public function addDistributor(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/adddistributor',$data);
+        $companydata = Company::get();
+        return view('admin/adddistributor',$data, compact('companydata'));
     }
     public function distributorList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -902,6 +903,7 @@ class AdminController extends Controller
             'pincode' => 'required|max:10',
             'mobile_no' => 'required|string',
             'email' => 'required|email',
+            'company_id' => 'required',
             'photo' => 'required|max:300|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -919,6 +921,7 @@ class AdminController extends Controller
         $distributoradd->distributor_reg = $distributor_id_gen;
         $distributoradd->dob = $request->dob;
         $distributoradd->gender = $request->gender;
+        $distributoradd->company_id = $request->company_id;
         if ($request->hasfile('aadhar_card')) {
             $file = $request->file('aadhar_card');
             $extenstion = $file->getClientOriginalExtension();
