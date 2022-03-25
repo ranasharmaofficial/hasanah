@@ -88,8 +88,8 @@
 </div>
 <!-- End Page-content -->
 <!--  Modal content for the above example -->
-<div class="modal fade bs-example-modal-xl" id="imagedetails" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+<div class="modal fade bs-example-modal-lg" id="imagedetails" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="myExtraLargeModalLabel">Project Request - <span id="imagereqid"></span>)</h5>
@@ -112,18 +112,16 @@
             url: '{{url('getImageDetails')}}',
             type: 'post',
             data:'imagereqid='+imagereqid+'&_token={{csrf_token()}}',
-            success:function(respons){
-                //$('#coursedetailsshow').html(respons);
+            success:function(respons){                
 				console.log(respons);
-                if(respons = '')
+                if(respons == '')
                 {
-
+                    datas += '<div class="alert alert-danger">Image not found</div>';
                 }
                 else{
-                    datas += '<img style="max-width:120px;" src="{{asset("uploads/proposal/+respons+")}}" alt="" class="img-thumbanil">';
+                    datas += '<img class="img-fluid" src="{{asset("uploads/proposal")}}/'+respons+'" alt="Proposal Image">';
                 }
-				 
-            console.log(datas);
+				$('#coursedetailsshow').html(datas);
 			}
         })
     }
