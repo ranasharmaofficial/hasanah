@@ -108,7 +108,7 @@ class UserController extends Controller
     // }
     public function appliedProject(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
-        $appliedproject = Apply_project::where('user_id', '=', session('LoggedContractUser'))
+        $appliedproject = User_project::where('user_id', '=', session('LoggedContractUser'))
                                         ->join('projects', 'projects.project_id', '=', 'apply_projects.project_id')
                                         ->select(['projects.*', 'apply_projects.*'])
                                         ->paginate(10);

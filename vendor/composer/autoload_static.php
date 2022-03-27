@@ -21,8 +21,8 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
@@ -36,6 +36,7 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        '746bb4ebbdf3585f3e2e85fffd4a5f43' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -168,6 +169,7 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         'C' => 
         array (
             'Cron\\' => 5,
+            'CloudinaryLabs\\CloudinaryLaravel\\' => 33,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -502,6 +504,10 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
+        'CloudinaryLabs\\CloudinaryLaravel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src',
+        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -582,6 +588,7 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\User_login_history' => __DIR__ . '/../..' . '/app/Models/User_login_history.php',
         'App\\Models\\User_project' => __DIR__ . '/../..' . '/app/Models/User_project.php',
+        'App\\Models\\User_upload_images' => __DIR__ . '/../..' . '/app/Models/User_upload_images.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -682,6 +689,18 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         'Carbon\\Traits\\Week' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Week.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\CloudinaryAdapter' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/CloudinaryAdapter.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\CloudinaryEngine' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/CloudinaryEngine.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\CloudinaryServiceProvider' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/CloudinaryServiceProvider.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\BackupFilesCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/BackupFilesCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\DeleteFilesCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/DeleteFilesCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\FetchFilesCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/FetchFilesCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\GenerateArchiveCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/GenerateArchiveCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\RenameFilesCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/RenameFilesCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Commands\\UploadFileCommand' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Commands/UploadFileCommand.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Facades\\Cloudinary' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Facades/Cloudinary.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\MediaAlly' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/MediaAlly.php',
+        'CloudinaryLabs\\CloudinaryLaravel\\Model\\Media' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Model/Media.php',
         'Cloudinary\\Api\\Admin\\AdminApi' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Api/Admin/AdminApi.php',
         'Cloudinary\\Api\\Admin\\ApiEndPoint' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Api/Admin/ApiEndPoint.php',
         'Cloudinary\\Api\\Admin\\AssetsTrait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Api/Admin/AssetsTrait.php',
@@ -2001,7 +2020,6 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         'Faker\\Provider\\nl_BE\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Payment.php',
         'Faker\\Provider\\nl_BE\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Person.php',
         'Faker\\Provider\\nl_BE\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
-        'Faker\\Provider\\nl_BE\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Text.php',
         'Faker\\Provider\\nl_NL\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Address.php',
         'Faker\\Provider\\nl_NL\\Color' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Color.php',
         'Faker\\Provider\\nl_NL\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Company.php',

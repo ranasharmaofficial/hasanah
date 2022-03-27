@@ -32,6 +32,7 @@
         background-color:#E8F8F5;
     }
 </style>
+@cloudinaryJS
 </head>
 
 <body data-sidebar="dark">
