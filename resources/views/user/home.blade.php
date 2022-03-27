@@ -29,8 +29,23 @@
         <!-- end page title -->
         <div class="row">
             <div class="col-xl-12">
+                <div class="row">
+                    <div class="card col-sm-12">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4 img_com">
+                                    <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
+                                </div>
+                                <div class="col-sm-8">
+                                    <h4 class="dist_companyname text-primary">{{$companydata->company_name}}</h4>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="flash-message">
                             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                                 @if (Session::has('alert-' . $msg))
@@ -82,19 +97,67 @@
                             </div>
                         </div>
                         @endif
-                        <div class="row">
-                            <div class="card rounded bg-info">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-1 overflow-hidden">
-                                            <p class="font-size-14 mb-2 text-white">Request for New Project.</p>
-                                        </div>
-                                        <div class="text-primary ms-auto">
-                                            <button data-bs-toggle="modal" data-bs-target="#requestProject" class="btn btn-sm btn-primary">Request</button>
-                                        </div>
+                        @if ($LoggedContractInfo->is_approve == '1')
+                        <div class="card rounded bg-success">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="font-size-14 mb-2 text-white">Request for New Project.</p>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <button data-bs-toggle="modal" data-bs-target="#requestProject" class="btn btn-sm btn-danger">Request</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        @endif
+                        <div class="row">
+                           
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Last Login Time</p>
+                                                  <h4 class="mb-0">{{$lastLoginTime->created_at}}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-map-pin-time-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Logged in as, </p>
+                                                  <h4 class="mb-0">{{ $LoggedContractInfo['name'] }}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-account-circle-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">User Id </p>
+                                                  <h4 class="mb-0">{{ $LoggedContractInfo['user_id'] }}</h4>  
+                                            </div>
+                                            <div class="text-primary ms-auto">
+                                                <i class="ri-account-circle-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-body">
@@ -827,6 +890,7 @@
                 <form action="{{route('user.postrequest')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <input type="hidden" value="{{$LoggedContractInfo->user_id}}" required name="userid">                    
+                    <input type="hidden" value="{{$contractdata->company_id}}" required name="company_id">                    
                     <div class="col-sm-6">
                         <label for="projectCategory" class="col-form-label">Project Category <star>*</star></label>
                         <select type="text" class="form-control" name="projectCategory" id="projectCategory" required>

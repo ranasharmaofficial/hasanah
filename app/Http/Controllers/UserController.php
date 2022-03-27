@@ -2,14 +2,18 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 // use App\Http\Controllers\MailController;
+use JD\Cloudder\Facades\Cloudder;
 use App\Models\Contractor;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Company;
 use App\Models\Project_category;
-use App\Models\Apply_project;
+use App\Models\User_project;
 use App\Models\Project_request;
+use App\Models\User_login_history;
+use App\Models\User_upload_images;
+
 
 class UserController extends Controller
 {
@@ -24,6 +28,12 @@ class UserController extends Controller
         $request->validate([
             'username'=>'required',
             'password'=>'required',
+        ]);
+
+        $ip=$_SERVER['REMOTE_ADDR'];
+        $userLoginHistory = User_login_history::create([
+            "user_id" => "$request->username",
+            "ip_address" => "$ip"
         ]);
 
         $userInfo = User::where('user_id','=',$request->username)->where('role', '4')->where('status', '1')->first();
@@ -48,7 +58,9 @@ class UserController extends Controller
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
-        return view('user/home', $data, compact('contractdata', 'userprojectcategory'));
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->first();
+        return view('user/home', $data, compact('contractdata', 'userprojectcategory','companydata','lastLoginTime'));
     }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
@@ -79,21 +91,21 @@ class UserController extends Controller
         }
         
     }
-    public function applyForProject(Request $request){
-        $request->validate([
-            'project_id' => 'required',
-            'user_id' => 'required'
-        ]);
-        $applyproject = Apply_project::create([
-            "project_id" => "$request->project_id",
-            "user_id" => "$request->user_id"
-        ]);
-        if($applyproject){
-            return redirect()->back()->with(session()->flash('alert-success', 'Project Applied Successfully!'));
-        }else{
-            return redirect()->back()->with(session()->flash('alert-danger', 'Something Went Wrong. Please Try Again!'));  
-        }
-    }
+    // public function applyForProject(Request $request){
+    //     $request->validate([
+    //         'project_id' => 'required',
+    //         'user_id' => 'required'
+    //     ]);
+    //     $applyproject = Apply_project::create([
+    //         "project_id" => "$request->project_id",
+    //         "user_id" => "$request->user_id"
+    //     ]);
+    //     if($applyproject){
+    //         return redirect()->back()->with(session()->flash('alert-success', 'Project Applied Successfully!'));
+    //     }else{
+    //         return redirect()->back()->with(session()->flash('alert-danger', 'Something Went Wrong. Please Try Again!'));  
+    //     }
+    // }
     public function appliedProject(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $appliedproject = Apply_project::where('user_id', '=', session('LoggedContractUser'))
@@ -106,12 +118,46 @@ class UserController extends Controller
     }
     public function myProject(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
-        return view('user/myproject',$data);
+        $contractorData = User::where('id', '=', session('LoggedContractorUser'))->first();
+        $userProjects = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                        ->join('projects', 'projects.project_id', '=', 'user_projects.project_id')
+                        ->join('companies', 'companies.company_id', '=', 'projects.company_id')
+                        ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                        ->select(['projects.*','user_projects.*', 'project_categories.*', 'companies.*'])
+                        ->paginate(10);
+                        // dd($userProjects);
+                        // die;
+        return view('user/myproject',$data, compact('userProjects'));
     }
     public function uploadImage(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         return view('user/uploadimage',$data);
     }
+    public function uploadUserImage(Request $request){
+        $request->validate([
+            'title'=>'required',
+            'image_name'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
+        ]);
+    $image = $request->file('image_name');
+    $name = $request->file('image_name')->getClientOriginalName();
+    $image_name = $request->file('image_name')->getRealPath();;
+    Cloudder::upload($image_name, null);
+    list($width, $height) = getimagesize($image_name);
+    $image_url= Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
+    //save to uploads directory
+    $image->move(public_path("uploads"), $name);
+    //Save images
+    $this->saveImages($request, $image_url);
+     return redirect()->back()->with(session()->flash('alert-success', 'Uploaded Successfully Registered'));
+    }
+    public function saveImages(Request $request, $image_url)
+   {
+       $image = new User_upload_images();
+       $image->image_name = $request->file('image_name')->getClientOriginalName();
+       $image->image_url = $image_url;
+       $image->title = $request->title;
+       $image->save();
+   }
     public function uploadVideo(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         return view('user/uploadvideo',$data);
@@ -246,6 +292,7 @@ class UserController extends Controller
             'beneficiaryName' => 'required',
             'beneficiary_mobile' => 'required',
             'altmobile' => 'required',
+            'company_id' => 'required',
             'beneficiaryFullAddress' => 'required',
             'proposalPhoto' => 'required|max:500|image|mimes:jpg,jpeg,png',
             'proposalVideo' => 'required',
@@ -267,6 +314,8 @@ class UserController extends Controller
         
         $projectrequest = new Project_request;
         $projectrequest->category = $request->projectCategory;
+        $projectrequest->user_id = $request->userid;
+        $projectrequest->company_id = $request->company_id;
         $projectrequest->beneficiray_name = $request->beneficiaryName;
         $projectrequest->beneficiary_mobile = $request->beneficiary_mobile;
         $projectrequest->alt_mobile_number = $request->altmobile;

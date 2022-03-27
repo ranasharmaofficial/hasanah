@@ -46,6 +46,7 @@
                                 <div class="col-sm-4">
                                     <label for="Company" class="col-form-label">Select Company <star>*</star></label>
                                     <select class="form-select" required type="text" name="company_id" id="Company">
+                                        <option selected disabled value="">---Select Company----</option>
                                         @foreach ($companydata as $citem)
                                             <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
                                         @endforeach
@@ -62,24 +63,6 @@
                                     <input class="form-control" required type="number" name="project_amount" value="{{old('project_amount')}}" placeholder="Enter Project Amount" id="ProjectAmount">
                                     <small class="form-text text-danger">@error('project_amount') Project amount is required. @enderror</small>
                                 </div>  
-                                <div class="col-sm-4">
-                                    <label for="categorytype" class="col-form-label">Select Type <star>*</star></label>
-                                    <select name="categorytype" id="categorytype" class="form-select">
-                                        <option value="Normal">Normal</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
-                                    <small class="form-text text-danger">@error('categorytype') Category type is required. @enderror</small>
-                                </div>  
-                                <div class="col-sm-4">
-                                    <label for="datefrom" class="col-form-label">Select Date From <star>*</star></label>
-                                    <input type="date" class="form-control" id="datefrom" title="Date From" name="datefrom" required placeholder="Select Date From">
-                                    <small class="form-text text-danger">@error('datefrom') Date from is required. @enderror</small>
-                                </div> 
-                                <div class="col-sm-4">
-                                    <label for="dateto" class="col-form-label">Select Date To <star>*</star></label>
-                                    <input type="date" class="form-control" id="dateto" title="Date To" name="dateto" required placeholder="Select Date To">
-                                    <small class="form-text text-danger">@error('dateto') Date to is required. @enderror</small>
-                                </div>                             
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="add_project_category" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit Now</button>
                                 </div>

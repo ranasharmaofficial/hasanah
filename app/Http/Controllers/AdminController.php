@@ -1029,10 +1029,7 @@ class AdminController extends Controller
         $request->validate([
             'company_id' => 'required|max:150',
             'project_cat_name' => 'required|max:250',
-            'project_amount' => 'required',
-            'categorytype' => 'required|max:120',
-            'datefrom' => 'required|date',
-            'dateto' => 'required|date',
+            'project_amount' => 'required'
         ]);
 
         $projectcat = new Project_category;
@@ -1047,9 +1044,9 @@ class AdminController extends Controller
         $projectcat->project_cat_id = $projectcatid;
         $projectcat->project_category = $request->project_cat_name;
         $projectcat->project_amount = $request->project_amount;
-        $projectcat->type = $request->categorytype;
-        $projectcat->datefrom = $request->datefrom;
-        $projectcat->dateto = $request->dateto;
+        //$projectcat->type = $request->categorytype;
+        //$projectcat->datefrom = $request->datefrom;
+        //$projectcat->dateto = $request->dateto;
         $projectcat->save();
         if ($projectcat) {
             return redirect()->back()->with(session()->flash('alert-success', 'Project Category Successfully Created'));
@@ -1069,6 +1066,8 @@ class AdminController extends Controller
             'project_number' => 'required',
             'project_amount' => 'required',
             'distribute_amount' => 'required',
+            'prjecttype' => 'required',
+            'no_of_days' => 'required',
         ]);
 
         $createproject = new Project;
@@ -1080,6 +1079,8 @@ class AdminController extends Controller
         $createproject->project_number = $request->project_number;
         $createproject->amount = $request->project_amount;
         $createproject->distribute_amount = $request->distribute_amount;
+        $createproject->project_type = $request->prjecttype;
+        $createproject->no_of_days = $request->no_of_days;
         $createproject->save();
         if ($createproject) {
             return redirect()->back()->with(session()->flash('alert-success', 'Project Successfully Created'));

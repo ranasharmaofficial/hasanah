@@ -26,6 +26,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <div class="flash-message">
+                                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                                    @if (Session::has('alert-' . $msg))
+                                        <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+                                            {{ Session::get('alert-' . $msg) }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="container">
@@ -54,17 +64,18 @@
 									</div>
 								</div> <!-- end col -->
                             <h4 class="card-title">@yield('title')</h4>
-                            <form action="" method="POST" class="row">
+                            <form action="{{route('uploadUserImage')}}" enctype="multipart/form-data" method="POST" class="row">
                                 @csrf
                                 <div class="col-sm-6">
                                     <label for="Project" class="col-form-label">Project Title <star>*</star></label>
-                                    <input type="text" class="form-control" placeholder="Enter Project Title" name="project_title" id="Project" required>
-                                    <small class="form-text text-danger">@error('project_title') {{ $message }} @enderror</small>
+                                    <input type="text" class="form-control" placeholder="Enter Project Title" name="title" id="Project">
+                                    <small class="form-text text-danger">@error('title') {{ $message }} @enderror</small>
                                 </div>
+                                
                                 <div class="col-sm-6">
                                     <label for="Image" class="col-form-label">Project Image <star>*</star></label>
-                                    <input type="file" multiple class="form-control" name="project_image" id="Image" required>
-                                    <small class="form-text text-danger">@error('project_image') {{ $message }} @enderror</small>
+                                    <input type="file" class="form-control" name="image_name" id="Image">
+                                    <small class="form-text text-danger">@error('image_name') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="submit" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>

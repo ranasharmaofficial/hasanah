@@ -48,11 +48,15 @@ Route::group(['middleware'=>['DistributorAuthCheck']], function(){
     Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
 
     Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
+    Route::post('getVideoDetails',[DistributorController::class, 'getVideoDetails'])->name('getVideoDetails');
     Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
     Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
     Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');
+    Route::get('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
+    Route::post('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
+    Route::post('giveProjectAccess',[DistributorController::class, 'giveProjectAccess'])->name('giveProjectAccess');
+    
 });
-
 // Dashboard Modules End
 
 // Admin Modules Start
@@ -84,6 +88,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/change-password',[UserController::class,'changePassword']);
     Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
     Route::post('user/postrequest', [UserController::class, 'userPostRequest'])->name('user.postrequest');
+    Route::post('uploadUserImage',[UserController::class, 'uploadUserImage'])->name('uploadUserImage');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);

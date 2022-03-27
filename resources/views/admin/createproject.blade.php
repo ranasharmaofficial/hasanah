@@ -73,6 +73,7 @@
                                     <div class="col-sm-4">
                                         <label for="distributorID" class="col-form-label">Select Distributor <star>*</star></label>
                                         <select class="form-select" required name="distributor_id" id="distributorID">
+                                            <option selected disabled value="">---Select Distributor---</option>
                                             @foreach ($distributordata as $ditem)
                                             @php
                                                 $get_dist_name = \App\Models\User::where('user_id',$ditem->user_id)->first();
@@ -92,6 +93,20 @@
                                         <input class="form-control" required type="text" name="project_number" placeholder="Project Number" id="ProjectNumber">
                                         <small class="form-text text-danger">@error('project_number') Project category name is required. @enderror</small>
                                     </div>
+                                    <div class="col-sm-4">
+                                        <label for="categorytype" class="col-form-label">Select Type <star>*</star></label>
+                                        <select name="prjecttype" id="categorytype" class="form-select">
+                                            <option selected disabled value="">---Select Project Type---</option>
+                                            <option value="Normal">Normal</option>
+                                            <option value="Emergency">Emergency</option>
+                                        </select>
+                                        <small class="form-text text-danger">@error('prjecttype') Category type is required. @enderror</small>
+                                    </div>  
+                                    <div class="col-sm-4">
+                                        <label for="noDays" class="col-form-label">Enter No.of Days <star>*</star></label>
+                                        <input type="number" class="form-control" id="noDays" name="no_of_days" required>
+                                        <small class="form-text text-danger">@error('no_of_days') No of days is required. @enderror</small>
+                                    </div> 
                                     {{-- <div class="col-sm-4">
                                         <label for="projectAmount" class="col-form-label">Project Amount <star>*</star></label>
                                         <input class="form-control" required type="text" name="project_amount" readonly placeholder="Project Amount" id="projectAmount">

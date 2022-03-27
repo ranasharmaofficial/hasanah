@@ -26,6 +26,7 @@
                 id="vertical-menu-btn">
                 <i class="ri-menu-2-line align-middle"></i>
             </button>
+            Rasjcsakcj
         </div>
 
         <div class="d-flex">
@@ -35,9 +36,10 @@
                     aria-expanded="false">
                     <i class="ri-search-line"></i>
                 </button>
+                
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                     aria-labelledby="page-header-search-dropdown">
-
+                    
                     <form class="p-3">
                         <div class="mb-3 m-0">
                             <div class="input-group">
@@ -53,7 +55,7 @@
             </div>
 
             
-
+            {{-- <span class="text-primary text-center">vdsvdsvd</span> --}}
             
 
             <div class="dropdown d-none d-lg-inline-block ms-1">
@@ -61,9 +63,7 @@
                     <i class="ri-fullscreen-line"></i>
                 </button>
             </div>
-
             
-
             <div class="dropdown d-inline-block user-dropdown">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,7 +78,7 @@
                     <a class="dropdown-item text-danger" href="{{url('distributor/logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>
             </div>
-
+            
         </div>
     </div>
 </header>

@@ -24,6 +24,16 @@
         
         <div class="row">
             <div class="col-12">
+                <div class="flash-message">
+                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                        @if (Session::has('alert-' . $msg))
+                            <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+                                {{ Session::get('alert-' . $msg) }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h4 class="card-title text-white">@yield('title')</h4>
@@ -33,52 +43,59 @@
                     <div class="card-body">
 
                         <h4 class="card-title">@yield('title')</h4>
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                            <tr>
-                                <th>Sl. No.</th>
-                                <th>Beneficiary Name</th>
-                                <th>Beneficiary Mobile</th>
-                                <th>Alt Mobile</th>
-                                <th>Full Address</th>
-                                <th>Picture</th>
-                                <th>Video</th>
-                                 <th>Created At</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-
-
-                            <tbody>
-                                @foreach ($projectrequest as $key => $data)
+                        <div class="table-responsive">
+                            <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
                                 <tr>
-                                    <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
-                                    <td>{{$data->beneficiray_name}}</td>
-                                    <td>{{$data->beneficiary_mobile}}</td>
-                                    <td>{{$data->alt_mobile_number}}</td>
-                                    <td>{{$data->full_address}}</td>
-                                    <td><button type="button" onclick="showDetails(this)" id="{{$data->id}}" class="btn btn-primary">View&nbsp;Image</button></td>
-                                    <td><img style="max-width:120px;" src="{{asset('uploads/proposal/'.$data->proposal_photo)}}" alt="" class="img-thumbanil"></td>
-                                    <td><video width='220px' height='220px' src="{{asset('uploads/proposal/'.$data->proposal_video)}}" controls></video></td>
-                                     
-                                    <td>{{$data->created_at}}</td>
-                                    <td>
-                                        <button class="btn btn-success btn-sm">View Details</button>
-                                        <button class="btn btn-danger btn-sm">Block</button>
-                                    </td>
+                                    <th>Sl. No.</th>
+                                    <th>User Name</th>
+                                    <th>Project Category</th>
+                                    <th>Beneficiary Name</th>
+                                    <th>Beneficiary Mobile</th>
+                                    <th>Alt Mobile</th>
+                                    <th>Full Address</th>
+                                    <th>Picture</th>
+                                    <th>Video</th>
+                                     <th>Created At</th>
+                                    <th>Action</th>
                                 </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="7">
-                                        <nav aria-label="...">
-                                            <ul class="pagination justify-content-end mb-0">
-                                                {{$projectrequest->links();}}
-                                            </ul>
-                                        </nav>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+    
+    
+                                <tbody>
+                                    @foreach ($projectrequest as $key => $data)
+                                    <tr>
+                                        <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
+                                        <td>{{$data->name}}</td>
+                                        <td>{{$data->project_category}}</td>
+                                        <td>{{$data->BeneficiaryName}}</td>
+                                        <td>{{$data->BeneficiaryMobileNumber}}</td>
+                                        <td>{{$data->AltMobile}}</td>
+                                        <td>{{$data->FullAddress}}</td>
+                                        <td><button type="button" onclick="showDetails(this)" id="{{$data->projectRequestId}}" class="btn btn-primary btn-sm">View&nbsp;Image</button></td>
+                                        <td><button type="button" onclick="showVideo(this)" id="{{$data->projectRequestId}}" class="btn btn-success btn-sm">Play&nbsp;Video</button></td>
+                                        <td>{{$data->created_at}}</td>
+                                        <td>
+                                            <form action="{{route('distributor/project-request-details')}}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="project_req_id" value="{{$data->projectRequestId}}">
+                                                <button class="btn btn-success btn-sm">View&nbsp;Details</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="7">
+                                            <nav aria-label="...">
+                                                <ul class="pagination justify-content-end mb-0">
+                                                    {{$projectrequest->links();}}
+                                                </ul>
+                                            </nav>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
@@ -92,10 +109,25 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myExtraLargeModalLabel">Project Request - <span id="imagereqid"></span>)</h5>
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Project Request: Proposal Image - <span id="imagereqid"></span>)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="coursedetailsshow" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--  Modal content for the above example -->
+<div class="modal fade bs-example-modal-lg" id="videodetails" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Project Request: Proposal Video- <span id="videoreqid"></span>)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="videodetailsshow" class="modal-body">
                 {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
             </div>
         </div><!-- /.modal-content -->
@@ -122,6 +154,30 @@
                     datas += '<img class="img-fluid" src="{{asset("uploads/proposal")}}/'+respons+'" alt="Proposal Image">';
                 }
 				$('#coursedetailsshow').html(datas);
+			}
+        })
+    }
+    
+    function showVideo(showvideo){
+        $('#videodetails').modal('show'); 
+		let datas = '';
+        let videoreqid = $(showvideo).attr('id');
+        $('#videoreqid').html(videoreqid);
+        $.ajax({
+            url: '{{url('getVideoDetails')}}',
+            type: 'post',
+            data:'videoreqid='+videoreqid+'&_token={{csrf_token()}}',
+            success:function(respons){                
+				console.log(respons);
+                if(respons == '')
+                {
+                    datas += '<div class="alert alert-danger">Video not found</div>';
+                }
+                else{
+                    datas += '<video class="img-fluid" src="{{asset("uploads/proposal")}}/'+respons+'" controls></video>';
+                }
+				//console.log(datas);
+				$('#videodetailsshow').html(datas);
 			}
         })
     }
