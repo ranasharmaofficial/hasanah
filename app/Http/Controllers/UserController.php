@@ -135,9 +135,12 @@ class UserController extends Controller
     }
     public function uploadUserImage(Request $request){
         $request->validate([
-            'title'=>'required',
-            'image_name'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
+            // 'title'=>'required',
+            'file'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
         ]);
+        $uploadedFileUrl = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+        dd($uploadedFileUrl);
+        die;
     $image = $request->file('image_name');
     $name = $request->file('image_name')->getClientOriginalName();
     $image_name = $request->file('image_name')->getRealPath();;

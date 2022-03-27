@@ -66,16 +66,16 @@
                             <h4 class="card-title">@yield('title')</h4>
                             <form action="{{route('uploadUserImage')}}" enctype="multipart/form-data" method="POST" class="row">
                                 @csrf
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="Project" class="col-form-label">Project Title <star>*</star></label>
                                     <input type="text" class="form-control" placeholder="Enter Project Title" name="title" id="Project">
                                     <small class="form-text text-danger">@error('title') {{ $message }} @enderror</small>
-                                </div>
+                                </div> --}}
                                 
                                 <div class="col-sm-6">
                                     <label for="Image" class="col-form-label">Project Image <star>*</star></label>
-                                    <input type="file" class="form-control" name="image_name" id="Image">
-                                    <small class="form-text text-danger">@error('image_name') {{ $message }} @enderror</small>
+                                    <input type="file" class="form-control" name="file" id="Image">
+                                    <small class="form-text text-danger">@error('file') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="submit" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
