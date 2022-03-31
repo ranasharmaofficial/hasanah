@@ -37,25 +37,37 @@
                                 @endforeach
                             </div>
 							<div class="row">
-								<div class="col-sm-8">
+								<div class="col-sm-12">
 									<div class="container">
 										<div class="row mb-3">
 											<table class="table table-bordered">
 												<tbody>
 													<tr>
-														<td>Project Title</td>
-														<td class="text-right">project-title</td>
+														<td>Company</td>
+														<td class="text-right">{{$companyData->company_name}}</td>
 													</tr>
 													<tr>
-														<td>Project Id</td>
-														<td class="text-right">Project id</td>
+														<td>Category</td>
+														<td class="text-right">{{$projectCatData->project_category}}</td>
 													</tr>
 													<tr>
-														<td>Project Amount</td>
-														<td class="text-right">project-amount</td>
+														<td>Project&nbsp;Name</td>
+														<td class="text-right">{{$projectData->project_name}}</td>
 													</tr>
 													<tr>
-														<td>Distributor</td>
+														<td>Project&nbsp;Number</td>
+														<td class="text-right">{{$projectData->project_number}}</td>
+													</tr>
+                                                    <tr>
+														<td>Project&nbsp;Status</td>
+														<td class="text-right">Ongoinf</td>
+													</tr>
+                                                    <tr>
+														<td>Project&nbsp;Amount</td>
+														<td class="text-right">{{$projectData->amount}}</td>
+													</tr>
+                                                    <tr>
+														<td>Days&nbsp;to&nbsp;Go</td>
 														<td class="text-right">ditributor-name</td>
 													</tr>
 												</tbody>
@@ -66,12 +78,16 @@
                             <h4 class="card-title">@yield('title')</h4>
                             <form action="{{route('uploadUserImage')}}" enctype="multipart/form-data" method="POST" class="row">
                                 @csrf
-                                {{-- <div class="col-sm-6">
+                                <div class="col-sm-6">
                                     <label for="Project" class="col-form-label">Project Title <star>*</star></label>
                                     <input type="text" class="form-control" placeholder="Enter Project Title" name="title" id="Project">
                                     <small class="form-text text-danger">@error('title') {{ $message }} @enderror</small>
-                                </div> --}}
-                                
+                                </div>
+                                    @if (isset($_POST['user_id']))
+                                    <input type="hidden" name="user_id" value="{{$_POST['user_id']}}" id="">
+                                    <input type="hidden" name="project_id" value="{{$_POST['project_id']}}" id="">
+                                    <input type="hidden" name="distributor_id" value="{{$_POST['distributor_id']}}" id="">
+                                    @endif
                                 <div class="col-sm-6">
                                     <label for="Image" class="col-form-label">Project Image <star>*</star></label>
                                     <input type="file" class="form-control" name="file" id="Image">

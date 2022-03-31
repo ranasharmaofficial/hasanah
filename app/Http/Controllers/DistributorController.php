@@ -58,23 +58,26 @@ class DistributorController extends Controller
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedDistributor']->user_id)->orderBy('id', 'desc')->first();
+        $lastLoginTime = User_login_history::where('user_id', $data['LoggedDistributor']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();;
         return view('distributor/home', $data, compact('distributordata','distributordetails','companydata', 'lastLoginTime'));
     }
     public function projectRequest(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $companydata = Company::where('company_id',$distributordetails->company_id)->first();
         $projectrequest = Project_request::where('project_requests.company_id', $distributordetails->company_id)
                                    ->join('project_categories', 'project_categories.project_cat_id', '=', 'project_requests.category')
                                    ->join('users', 'users.user_id', '=', 'project_requests.user_id')
                                    ->select(['project_categories.*', 'project_requests.id as projectRequestId', 'project_requests.beneficiray_name as BeneficiaryName', 'project_requests.beneficiary_mobile as BeneficiaryMobileNumber','project_requests.alt_mobile_number as AltMobile','project_requests.full_address as FullAddress', 'users.*'])
                                    ->paginate(10);
-        return view('distributor/projectrequest',$data, compact('distributordata','projectrequest'));
+        return view('distributor/projectrequest',$data, compact('distributordata','projectrequest', 'companydata'));
     }
     public function projectRequestDetails(Request $request){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $companydata = Company::where('company_id',$distributordetails->company_id)->first();
         $requestId = $request->post('project_req_id');
         $flag = false;
         if ($requestId !== null) {
@@ -88,7 +91,7 @@ class DistributorController extends Controller
                                     ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
                                     ->select(['companies.*', 'project_categories.*', 'projects.*'])
                                     ->paginate(20);
-           return view('distributor/projectrequestdetails', $data, compact('project_req_details', 'flag', 'distributordata', 'companyData', 'userData', 'projectCatData','relatedProject'));
+           return view('distributor/projectrequestdetails', $data, compact('project_req_details', 'flag', 'distributordata', 'companyData', 'userData', 'projectCatData','relatedProject', 'companydata'));
         } else {
             return view('distributor/projectrequestdetails', $data, compact('flag'));
         }

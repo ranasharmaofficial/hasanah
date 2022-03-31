@@ -35,8 +35,11 @@
                     @endforeach
                 </div>
                 <div class="card">
+                    <div class="card-header bg-primary">
+                        <h4 class="card-title text-white">@yield('title')</h4>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title">@yield('title')</h4>
+                       
                         <div class="table-responsive">
                             <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
@@ -65,9 +68,19 @@
                                     <td>{{$data->no_of_days}}</td>
                                     
                                     <td>
-                                        <a href="{{url('user/upload-image')}}"><button class="btn btn-info btn-sm">Upload&nbsp;Image</button></a>
+                                        <form method="post" enctype="multipart/form-data" action="{{route('user/upload-image')}}">
+                                            @csrf
+                                            <input type="hidden" value="{{$data->project_id}}" name="project_id">
+                                            <input type="hidden" value="{{$data->user_id}}" name="user_id">
+                                            <input type="hidden" value="{{$data->distributor_id}}" name="distributor_id">
+                                            <button type="submit" class="btn btn-info btn-sm">Upload&nbsp;Image</button>
+                                        </form>
                                         <a href="{{url('user/upload-video')}}"><button class="btn btn-success btn-sm">Upload&nbsp;Video</button></a>
-                                        <button class="btn btn-danger btn-sm">View&nbsp;Details</button>
+                                        <form action="{{route('user/viewProjectDetails')}}" method="get" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" value="{{$data->project_id}}" name="project_id">
+                                            <button type="submit" class="btn btn-danger btn-sm">View&nbsp;Details</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

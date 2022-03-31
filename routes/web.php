@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +34,8 @@ Route::view('teacher', 'teacher');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');
 Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
-
+Route::get('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
+Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
 // Dashboard Modules Start
 Route::get('distributor/login',[DistributorController::class,'login'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');
 Route::post('distributor/login',[DistributorController::class,'distributorAuthLogin'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');
@@ -81,6 +83,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
     Route::get('user/upload-image',[UserController::class,'uploadImage']);
+    Route::post('user/upload-image',[UserController::class,'uploadImage'])->name('user/upload-image');
     Route::get('user/upload-video',[UserController::class,'uploadVideo']);
     Route::get('user/view-profile',[UserController::class,'viewProfile']);
     Route::post('user/update-profile', [UserController::class, 'updateProfileData'])->name('user.update-profile');
@@ -89,6 +92,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
     Route::post('user/postrequest', [UserController::class, 'userPostRequest'])->name('user.postrequest');
     Route::post('uploadUserImage',[UserController::class, 'uploadUserImage'])->name('uploadUserImage');
+    Route::get('user/viewProjectDetails',[UserController::class, 'viewProjectDetails'])->name('user/viewProjectDetails');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);

@@ -552,6 +552,7 @@ class ComposerStaticInit169eeaa842947b4f4767be15f07fcfef
         'App\\Http\\Controllers\\DistributorController' => __DIR__ . '/../..' . '/app/Http/Controllers/DistributorController.php',
         'App\\Http\\Controllers\\ExternalController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExternalController.php',
         'App\\Http\\Controllers\\MailController' => __DIR__ . '/../..' . '/app/Http/Controllers/MailController.php',
+        'App\\Http\\Controllers\\MediaController' => __DIR__ . '/../..' . '/app/Http/Controllers/MediaController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminAuthCheck' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminAuthCheck.php',

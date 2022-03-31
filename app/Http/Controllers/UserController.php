@@ -59,7 +59,7 @@ class UserController extends Controller
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->first();
+        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         return view('user/home', $data, compact('contractdata', 'userprojectcategory','companydata','lastLoginTime'));
     }
     public function workList(){
@@ -129,37 +129,84 @@ class UserController extends Controller
                         // die;
         return view('user/myproject',$data, compact('userProjects'));
     }
-    public function uploadImage(){
+    public function uploadImage(Request $request){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
-        return view('user/uploadimage',$data);
+        $userid = $request->post('user_id');
+        $flag = false;  
+        if ($userid !== null) {
+            $flag = true;  
+            $userData = User_project::where('user_id', '=', $userid)->first();
+            $projectData = Project::where('project_id', '=', $userData->project_id)->first();
+            $companyData = Company::where('company_id', '=', $projectData->company_id)->first();
+            $projectCatData = Project_category::where('project_cat_id', '=', $projectData->project_cat)->first();
+            return view('user/uploadimage',$data, compact('userData','flag','projectData','companyData','projectCatData'));
+        }
+        else{
+            return view('user/uploadimage',$data, compact('flag'));
+        }
+        
     }
     public function uploadUserImage(Request $request){
         $request->validate([
-            // 'title'=>'required',
+            'title'=>'required',
+            'user_id'=>'required',
+            'project_id'=>'required',
+            'distributor_id'=>'required',
             'file'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
         ]);
-        $uploadedFileUrl = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
-        dd($uploadedFileUrl);
-        die;
-    $image = $request->file('image_name');
-    $name = $request->file('image_name')->getClientOriginalName();
-    $image_name = $request->file('image_name')->getRealPath();;
-    Cloudder::upload($image_name, null);
-    list($width, $height) = getimagesize($image_name);
-    $image_url= Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
-    //save to uploads directory
-    $image->move(public_path("uploads"), $name);
-    //Save images
-    $this->saveImages($request, $image_url);
-     return redirect()->back()->with(session()->flash('alert-success', 'Uploaded Successfully Registered'));
+        
+         
+        $file = $request->file('file');
+        // $distributorphoto = 'distributor-'.time().'.'.$extenstion;
+        
+        $uploadedFileUrl = cloudinary()->upload($file->getRealPath())->getSecurePath();
+        
+    // $image = $request->file('file');
+    // $name = $request->file('file')->getClientOriginalName();
+    // $image_name = $request->file('file')->getRealPath();
+    
+    // $uploadedFileUrl= cloudinary()->upload::upload($image_name, null);
+    // Cloudder::upload($image_name, null);
+    // list($width, $height) = getimagesize($image_name);
+    // $image_url= Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
+    // // save to uploads directory
+    // $image->move(public_path("uploads"), $name);
+    // Save images
+    // $uploadedFileUrl = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+    $this->saveImages($request, $uploadedFileUrl);
+
+     return redirect('user/my-project')->with(session()->flash('alert-success', 'Uploaded Successfully.'));
     }
-    public function saveImages(Request $request, $image_url)
+    public function saveImages(Request $request, $uploadedFileUrl)
    {
        $image = new User_upload_images();
-       $image->image_name = $request->file('image_name')->getClientOriginalName();
-       $image->image_url = $image_url;
+       $image->image_name = $request->title;
+       $image->image_url = $uploadedFileUrl;
        $image->title = $request->title;
+       $image->user_id = $request->user_id;
+       $image->project_id = $request->project_id;
+       $image->distributor_id = $request->distributor_id;
        $image->save();
+   }
+   public function viewProjectDetails(Request $request){
+    $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+    $projectid = $request->post('project_id');
+    $flag = false;  
+    if ($projectid !== null) {
+        $flag = true;  
+        $userData = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)->first();
+        $projectData = Project::where('project_id', '=', $projectid)->first();
+        $companyData = Company::where('company_id', '=', $projectData->company_id)->first();
+        $projectCatData = Project_category::where('project_cat_id', '=', $projectData->project_cat)->first();
+
+        $user_project_images = User_upload_images::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                                                ->where('project_id', '=', $projectid)
+                                                ->get();
+        return view('user/projectdetails',$data, compact('userData','flag','projectData','companyData','projectCatData','user_project_images'));
+    }
+    else{
+        return view('user/projectdetails',$data, compact('flag'));
+    }
    }
     public function uploadVideo(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];

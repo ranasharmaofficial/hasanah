@@ -14,6 +14,7 @@ return array(
     'App\\Http\\Controllers\\DistributorController' => $baseDir . '/app/Http/Controllers/DistributorController.php',
     'App\\Http\\Controllers\\ExternalController' => $baseDir . '/app/Http/Controllers/ExternalController.php',
     'App\\Http\\Controllers\\MailController' => $baseDir . '/app/Http/Controllers/MailController.php',
+    'App\\Http\\Controllers\\MediaController' => $baseDir . '/app/Http/Controllers/MediaController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\AdminAuthCheck' => $baseDir . '/app/Http/Middleware/AdminAuthCheck.php',
