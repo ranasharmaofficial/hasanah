@@ -22,6 +22,20 @@
             </div>
         </div>
         <!-- end page title -->
+        <div class="row">
+            <div class="card col-sm-12">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 img_com">
+                            <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
+                        </div>
+                        <div class="col-sm-8">
+                            <h4 class="dist_companyname text-primary">{{$companydata->company_name}}</h4>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @if ($flag)
         <div class="row justify-content-center">
             <div class="col-sm-8">

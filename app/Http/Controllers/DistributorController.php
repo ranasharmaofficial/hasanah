@@ -58,7 +58,7 @@ class DistributorController extends Controller
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedDistributor']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();;
+        $lastLoginTime = User_login_history::where('user_id', $data['LoggedDistributor']->user_id)->orderBy('id', 'desc')->take(1)->first();;
         return view('distributor/home', $data, compact('distributordata','distributordetails','companydata', 'lastLoginTime'));
     }
     public function projectRequest(){

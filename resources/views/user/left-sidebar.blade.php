@@ -23,10 +23,7 @@
                         <li><a href="{{url('user/my-project')}}">My Project</a></li>
                         <li><a href="{{url('user/ongoing-project')}}">Ongoing Project</a></li>
                         <li><a href="{{url('user/completed-project')}}">Completed Project</a></li>
-                        <li><a href="{{url('user/create-project')}}">Create Project</a></li>
-                        <li><a href="{{url('user/project-list')}}">Project List</a></li>
-                        <li><a href="{{url('user/project-category-list')}}">Project Category List</a></li>
-                    </ul>
+                     </ul>
                 </li>
                 <li>
                     <a href="{{url('user/my-project')}}" class="waves-effect">
@@ -39,7 +36,7 @@
                         <i class="ri-file-user-fill"></i>
                         <span>Work List</span>
                     </a>
-                </li> --}}
+                </li> 
                 <li>
                     <a href="{{url('user/work-details')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
@@ -51,7 +48,7 @@
                         <i class="ri-file-user-fill"></i>
                         <span>Applied Project</span>
                     </a>
-                </li>
+                </li>--}}
                 <li>
                     <a href="{{url('distributor/view-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
