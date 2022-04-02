@@ -706,7 +706,7 @@ class AdminController extends Controller
     // Employee Data Upload Start
     public function addEmployeeData(Request $request){
         $request->validate([
-            'name' => 'required|string',
+            'company_id' => 'required|string',
             'name' => 'required|string',
             'qualification' => 'required|string|max:150',
             'experience' => 'required|max:10',
@@ -733,8 +733,10 @@ class AdminController extends Controller
         } else {
             $euserid = date('md').rand(111,999);
         }
-        // $euserid = time().rand(1111,9999);
+        $empid = time().rand(1111,9999);
+        $employeeadd->employee_id = $empid;
         $employeeadd->user_id = $euserid;
+        $employeeadd->company_id = $request->company_id;
         $employeeadd->qualification = $request->qualification;
         $employeeadd->experience = $request->experience;
         $employeeadd->dob = $request->dob;
