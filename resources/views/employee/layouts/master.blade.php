@@ -72,6 +72,9 @@ body[data-sidebar=dark] #sidebar-menu ul li a i {
 body[data-sidebar=dark] #sidebar-menu ul li ul.sub-menu li a {
     color: #fff;
 }
+body[data-sidebar=dark] .menu-title {
+    color: #fff;
+}
 #sidebar-menu ul li a i {
     display: inline-block;
     min-width: 1.5rem;
