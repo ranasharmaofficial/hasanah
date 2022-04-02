@@ -706,7 +706,7 @@ class AdminController extends Controller
     // Employee Data Upload Start
     public function addEmployeeData(Request $request){
         $request->validate([
-            'company_id' => 'required',
+            'name' => 'required|string',
             'name' => 'required|string',
             'qualification' => 'required|string|max:150',
             'experience' => 'required|max:10',
@@ -761,7 +761,6 @@ class AdminController extends Controller
         }
         $employeeadd->voter_id = $voterid;
         $employeeadd->landmark = $request->landmark;
-        $employeeadd->company_id = $request->company_id;
         $employeeadd->city = $request->city;
         $employeeadd->state = $request->state;
         $employeeadd->country = $request->country;

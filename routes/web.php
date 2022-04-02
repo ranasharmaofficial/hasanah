@@ -44,21 +44,7 @@ Route::post('employee/login',[EmployeeController::class,'EmployeeAuthLogin'])->n
 
 Route::group(['middleware'=>['EmployeeAuthCheck']], function(){
     Route::get('employee/home', [EmployeeController::class, 'employeeHome'])->name('employee.home');
-    // Route::get('distributor/user-list',[DistributorController::class,'userList'])->name('distributor.user-list');
-    // Route::get('distributor/create-project',[DistributorController::class,'createProject'])->name('distributor.create-project');
-    // Route::get('distributor/project-list',[DistributorController::class,'projectList'])->name('distributor.project-list');
-    // Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
-    // Route::get('distributor/view-profile', [DistributorController::class,'viewProfile'])->name('distributor.view-profile');
-    // Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
-    
-    // Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
-    // Route::post('getVideoDetails',[DistributorController::class, 'getVideoDetails'])->name('getVideoDetails');
-    // Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
-    // Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
-    // Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');
-    // Route::get('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
-    // Route::post('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
-    // Route::post('giveProjectAccess',[DistributorController::class, 'giveProjectAccess'])->name('giveProjectAccess');
+     Route::get('employee/logout', [EmployeeController::class, 'employeeLogout'])->name('employee/logout');
 });
 // Employee Modules End
 

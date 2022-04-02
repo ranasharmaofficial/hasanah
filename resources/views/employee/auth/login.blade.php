@@ -79,14 +79,6 @@
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Login</button>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-9">
-                                                            <div class="mt-4 text-center">
-                                                                <p>Don't have an account ? <a href="{{url('user/registers')}}" class="fw-medium text-primary"> Register </a> </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
                                                     
                                                 </form>
                                             </div>
@@ -105,7 +97,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
+                                        <h1 class="register_heading">Welcome to <br>Hasanah Educational Trust</h1>
                                     </div>
                                 </div>
                             </div>
