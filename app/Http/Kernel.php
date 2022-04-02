@@ -61,6 +61,8 @@ class Kernel extends HttpKernel
         'AlreadyLoggedUser' => \App\Http\Middleware\AlreadyLoggedUser::class,
         'DistributorAuthCheck' => \App\Http\Middleware\DistributorAuthCheck::class,
         'AlreadyLoggedDistributor' =>\App\Http\Middleware\AlreadyLoggedDistributor::class,
+        'AlreadyLoggedEmployee' => \App\Http\Middleware\AlreadyLoggedEmployee::class,
+        'EmployeeAuthCheck' => \App\Http\Middleware\EmployeeAuthCheck::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,

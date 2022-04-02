@@ -6,6 +6,7 @@ use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,32 @@ Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
 Route::get('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
 Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
+
+// Employee Modules Start
+Route::get('employee/login',[EmployeeController::class,'login'])->name('employee.login')->middleware('AlreadyLoggedEmployee');
+Route::post('employee/login',[EmployeeController::class,'EmployeeAuthLogin'])->name('employee.login')->middleware('AlreadyLoggedEmployee');
+
+Route::group(['middleware'=>['EmployeeAuthCheck']], function(){
+    Route::get('employee/home', [EmployeeController::class, 'employeeHome'])->name('employee.home');
+    // Route::get('distributor/user-list',[DistributorController::class,'userList'])->name('distributor.user-list');
+    // Route::get('distributor/create-project',[DistributorController::class,'createProject'])->name('distributor.create-project');
+    // Route::get('distributor/project-list',[DistributorController::class,'projectList'])->name('distributor.project-list');
+    // Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
+    // Route::get('distributor/view-profile', [DistributorController::class,'viewProfile'])->name('distributor.view-profile');
+    // Route::get('distributor/project-request',[DistributorController::class,'projectRequest'])->name('distributor.project-request');
+    
+    // Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
+    // Route::post('getVideoDetails',[DistributorController::class, 'getVideoDetails'])->name('getVideoDetails');
+    // Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
+    // Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
+    // Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');
+    // Route::get('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
+    // Route::post('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
+    // Route::post('giveProjectAccess',[DistributorController::class, 'giveProjectAccess'])->name('giveProjectAccess');
+});
+// Employee Modules End
+
+
 // Dashboard Modules Start
 Route::get('distributor/login',[DistributorController::class,'login'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');
 Route::post('distributor/login',[DistributorController::class,'distributorAuthLogin'])->name('distributor.login')->middleware('AlreadyLoggedDistributor');

@@ -674,7 +674,8 @@ class AdminController extends Controller
     // Start Employee Code
     public function addEmployee(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        return view('admin/addemployee',$data);
+        $companydata = Company::get();
+        return view('admin/addemployee',$data, compact('companydata'));
     }
     public function employeeList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -705,6 +706,7 @@ class AdminController extends Controller
     // Employee Data Upload Start
     public function addEmployeeData(Request $request){
         $request->validate([
+            'company_id' => 'required',
             'name' => 'required|string',
             'qualification' => 'required|string|max:150',
             'experience' => 'required|max:10',
@@ -759,6 +761,7 @@ class AdminController extends Controller
         }
         $employeeadd->voter_id = $voterid;
         $employeeadd->landmark = $request->landmark;
+        $employeeadd->company_id = $request->company_id;
         $employeeadd->city = $request->city;
         $employeeadd->state = $request->state;
         $employeeadd->country = $request->country;
