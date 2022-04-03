@@ -66,11 +66,12 @@ class DistributorController extends Controller
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
-        $projectrequest = Project_request::where('project_requests.company_id', $distributordetails->company_id)
+        $projectrequest = Project_request::where('project_requests.company_id', $distributordetails->company_id)->where('is_asigned',1)
                                    ->join('project_categories', 'project_categories.project_cat_id', '=', 'project_requests.category')
                                    ->join('users', 'users.user_id', '=', 'project_requests.user_id')
                                    ->select(['project_categories.*', 'project_requests.id as projectRequestId', 'project_requests.beneficiray_name as BeneficiaryName', 'project_requests.beneficiary_mobile as BeneficiaryMobileNumber','project_requests.alt_mobile_number as AltMobile','project_requests.full_address as FullAddress', 'users.*'])
                                    ->paginate(10);
+        // dd($projectrequest); die;
         return view('distributor/projectrequest',$data, compact('distributordata','projectrequest', 'companydata'));
     }
     public function projectRequestDetails(Request $request){
@@ -86,7 +87,7 @@ class DistributorController extends Controller
             $companyData = Company::where('company_id', $project_req_details->company_id)->first();
             $userData = User::where('user_id', $project_req_details->user_id)->first();
             $projectCatData = Project_category::where('project_cat_id', $project_req_details->category)->first();
-            $relatedProject = Project::where('project_cat', $project_req_details->category)
+            $relatedProject = Project::where('project_cat', $project_req_details->category)->where('is_asigned',1)
                                     ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                                     ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
                                     ->select(['companies.*', 'project_categories.*', 'projects.*'])
@@ -157,7 +158,13 @@ class DistributorController extends Controller
             "project_id" => "$request->project_id",
             "user_id" => "$request->user_id"
         ]);
-        if($applyproject){
+        $updateprequest = Project::where('project_id', $request->project_id)->update([
+            "is_asigned" => 2,
+        ]);
+        $updateprequestst = Project_request::where('user_id', $request->user_id)->update([
+            "is_asigned" => 2,
+        ]);
+        if($applyproject && $updateprequest && $updateprequestst){
             return redirect('distributor/project-request')->with(session()->flash('alert-success', 'Project Given to User Successfully!'));
         }else{
             return redirect('distributor/project-request')->with(session()->flash('alert-danger', 'Something Went Wrong. Please Try Again!'));  

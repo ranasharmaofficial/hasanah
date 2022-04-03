@@ -10,14 +10,12 @@
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0">@yield('title')</h4>
-
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item"><a href="{{'distributor/home'}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -73,22 +71,20 @@
                             <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                 <tr class="bg-warning">
-                                    <th>Sl. No.</th>
-                                    <th>Company Name</th>
-                                    <th>Project Category</th>
-                                    <th>Project Name</th>
-                                    <th>Project Number</th>
-                                    <th>Project Type</th>
+                                    <th>Sl.&nbsp;No.</th>
+                                    <th>Company&nbsp;Name</th>
+                                    <th>Project&nbsp;Category</th>
+                                    <th>Project&nbsp;Name</th>
+                                    <th>Project&nbsp;Number</th>
+                                    <th>Project&nbsp;Type</th>
                                     <th>Duration</th>
-                                    <th>Project Amount</th>
-                                    <th>Created At</th>
+                                    <th>Project&nbsp;Amount</th>
+                                    <th>Created&nbsp;At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
-    
-    
                                 <tbody>
-                                    @foreach ($relatedProject as $key => $data)
+                                    @forelse ($relatedProject as $key => $data)
                                     <tr>
                                         <td>{{($relatedProject->currentpage()-1) * $relatedProject->perpage() + $key + 1}}</td>
                                         <td>{{$data->company_name}}</td>
@@ -97,20 +93,22 @@
                                         <td>{{$data->project_number}}</td>
                                         <td>{{$data->project_type}}</td>
                                         <td>{{$data->no_of_days}}</td>
-                                        <td>Rs {{$data->amount}}/-</td>
-                                       
+                                        <td>Rs {{$data->amount}}/-</td>                                       
                                         <td>{{$data->created_at}}</td>
                                         <td>
-                                            <form action="{{route('giveProjectAccess')}}" method="post" enctype="multipart/form-data">
+                                            <form action="{{route('giveProjectAccess')}}" method="post" enctype="multipart/form-data" class="display: inline-block;">
                                                 @csrf
-
                                                 <input type="hidden" name="project_id" value="{{$data->project_id}}">
                                                 <input type="hidden" name="user_id" value="{{$userData->user_id}}">
-                                                <button class="btn btn-success btn-sm">Assign</button>
+                                                <button class="btn btn-success"><i class="fa fa-american-sign-language-interpreting" aria-hidden="true"></i>&nbsp;Assign</button>
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center text-danger">Project Not Available</td>
+                                        </tr>
+                                    @endforelse
                                     <tr>
                                         <td colspan="7">
                                             <nav aria-label="...">

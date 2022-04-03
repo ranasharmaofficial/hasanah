@@ -65,7 +65,7 @@ class UserController extends Controller
     }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
-        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        // $companydata = Company::where('company_id',$contractdata->company_id)->first();
         $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         $worklist = Project::join('companies', 'companies.company_id', '=', 'projects.company_id')
                             ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
@@ -129,7 +129,7 @@ class UserController extends Controller
                         ->join('projects', 'projects.project_id', '=', 'user_projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                         ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
-                        ->select(['projects.*','user_projects.*', 'project_categories.*', 'companies.*'])
+                        ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*'])
                         ->paginate(10);
                         // dd($userProjects);
                         // die;
@@ -210,7 +210,6 @@ class UserController extends Controller
         $projectData = Project::where('project_id', '=', $projectid)->first();
         $companyData = Company::where('company_id', '=', $projectData->company_id)->first();
         $projectCatData = Project_category::where('project_cat_id', '=', $projectData->project_cat)->first();
-
         $user_project_images = User_upload_images::where('user_id', '=', $data['LoggedContractInfo']->user_id)
                                                 ->where('project_id', '=', $projectid)
                                                 ->get();

@@ -103,8 +103,8 @@
                                         <small class="form-text text-danger">@error('prjecttype') Category type is required. @enderror</small>
                                     </div>  
                                     <div class="col-sm-4">
-                                        <label for="noDays" class="col-form-label">Enter No.of Days <star>*</star></label>
-                                        <input type="number" class="form-control" id="noDays" name="no_of_days" required>
+                                        <label for="noDays" class="col-form-label">Select Project End Date <star>*</star></label>
+                                        <input type="date" class="form-control" id="noDays" name="no_of_days" required>
                                         <small class="form-text text-danger">@error('no_of_days') No of days is required. @enderror</small>
                                     </div> 
                                     {{-- <div class="col-sm-4">

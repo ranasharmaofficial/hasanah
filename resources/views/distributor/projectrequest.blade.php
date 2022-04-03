@@ -45,25 +45,25 @@
                         <h4 class="card-title">@yield('title')</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
+                                <thead class="table-dark">
                                 <tr>
-                                    <th>Sl. No.</th>
-                                    <th>User Name</th>
-                                    <th>Project Category</th>
-                                    <th>Beneficiary Name</th>
-                                    <th>Beneficiary Mobile</th>
-                                    <th>Alt Mobile</th>
-                                    <th>Full Address</th>
+                                    <th>Sl.&nbsp;No.</th>
+                                    <th>User&nbsp;Name</th>
+                                    <th>Project&nbsp;Category</th>
+                                    <th>Beneficiary&nbsp;Name</th>
+                                    <th>Beneficiary&nbsp;Mobile</th>
+                                    <th>Alt&nbsp;Mobile</th>
+                                    <th>Full&nbsp;Address</th>
                                     <th>Picture</th>
                                     <th>Video</th>
-                                     <th>Created At</th>
+                                     <th>Created&nbsp;At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
     
     
                                 <tbody>
-                                    @foreach ($projectrequest as $key => $data)
+                                    @forelse ($projectrequest as $key => $data)
                                     <tr>
                                         <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
                                         <td>{{$data->name}}</td>
@@ -83,7 +83,11 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="11" class="text-danger text-center">Data Not Available</td>
+                                        </tr>
+                                    @endforelse
                                     <tr>
                                         <td colspan="7">
                                             <nav aria-label="...">

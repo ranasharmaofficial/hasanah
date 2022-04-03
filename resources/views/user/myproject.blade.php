@@ -55,7 +55,7 @@
                        
                         <div class="table-responsive">
                             <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
+                                <thead class="table-dark">
                                 <tr>
                                     <th>Sl.No.</th>
                                     <th>Company</th>
@@ -64,12 +64,18 @@
                                     <th>Project&nbsp;Number</th>
                                     <th>Project&nbsp;Status</th>
                                     <th>Project&nbsp;Amount</th>
-                                    <th>Days&nbsp;to&nbsp;Go</th>
+                                    <th>Date&nbsp;From</th>
+                                    <th>Days&nbsp;to&nbsp;Left</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($userProjects as $key => $data)
+                                @forelse ($userProjects as $key => $data)
+                                @php
+                                    $ldate = date('Y-m-d');
+                                    $datedays = strtotime($data->no_of_days)-strtotime($ldate);
+                                    $datediff = (round($datedays / 86400));
+                                @endphp
                                 <tr>
                                     <td>{{($userProjects->currentpage()-1) * $userProjects->perpage() + $key + 1}}</td>
                                     <td>{{$data->company_name}}</td>
@@ -78,8 +84,8 @@
                                     <td>{{$data->project_number}}</td>
                                     <td>Ongoing</td>
                                     <td>Rs&nbsp;{{$data->project_amount}}</td>
-                                    <td>{{$data->no_of_days}}</td>
-                                    
+                                    <td>{{$data->created_at->format('Y-m-d')}}</td>
+                                    <td class="text-danger">{{$datediff}}</td>
                                     <td>
                                         <form method="post" enctype="multipart/form-data" action="{{route('user/upload-image')}}">
                                             @csrf
@@ -96,7 +102,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center text-danger">Project Not Available</td>
+                                    </tr>
+                                @endforelse
                                 <tr>
                                     <td colspan="7">
                                         <nav aria-label="...">
