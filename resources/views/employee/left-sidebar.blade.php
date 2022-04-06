@@ -20,17 +20,16 @@
                         <span>Project</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('user/my-project')}}">My Project</a></li>
-                        <li><a href="{{url('user/ongoing-project')}}">Ongoing Project</a></li>
-                        <li><a href="{{url('user/completed-project')}}">Completed Project</a></li>
+                        <li><a href="{{url('employee/ongoing-project')}}">Ongoing Project</a></li>
+                        {{-- <li><a href="{{url('user/completed-project')}}">Completed Project</a></li> --}}
                      </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{url('user/my-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>My Project</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li>
                     <a href="{{url('user/work-list')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>

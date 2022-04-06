@@ -59,14 +59,26 @@ class UserController extends Controller
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        }        
         // $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         return view('user/home', $data, compact('contractdata', 'userprojectcategory','companydata','lastLoginTime'));
     }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         // $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         $worklist = Project::join('companies', 'companies.company_id', '=', 'projects.company_id')
                             ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
         ->select(['companies.*', 'projects.*', 'project_categories.*'])
@@ -124,7 +136,13 @@ class UserController extends Controller
         $contractorData = User::where('id', '=', session('LoggedContractorUser'))->first();
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         $userProjects = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)
                         ->join('projects', 'projects.project_id', '=', 'user_projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
@@ -139,7 +157,13 @@ class UserController extends Controller
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         $userid = $request->post('user_id');
         $flag = false;  
         if ($userid !== null) {
@@ -201,7 +225,13 @@ class UserController extends Controller
     $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
     $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
     $companydata = Company::where('company_id',$contractdata->company_id)->first();
-    $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+    $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
     $projectid = $request->post('project_id');
     $flag = false;  
     if ($projectid !== null) {
@@ -223,14 +253,26 @@ class UserController extends Controller
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         return view('user/uploadvideo',$data, compact('companydata','lastLoginTime'));
     }
     public function viewProfile(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         $userData = User::where('id', '=', session('LoggedContractUser'))->first();
         $contractorData = Contractor::where('user_id', '=', $userData->user_id)->first();
         return view('user/viewprofile',$data, compact('userData', 'contractorData','companydata','lastLoginTime'));
@@ -241,14 +283,26 @@ class UserController extends Controller
         $contractorData = Contractor::where('user_id', '=', $userData->user_id)->first();
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         return view('user/updateprofile',$data, compact('userData', 'contractorData','companydata','lastLoginTime'));
     }
     public function changePassword(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
-        $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
         return view('user/changepassword',$data, compact('contractdata','companydata','lastLoginTime'));
     }
     public function registerUser(Request $request){

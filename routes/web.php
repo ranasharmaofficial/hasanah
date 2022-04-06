@@ -44,7 +44,9 @@ Route::post('employee/login',[EmployeeController::class,'EmployeeAuthLogin'])->n
 
 Route::group(['middleware'=>['EmployeeAuthCheck']], function(){
     Route::get('employee/home', [EmployeeController::class, 'employeeHome'])->name('employee.home');
-     Route::get('employee/logout', [EmployeeController::class, 'employeeLogout'])->name('employee/logout');
+    Route::get('employee/logout', [EmployeeController::class, 'employeeLogout'])->name('employee/logout');
+    Route::get('employee/ongoing-project', [EmployeeController::class, 'onGoingProject'])->name('employee/ongoing-project');
+    Route::post('employee/view-project-details', [EmployeeController::class, 'viewProjectDetailsOn'])->name('employee/view-project-details');
 });
 // Employee Modules End
 
