@@ -30,6 +30,9 @@ Route::get('course-details/{courseslug}', [ExternalController::class, 'courseSin
 Route::view('events', 'events');
 Route::view('gallery', 'gallery');
 Route::view('contact', 'contact');
+Route::view('register', 'register');
+Route::view('verification', 'verification');
+Route::view('login', 'login');
 Route::view('blog', 'blog');
 Route::view('teacher', 'teacher');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');

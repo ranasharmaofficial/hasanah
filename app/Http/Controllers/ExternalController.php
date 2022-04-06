@@ -11,7 +11,15 @@ use App\Models\Gallery;
 
 class ExternalController extends Controller
 {
-    
+    public function register(){
+        return view('register');
+    }
+    public function verification(){
+        return view('verification');
+    }
+    public function login(){
+        return view('login');
+    }
     public function course(){
         $courses = Course::get();
         return view('course', compact('courses'));
