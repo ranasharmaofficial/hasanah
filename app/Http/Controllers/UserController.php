@@ -170,6 +170,8 @@ class UserController extends Controller
             $flag = true;  
             $userData = User_project::where('user_id', '=', $userid)->first();
             $projectData = Project::where('project_id', '=', $userData->project_id)->first();
+            // dd($projectData);
+            // die;
             $companyData = Company::where('company_id', '=', $projectData->company_id)->first();
             $projectCatData = Project_category::where('project_cat_id', '=', $projectData->project_cat)->first();
             return view('user/uploadimage',$data, compact('userData','flag','projectData','companyData','projectCatData','companydata','lastLoginTime'));

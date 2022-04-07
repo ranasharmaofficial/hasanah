@@ -7,6 +7,7 @@ use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +41,10 @@ Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
 Route::get('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
 Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
+
+//Student Modules Start
+Route::get('student/home', [StudentController::class, 'studentHome'])->name('student.home');
+//Student Modules End
 
 // Employee Modules Start
 Route::get('employee/login',[EmployeeController::class,'login'])->name('employee.login')->middleware('AlreadyLoggedEmployee');

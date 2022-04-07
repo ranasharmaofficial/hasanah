@@ -26,7 +26,7 @@
                 id="vertical-menu-btn">
                 <i class="ri-menu-2-line align-middle"></i>
             </button>
-            <h5 class="text-primary font-weight-bold" style="margin-top:25px;">{{$companydata->company_name}}</h5>
+            {{-- <h5 class="text-primary font-weight-bold" style="margin-top:25px;">{{$companydata->company_name}}</h5> --}}
         </div>
 
         <div class="d-flex">
