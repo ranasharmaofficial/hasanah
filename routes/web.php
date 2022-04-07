@@ -43,6 +43,8 @@ Route::get('mediupload',[MediaController::class, 'uploadMedia'])->name('mediuplo
 Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
 
 //Student Modules Start
+Route::post('studentRegister', [StudentController::class, 'studentRegister'])->name('studentRegister');
+Route::post('getotp', [StudentController::class, 'studentGetOTP'])->name('getotp');
 Route::get('student/home', [StudentController::class, 'studentHome'])->name('student.home');
 //Student Modules End
 
