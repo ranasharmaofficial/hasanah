@@ -45,7 +45,8 @@ class EmployeeController extends Controller
         }
         
         
-    }    
+    }
+        
     public function employeeLogout(){
         if (session()->has('LoggedEmployee')) {
             session()->pull('LoggedEmployee');

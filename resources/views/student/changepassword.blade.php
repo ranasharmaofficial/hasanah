@@ -1,4 +1,4 @@
-@extends('employee.layouts.master')
+@extends('student.layouts.master')
 @section('title', 'Change Password')
 @section('content')
 

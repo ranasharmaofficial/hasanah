@@ -22,10 +22,10 @@
     <script type="text/JavaScript" src='{{asset('assets_admin/images/search/state.js')}}'></script>
 <style>
     .userbackcolor{
-        background-color:#13A490!important;
+        background-color:#A4139D!important;
     }
     .usernavbar{
-        background-color:#13A490!important;
+        background-color:#A4139D!important;
     }
     body{
         background-color:#E8F8F5;
@@ -95,14 +95,14 @@ body[data-sidebar=dark] .menu-title {
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @include('employee.header')
-        @include('employee.left-sidebar')
+        @include('student.header')
+        @include('student.left-sidebar')
 
         
         <div class="main-content" id="result">
             @yield('content')
         </div>
-        @include('employee.footer')
+        @include('student.footer')
         <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->

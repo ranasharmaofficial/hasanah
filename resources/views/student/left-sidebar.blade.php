@@ -7,11 +7,17 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Employee Menu</li>
-                 <li>
-                    <a href="{{url('employee/home')}}" class="waves-effect">
+                <li class="menu-title">Student Menu</li>
+                <li>
+                    <a href="{{url('student/home')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('student/applyforexam')}}" class="waves-effect">
+                        <i class="ri-edit-2-fill"></i>
+                        <span>Apply for Entrance Exam</span>
                     </a>
                 </li>
                 <li>
@@ -47,27 +53,27 @@
                         <i class="ri-file-user-fill"></i>
                         <span>Applied Project</span>
                     </a>
-                </li>--}}
+                </li>
                 <li>
                     <a href="{{url('distributor/view-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>View Project</span>
                     </a>
-                </li>
+                </li>--}}
                 <li>
-                    <a href="{{url('user/view-profile')}}" class="waves-effect">
+                    <a href="{{url('student/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>View Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('user/update-profile')}}" class="waves-effect">
+                    <a href="{{url('student/update-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Update Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('user/change-password')}}" class="waves-effect">
+                    <a href="{{url('student/change-password')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Change Password</span>
                     </a>

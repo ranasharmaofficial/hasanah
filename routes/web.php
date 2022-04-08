@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SchoolAdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,7 @@ Route::view('verification', 'verification');
 Route::view('login', 'login');
 Route::view('blog', 'blog');
 Route::view('teacher', 'teacher');
+Route::get('login', [ExternalController::class, 'login'])->name('login');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');
 Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
@@ -45,8 +47,25 @@ Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupl
 //Student Modules Start
 Route::post('studentRegister', [StudentController::class, 'studentRegister'])->name('studentRegister');
 Route::post('getotp', [StudentController::class, 'studentGetOTP'])->name('getotp');
-Route::get('student/home', [StudentController::class, 'studentHome'])->name('student.home');
+Route::post('studentLogin', [StudentController::class, 'studentLogin'])->name('studentLogin');
+Route::get('student/logout', [StudentController::class, 'studentLogout'])->name('student/logout');
+Route::group(['middleware'=>['StudentAuthCheck']], function(){
+    Route::get('student/home', [StudentController::class, 'studentHome'])->name('student.home');
+    Route::get('student/applyforexam', [StudentController::class, 'applyforexam'])->name('student.applyforexam');
+});
+
 //Student Modules End
+
+//School Admin Modules Start
+Route::get('schooladmin/login', [SchoolAdminController::class, 'login'])->name('schooladmin/login');
+Route::get('schooladmin/logout', [SchoolAdminController::class, 'schoolAdminLogout'])->name('schooladmin/logout');
+Route::post('schooladminLogin', [SchoolAdminController::class, 'schooladminLogin'])->name('schooladminLogin');
+
+Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
+    Route::get('schooladmin/home', [SchoolAdminController::class, 'schoolAdminHome'])->name('schooladmin/home');
+});
+
+//School Admin Modules End
 
 // Employee Modules Start
 Route::get('employee/login',[EmployeeController::class,'login'])->name('employee.login')->middleware('AlreadyLoggedEmployee');

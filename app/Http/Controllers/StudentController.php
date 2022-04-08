@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
     public function studentHome(){
-        return view('student/home');
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        return view('student/home', $data);
     }
-    
+    public function applyforexam(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        return view('student/applyforexam', $data);
+    }
+
     public function studentGetOTP(Request $request){
         $request->validate([
             'mobile' => 'required|unique:students,mobile',
@@ -71,5 +76,33 @@ class StudentController extends Controller
                 return redirect()->back()->with(session()->flash('alert-warning', 'Password and Confirm Password not matched.'));
             }}
         return redirect()->back()->with(session()->flash('alert-danger', 'That is not the OTP that we have sent. Please check and try again.'));
+    }
+
+    public function studentLogin(Request $request){
+        $request->validate([
+            'username'=>'required',
+            'password'=>'required',
+        ]);
+        
+        
+        $studentInfo = Student::where('student_id','=',$request->username)->where('status', '1')->first();
+        if (!$studentInfo) {
+            return redirect()->route('login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
+        } else if ($studentInfo->status == '0') {
+            return redirect()->route('login')->with(session()->flash('alert-danger', 'Your account is blocked.'));
+        } else if ($request->password === $studentInfo->password) {
+            $request->session()->put('LoggedStudent', $studentInfo->id);
+            return redirect('student/home');
+        } else {
+            return redirect()->route('login')->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
+        }
+        
+        
+    }
+    public function studentLogout(){
+        if (session()->has('LoggedStudent')) {
+            session()->pull('LoggedStudent');
+            return redirect('login')->with(session()->flash('alert-success', 'You are successfully Logged out'));
+        }
     }
 }

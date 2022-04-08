@@ -15,8 +15,8 @@
                 </div>
                 <div class="col-md-4 d-none d-md-block">
                     <ul class="right-info">
-                        <li><a href="#">Register</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{{url('register')}}">Register</a></li>
+                        <li><a href="{{url('login')}}">Login</a></li>
                     </ul>
                 </div>
             </div>

@@ -2,8 +2,8 @@
     <div class="navbar-header">
         <div class="d-flex">
             <!-- LOGO -->
-            <div class="navbar-brand-box usernavbar">
-                <a href="{{url('student/home')}}" class="logo logo-dark">
+            <div class="navbar-brand-box">
+                <a href="{{url('admin/home')}}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{asset('assets_admin/images/logo.png')}}" alt="logo-sm-dark" style="max-height:52;">
                     </span>
@@ -12,12 +12,12 @@
                     </span>
                 </a>
 
-                <a href="{{url('student/home')}}" class="logo logo-light">
-                    <span class="logo-sm text-white font-weight-bold">
-                        HET
+                <a href="{{url('admin/home')}}" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{{asset('assets_admin/images/logo-sm-light.png')}}" alt="logo-sm-light" height="22">
                     </span>
-                    <span class="logo-lg text-white font-weight-bold">
-                        Hasanah Educational Trust
+                    <span class="logo-lg">
+                        <img src="{{asset('assets_admin/images/logo-light.png')}}" alt="logo-light" height="20">
                     </span>
                 </a>
             </div>
@@ -26,7 +26,6 @@
                 id="vertical-menu-btn">
                 <i class="ri-menu-2-line align-middle"></i>
             </button>
-            {{-- <h5 class="text-primary font-weight-bold" style="margin-top:25px;">{{$companydata->company_name}}</h5> --}}
         </div>
 
         <div class="d-flex">
@@ -61,7 +60,6 @@
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="ri-fullscreen-line"></i>
                 </button>
-                
             </div>
 
             
@@ -71,14 +69,14 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{asset('assets_admin/images/users/avatar-2.jpg')}}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">{{ $LoggedStudentInfo['name'] }}</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{ $LoggedUserInfo['name'] }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i>Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="{{url('student/logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                    <a class="dropdown-item text-danger" href="{{url('admin/logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>
             </div>
 

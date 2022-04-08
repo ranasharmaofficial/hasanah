@@ -1,5 +1,5 @@
-@extends('student.layouts.master')
-@section('title','Student Dashboard')
+@extends('schooladmin.layouts.master')
+@section('title','Home')
 
 @section('content')
 <!-- jquery.vectormap css -->
@@ -14,14 +14,14 @@
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
-                <div  style="float:right;" class="page-title-box d-flex align-items-center justify-content-between">
-                    <div class="page-title align-items-right text-center">
-                        <h4 class="text-center"><span class="text-primary"> STUDENT PANEL</span></h4>
-                        {{-- <h4 class="">Last Login at :<span class="text-primary"> {{$lastLoginTime->created_at}}</span></h4>
-                        <h4 class="mt-1">Name : <span class="text-primary"> {{ $employeedata['name'] }}</span</h4>
-                        <h4 class="mt-1">User Id :<span class="text-primary">  {{ $employeedata['user_id'] }}</span</h4> --}}
-                    </div>
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Dashboard</h4>
 
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
 
                 </div>
             </div>
@@ -29,68 +29,98 @@
         <!-- end page title -->
         <div class="row">
             <div class="col-xl-12">
-                
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="flash-message">
-                            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                                @if (Session::has('alert-' . $msg))
-                                    <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
-                                        {{ Session::get('alert-' . $msg) }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total Company</p>
+                                        <h4 class="mb-0">{{$totalcompany}}</h4>
                                     </div>
-                                @endif
-                            @endforeach
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <div class="flex-1 overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">My Project</p>
-                                                  <h4 class="mb-0">00</h4>  
-                                            </div>
-                                            <div class="text-primary ms-auto">
-                                                <i class="ri-stack-line font-size-24"></i>
-                                            </div>
-                                        </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
                                     </div>
                                 </div>
-                            </div><!--End column--->
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <div class="flex-1 overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Requested Project</p>
-                                                  <h4 class="mb-0">00</h4>  
-                                            </div>
-                                            <div class="text-primary ms-auto">
-                                                <i class="ri-stack-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--End column--->
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <div class="flex-1 overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Total Earned</p>
-                                                  <h4 class="mb-0">00</h4>  
-                                            </div>
-                                            <div class="text-primary ms-auto">
-                                                <i class="ri-stack-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--End column--->
+                            </div>
                         </div>
                     </div><!--End column--->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total Distributor</p>
+                                        <h4 class="mb-0">{{$distributor}}</h4>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--End column--->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total Employee</p>
+                                        <h4 class="mb-0">{{$totalemployee}}</h4>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--End column--->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total User</p>
+                                        <h4 class="mb-0">{{$totaluser}}</h4>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--End column--->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total Project</p>
+                                        <h4 class="mb-0">{{$totalproject}}</h4>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--End column--->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate font-size-14 mb-2">Total Project Category</p>
+                                        <h4 class="mb-0">{{$totalprojectcategory}}</h4>
+                                    </div>
+                                    <div class="text-primary ms-auto">
+                                        <i class="ri-stack-line font-size-24"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--End column--->
+                    
                 </div>
                 <!-- end row -->
 
