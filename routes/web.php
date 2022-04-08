@@ -56,6 +56,8 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::get('student/update-profile', [StudentController::class, 'updateProfile'])->name('student.update-profile');
     Route::get('student/change-password', [StudentController::class, 'changePassword'])->name('student.change-password');
     Route::post('getClassAmount', [StudentController::class, 'getClassAmount'])->name('getClassAmount');
+    Route::post('student/entranceExam', [StudentController::class, 'studentEntranceExam'])->name('student.entranceExam');
+    Route::get('student/entrance-exam-preview/{tokenno}', [StudentController::class, 'studentEntranceExamPreview'])->name('student.entrance-exam-preview/{tokenno}');
 });
 //Student Modules End
 

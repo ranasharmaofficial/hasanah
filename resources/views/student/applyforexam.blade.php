@@ -3,14 +3,12 @@
 @section('content')
 
     <div class="page-content">
-        <div class="container-fluid">
-
-            
+        <div class="container-fluid">            
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            @yield('title')
+                        <div class="card-header bg-primary">
+                            <h3 class="card-title text-white">@yield('title')</h3>
                         </div>
                         <div class="card-body">
 							<div class="flash-message">
@@ -23,9 +21,10 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <form action="" method="POST" class="row">
+                            <form action="{{route('student.entranceExam')}}" method="POST" class="row">
                                 @csrf
                                 <div class="row">
+                                    <h5 class="text-primary">Personal Details</h5><hr>
                                     <div class="col-sm-4">
                                         <label for="Class" class="col-form-label">Select Class <star>*</star></label>
                                         <select class="form-select" required type="text" name="class_id" id="class_id">
@@ -34,7 +33,7 @@
                                                 <option value="{{$citem->id}}">{{$citem->class_name}}</option>                                            
                                             @endforeach
                                         </select>
-                                        <small class="form-text text-danger">@error('company_id') Project category name is required. @enderror</small>
+                                        <small class="form-text text-danger">@error('class_id') Class is required. @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="name" class="col-form-label">Name <star>*</star></label>
@@ -52,6 +51,29 @@
                                         <small class="form-text text-danger">@error('email') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
+                                        <label for="country" class="col-form-label">Select Country <star>*</star></label>
+                                        <select name="country" id="country" class="form-select" required>
+                                            <option value="India">India</option>
+                                        </select>
+                                        <small class="form-text text-danger">@error('country') {{ $message }} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="listBox" class="col-form-label">State <star>*</star></label>
+                                        <select class="form-select" required name="state" id="listBox" onchange='selct_district(this.value)'></select>
+                                        <small class="form-text text-danger">@error('state') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="secondlist" class="col-form-label">City <star>*</star></label>
+                                        <select class="form-select" required name="city" id='secondlist'></select>
+                                        <small class="form-text text-danger">@error('city') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="pincode" class="col-form-label">Pin Code <star>*</star></label>
+                                        <input class="form-control" required type="tel" name="pincode" value="{{old('pincode')}}" placeholder="Enter Pin code" id="pincode">
+                                        <small class="form-text text-danger">@error('pincode') {{$message}} @enderror</small>
+                                    </div>
+                                    <h5 class="text-primary mt-3">Upload Documents</h5><hr>
+                                    <div class="col-sm-4">
                                         <label for="Aadhar" class="col-form-label">Aadhar Card. <star>*</star></label>
                                         <input type="file" class="form-control" placeholder="Aadhar Card" value="" name="aadhar_card" id="Aadhar" required>
                                         <small class="form-text text-danger">@error('aadhar_card') {{ $message }} @enderror</small>
@@ -66,20 +88,15 @@
                                         <input type="file" class="form-control" placeholder="Last Year Exam Marksheet" value="" name="last_year_marksheet" id="Marksheet" required>
                                         <small class="form-text text-danger">@error('last_year_marksheet') {{ $message }} @enderror</small>
                                     </div>
+                                    <h5 class="text-primary mt-3">Payment Details</h5><hr>
                                     <div class="col-sm-4">
-                                        <label for="regAmount" class="col-form-label">Registration Amount <star>*</star></label>
-                                        <input type="text" class="form-control" placeholder="Registration Amount" value="" name="last_year_marksheet" id="regAmount" required>
-                                        <small class="form-text text-danger">@error('last_year_marksheet') {{ $message }} @enderror</small>
+                                        <label for="regAmount" class="col-form-label">Registration Fee <star>*</star></label>
+                                        <input type="text" class="form-control" placeholder="Registration Amount" value="" readonly name="registration_fee" id="regAmount" required>
+                                        <small class="form-text text-danger">@error('registration_fee') {{ $message }} @enderror</small>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <label for="address" class="col-form-label">Full Address <star>*</star></label>
-                                        <textarea type="text" class="form-control" placeholder="Enter Your Full Address" value="" name="full_address" id="address" required></textarea>
-                                        <small class="form-text text-danger">@error('full_address') {{ $message }} @enderror</small>
-                                    </div>
-                                    <div class="col-sm-12 mt-4">
-                                        <button type="submit" name="apply" class="btn btn-sm btn-primary">Apply</button>
-                                    </div>
-                                   
+                                    <div class="col-sm-12 mt-4 text-center">
+                                        <button type="submit" name="apply" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Process Now</button>
+                                    </div>                                   
                                 </div>
                                    
                             </form>

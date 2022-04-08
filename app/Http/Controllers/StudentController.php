@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\A_class;
+use App\Models\Entrance_exam_process;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -135,4 +136,53 @@ class StudentController extends Controller
         return $getamount;
     }
     //Get Class Amount End
+
+    //Entrance Exam Form Process Start
+    public function studentEntranceExam(Request $request){
+        $request->validate([
+            'class_id' => 'required',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'mobile' => 'required|min:10|max:10',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'pincode' => 'required',
+            'aadhar_card' => 'required',
+            'father_aadhar_card' => 'required',
+            'last_year_marksheet' => 'required',
+            'registration_fee' => 'required',
+        ]);
+        $tokenno = time().rand(1111,9999);
+        $entrancepost = Entrance_exam_process::create([
+            "token_no" => "$tokenno",
+            "class_id" => "$request->class_id",
+            "name" => "$request->name",
+            "email" => "$request->email",
+            "mobile" => "$request->mobile",
+            "country" => "$request->country",
+            "state" => "$request->state",
+            "city" => "$request->city",
+            "pincode" => "$request->pincode",
+            "aadhar_card" => "$request->aadhar_card",
+            "father_aadhar_card" => "$request->father_aadhar_card",
+            "last_year_exam_marksheet" => "$request->last_year_marksheet",
+            "registration_fee" => "$request->registration_fee",
+            "status" => 1,
+        ]);
+
+        if ($entrancepost) {
+            return redirect()->route('student.entrance-exam-preview'.'/'.$tokenno)->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+    //Entrance Exam Form Process End
+
+    //Entrance Exam Form Preview Start
+    public function studentEntranceExamPreview($tokenno){
+        $getdetails = Entrance_exam_process::where('token_no',$tokenno)->first();
+        dd($getdetails); die;
+        return view('student/entrance-exam-preview', compact('getdetails'));
+    }
+    //Entrance Exam Form Preview End
 }
