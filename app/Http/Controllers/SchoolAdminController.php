@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\School_admin;
+use App\Models\Student;
+use App\Models\A_class;
 use Illuminate\Http\Request;
 
 class SchoolAdminController extends Controller
@@ -38,4 +40,35 @@ class SchoolAdminController extends Controller
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
         return view('schooladmin/home', $data);
     }
+    public function studentList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $studentlist = Student::paginate(10);
+        return view('schooladmin/studentlist', $data, compact('studentlist'));
+    }
+    public function addClass(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        return view('schooladmin/addclass', $data);
+    }
+    public function classList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $classlist = A_class::paginate(10);
+        return view('schooladmin/classlist',$data, compact('classlist'));
+    }
+    public function uploadClass(Request $request){
+        $request->validate([
+            'classname' => 'required',
+            'classamount' => 'required',
+        ]);
+        $classdetails = new A_class;
+        $classdetails->class_name = $request->classname;
+        $classdetails->amount = $request->classamount;
+        $classdetails-> save();
+        if($classdetails){
+            return redirect()->back()->with(session()->flash('alert-success', 'Class Added Successfully!'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+
+    }
+   
 }

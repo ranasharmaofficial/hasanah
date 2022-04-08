@@ -1,5 +1,5 @@
-@extends('admin.layouts.master')
-@section('title','Add Course')
+@extends('schooladmin.layouts.master')
+@section('title','Add Class')
 @section('content')
     
 <div class="page-content">
@@ -13,7 +13,7 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="{{url('admin/home')}}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('schooladmin/home')}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
@@ -39,30 +39,21 @@
                                         @endif
                                     @endforeach
                                 </div> 
-                                <form action="{{route('uploadCourseDetails')}}" method="post" class="row" enctype="multipart/form-data">
+                                <form action="{{route('uploadClass')}}" method="post" class="row" enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-sm-6">
-                                        <label for="CourseName" class="col-form-label">Course Name <star>*</star></label>
-                                        <input class="form-control" type="text" name="coursename" required placeholder="Course Name" id="CourseName" value="{{old('coursename')}}">
-                                        <small class="text-danger form-text">@error('coursename') {{$message}} @enderror</small>
+                                        <label for="className" class="col-form-label">Class Name <star>*</star></label>
+                                        <input class="form-control" type="text" name="classname" required placeholder="Class Name" id="className" value="{{old('coursename')}}">
+                                        <small class="text-danger form-text">@error('classname') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="CourseTitle" class="col-form-label">Course Title <star>*</star></label>
-                                        <input class="form-control" type="text" name="coursetitle" required placeholder="Course Title" id="CourseTitle" value="{{old('coursetitle')}}">
-                                        <small class="text-danger form-text">@error('coursetitle') {{$message}} @enderror</small>
+                                        <label for="ClassAmount" class="col-form-label">Amount <star>*</star></label>
+                                        <input class="form-control" type="text" name="classamount" required placeholder="Class Amount" id="ClassAmount" value="{{old('coursetitle')}}">
+                                        <small class="text-danger form-text">@error('classamount') {{$message}} @enderror</small>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <label for="coursedetails" class="col-form-label">Course Details <star>*</star></label>
-                                        <textarea id="elm1" name="coursedetails">{{old('coursedetails')}}</textarea>
-                                        <small class="text-danger form-text">@error('coursedetails') {{$message}} @enderror</small>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label class="col-form-label">Course Picture <star>*</star></label>
-                                        <input type="file" name="courseimage" class="form-control" required>
-                                        <small class="text-danger form-text">@error('courseimage') {{$message}} @enderror</small>
-                                    </div>
+                                    
                                     <div class="col-sm-12 mt-3 text-center">
-                                        <button name="add_course" type="submit" class="btn btn-info">Submit Course Details</button>
+                                        <button name="add_class" type="submit" class="btn btn-primary btn-sm">Submit Class Details</button>
                                     </div>
                                 </form>
                             </div>                                

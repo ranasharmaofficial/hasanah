@@ -1,5 +1,5 @@
-@extends('admin.layouts.master')
-@section('title','Supervisor List')
+@extends('schooladmin.layouts.master')
+@section('title','Student List')
 @section('content')
 <style>
 table.border-modal{
@@ -27,7 +27,7 @@ table.border-modal > tbody > tr > td{
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="{{url('admin/home')}}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('schooladmin/home')}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
@@ -52,31 +52,33 @@ table.border-modal > tbody > tr > td{
                     </div> 
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Supervisor: <b>{{$userdatas->total();}}</b>, Page No: <b>{{$userdatas->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Students: <b>{{$studentlist->total();}}</b>, Page No: <b>{{$studentlist->currentPage();}}</b></p>
                     </div>
                     <div class="card-body table-responsive">                        
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
                                 <th>Sl. No.</th>
-                                <th>User ID</th>
+                                <th>Student ID</th>
+                                <th>Password</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
                                 <th>Created At</th>
-                                <th class="text-center">Action</th>
+                                {{-- <th class="text-center">Action</th> --}}
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($userdatas as $key => $data)
+                            @foreach ($studentlist as $key => $data)
                             <tr>
-                                <td>{{($userdatas->currentpage()-1) * $userdatas->perpage() + $key + 1}}</td>
-                                <td>{{$data->user_id}}</td>
+                                <td>{{($studentlist->currentpage()-1) * $studentlist->perpage() + $key + 1}}</td>
+                                <td>{{$data->student_id}}</td>
+                                <td>{{$data->password}}</td>
                                 <td>{{$data->name}}</td>
                                 <td>{{$data->mobile}}</td>
                                 <td>{{$data->email}}</td>
                                 <td>{{$data->created_at->format('d-m-Y')}}</td>
-                                <td class="text-center">
+                                {{-- <td class="text-center">
                                     @if ($data->status == 0)
                                     <form action="{{route('unBlockUserContract')}}" method="POST" class="d-inline">
                                         @csrf
@@ -91,14 +93,14 @@ table.border-modal > tbody > tr > td{
                                     </form>
                                     @endif
                                     <button type="button" class="btn btn-info d-inline" title="View Details" onclick="showDetails(this)" id="{{$data->user_id}}"><i class="fa fa-eye"></i></button>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                             <tr>
                                 <td colspan="7">
                                     <nav aria-label="...">
                                         <ul class="pagination justify-content-end mb-0">
-                                            {{$userdatas->links();}}
+                                            {{$studentlist->links();}}
                                         </ul>
                                     </nav>
                                 </td>

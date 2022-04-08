@@ -4,30 +4,12 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
-            <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4 img_com">
-                                <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
-                            </div>
-                            <div class="col-sm-8">
-                                <h4 class="dist_companyname text-primary">{{$companydata->company_name}}</h4>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- start page title -->
+        <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div  style="float:right;" class="page-title-box d-flex align-items-center justify-content-between">
                         <div class="page-title align-items-right text-right">
-                            <h4 class="text-right">Designation :<span class="text-primary"> Contractor</span></h4>
-                            <h4 class="">Last Login at :<span class="text-primary"> {{$lastLoginTime->created_at}}</span></h4>
-                            <h4 class="mt-1">Name : <span class="text-primary"> {{ $LoggedContractInfo['name'] }}</span</h4>
-                            <h4 class="mt-1">User Id :<span class="text-primary">  {{ $LoggedContractInfo['user_id'] }}</span</h4>
+                            <h4 class="text-right"><span class="text-primary"> Student Panel</span></h4>
                         </div>
     
     

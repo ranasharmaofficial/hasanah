@@ -52,8 +52,10 @@ Route::get('student/logout', [StudentController::class, 'studentLogout'])->name(
 Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::get('student/home', [StudentController::class, 'studentHome'])->name('student.home');
     Route::get('student/applyforexam', [StudentController::class, 'applyforexam'])->name('student.applyforexam');
+    Route::get('student/view-profile', [StudentController::class, 'viewProfile'])->name('student.view-profile');
+    Route::get('student/update-profile', [StudentController::class, 'updateProfile'])->name('student.update-profile');
+    Route::get('student/change-password', [StudentController::class, 'changePassword'])->name('student.change-password');
 });
-
 //Student Modules End
 
 //School Admin Modules Start
@@ -63,6 +65,11 @@ Route::post('schooladminLogin', [SchoolAdminController::class, 'schooladminLogin
 
 Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/home', [SchoolAdminController::class, 'schoolAdminHome'])->name('schooladmin/home');
+    Route::get('schooladmin/student-list', [SchoolAdminController::class, 'studentList'])->name('schooladmin/student-list');
+    Route::get('schooladmin/addclass', [SchoolAdminController::class, 'addClass'])->name('schooladmin/addclass');
+    Route::post('uploadClass', [SchoolAdminController::class, 'uploadClass'])->name('uploadClass');
+    Route::get('schooladmin/class-list', [SchoolAdminController::class, 'classList'])->name('schooladmin/class-list');
+    
 });
 
 //School Admin Modules End

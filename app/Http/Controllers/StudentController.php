@@ -105,4 +105,19 @@ class StudentController extends Controller
             return redirect('login')->with(session()->flash('alert-success', 'You are successfully Logged out'));
         }
     }
+    public function viewProfile(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $studentdata = Student::where('id', '=', session('LoggedStudent'))->first();
+        return view('student/viewprofile',$data, compact('studentdata'));
+    }
+    public function updateProfile(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $studentdata = Student::where('id', '=', session('LoggedStudent'))->first();
+        return view('student/updateprofile',$data, compact('studentdata'));
+    }
+    public function changePassword(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $studentdata = Student::where('id', '=', session('LoggedStudent'))->first();
+        return view('student/changepassword',$data, compact('studentdata'));
+    }
 }

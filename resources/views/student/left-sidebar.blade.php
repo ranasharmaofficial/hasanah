@@ -20,7 +20,7 @@
                         <span>Apply for Entrance Exam</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-slideshow-fill"></i>
                         <span>Project</span>
@@ -28,38 +28,9 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('employee/ongoing-project')}}">Ongoing Project</a></li>
                         {{-- <li><a href="{{url('user/completed-project')}}">Completed Project</a></li> --}}
-                     </ul>
-                </li>
-                {{-- <li>
-                    <a href="{{url('user/my-project')}}" class="waves-effect">
-                        <i class="ri-file-user-fill"></i>
-                        <span>My Project</span>
-                    </a>
+                     {{-- </ul>
                 </li> --}}
-                {{-- <li>
-                    <a href="{{url('user/work-list')}}" class="waves-effect">
-                        <i class="ri-file-user-fill"></i>
-                        <span>Work List</span>
-                    </a>
-                </li> 
-                <li>
-                    <a href="{{url('user/work-details')}}" class="waves-effect">
-                        <i class="ri-file-user-fill"></i>
-                        <span>Work Details</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('user/applied-project')}}" class="waves-effect">
-                        <i class="ri-file-user-fill"></i>
-                        <span>Applied Project</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('distributor/view-project')}}" class="waves-effect">
-                        <i class="ri-file-user-fill"></i>
-                        <span>View Project</span>
-                    </a>
-                </li>--}}
+                
                 <li>
                     <a href="{{url('student/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
