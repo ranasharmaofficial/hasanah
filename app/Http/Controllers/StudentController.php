@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\A_class;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -14,7 +15,8 @@ class StudentController extends Controller
     }
     public function applyforexam(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        return view('student/applyforexam', $data);
+        $classes = A_class::get();
+        return view('student/applyforexam', $data, compact('classes'));
     }
 
     public function studentGetOTP(Request $request){
@@ -120,4 +122,12 @@ class StudentController extends Controller
         $studentdata = Student::where('id', '=', session('LoggedStudent'))->first();
         return view('student/changepassword',$data, compact('studentdata'));
     }
+    //Get Class Amount Start
+    public function getClassAmount(Request $request){
+        $cid = $request->post('cid');        
+        $getamountpro = A_class::where('id', $cid)->first();
+        $getamount = $getamountpro->amount;
+        return $getamount;
+    }
+    //Get Class Amount End
 }
