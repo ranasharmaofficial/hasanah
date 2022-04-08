@@ -9,10 +9,10 @@
 
 <section class="contact-section">
     <div class="container">
-        <div class="row justify-content-center mb-5">
-            <div class="card col-md-6 mt-3">
+        <div class="row justify-content-center my-5 mx-2">
+            <div class="card col-md-6 mt-3" style="background-color: rgb(248, 246, 255); box-shadow: 4px 5px #c1c1c1;">
                 <div class="contact-form card-body">
-                    <h3 class="text-center">Register your Account</h3>
+                    <h3 class="text-center p-0 m-0">Register your Account</h3>
                     <p>&nbsp;</p>
                     <div class="flash-message">
                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -72,6 +72,9 @@
                         </div>
                         <div class="form-group col-md-12 text-center" id="registerButton" style="display: none;">
                             <button id="submit" style="cursor: pointer;" class="default-btn rounded" type="submit">REGISTER</button>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <a href="{{url('login')}}">Have you already account? Login Now</a>
                         </div>
                      </form>
                 </div>

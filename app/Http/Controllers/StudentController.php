@@ -37,7 +37,12 @@ class StudentController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($ch);
-        return 'success';
+        if ($response) {
+            return 'success';
+        } else{
+            session()->forget(['mobileotp', 'mobilenumber']);
+            return 'failed';
+        }
     }
 
     public function studentRegister(Request $request)

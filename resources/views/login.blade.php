@@ -8,10 +8,10 @@
 @section('content')
 <section class="contact-section">
     <div class="container">
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-center mb-5 mt-5">
             <div class="card col-md-6 mt-3">
                 <div class="contact-form card-body">
-                    <h3 class="text-center">Login to your Account</h3>
+                    <h3 class="text-center m-0 p-0 text-danger">Login to your Account</h3>
                     <p>&nbsp;</p>
                     <div class="flash-message">
                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -40,8 +40,8 @@
                                         {{$message}}
                                     @enderror</span>
                             </div>
-                            <div class="col-sm-12 form-group">
-                                <button id="submit" style="cursor: pointer;" class="default-btn" type="submit">LOGIN</button>
+                            <div class="col-sm-12 form-group text-center">
+                                <button id="submit" style="cursor: pointer;" class="default-btn rounded" type="submit">LOGIN</button>
                             </div>
                            
                      </form>
