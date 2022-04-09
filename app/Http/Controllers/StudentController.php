@@ -152,6 +152,7 @@ class StudentController extends Controller
             'state' => 'required',
             'city' => 'required',
             'pincode' => 'required',
+            'passport_photo' => 'required|max:500|image|mimes:jpg,jpeg,png',
             'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
             'father_aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
             'last_year_marksheet' => 'required|max:500|image|mimes:jpg,jpeg,png',
@@ -178,6 +179,12 @@ class StudentController extends Controller
             $last_year_marksheet = 'last_year_marksheet-'.time().'.'.$extenstion;
             $file->move(public_path('uploads/student-documents'), $last_year_marksheet);
         }
+        if ($request->hasfile('passport_photo')) {
+            $file = $request->file('passport_photo');
+            $extenstion = $file->getClientOriginalExtension();
+            $passport_photo = 'passport_photo-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $passport_photo);
+        }
 
         $tokenno = time().rand(1111,9999);
         $entrancepost = Entrance_exam_process::create([
@@ -190,6 +197,7 @@ class StudentController extends Controller
             "state" => "$request->state",
             "city" => "$request->city",
             "pincode" => "$request->pincode",
+            "passport_photo" => "$passport_photo",
             "aadhar_card" => "$aadhar_card",
             "father_aadhar_card" => "$father_aadhar_card",
             "last_year_exam_marksheet" => "$last_year_marksheet",
@@ -241,6 +249,7 @@ class StudentController extends Controller
             $formfilled->state = $request->state;
             $formfilled->city = $request->city;
             $formfilled->pincode = $request->pincode;
+            $formfilled->passport_photo = $request->passport_photo;
             $formfilled->aadhar_card = $request->aadhar_card;
             $formfilled->father_aadhar_card = $request->father_aadhar_card;
             $formfilled->last_year_exam_marksheet = $request->last_year_exam_marksheet;
@@ -256,7 +265,7 @@ class StudentController extends Controller
         }
           
         if ($formfilled && $tokenupdate) {
-            return redirect()->route('student.entrance-form-receiept'.'.'.$form_id)->with(session()->flash('alert-success', 'Form successfully received.'));
+            return redirect('student/entrance-form-receiept'.'/'.$form_id)->with(session()->flash('alert-success', 'Form successfully received.'));
         } else{
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
         }
@@ -266,6 +275,21 @@ class StudentController extends Controller
 
     public function studentEntranceFinalReceipt($form_id){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        return view('student/entrance-form-receiept', $data);
+        $studendetails = Entrance_exam_form::where('form_id', $form_id)->first();
+        return view('student/entrance-form-receiept', $data, compact('studendetails'));
     }
+
+    public function editStudentDetails($token_no){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $classes  = A_class::get();
+        $studendetails = Entrance_exam_process::where('token_no', $token_no)->first();
+        return view('student/editexampapplyform', $data, compact('studendetails', 'classes'));
+    }
+
+    public static function getClassName($cid){
+        $className = A_class::where('id', $cid)->first();
+        $class_name = $className->class_name;
+        return $class_name;
+    }
+    
 }

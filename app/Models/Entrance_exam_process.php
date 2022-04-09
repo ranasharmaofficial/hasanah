@@ -20,6 +20,7 @@ class Entrance_exam_process extends Model
         'state',
         'city',
         'pincode',
+        'passport_photo',
         'aadhar_card',
         'father_aadhar_card',
         'last_year_exam_marksheet',

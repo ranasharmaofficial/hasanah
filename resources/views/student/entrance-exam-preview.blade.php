@@ -78,6 +78,9 @@
                             </tbody>
                         </table>   
                         <div class="row justify-content-center">
+                            <div class="col-sm-2">
+                                <a href="{{url('student/edit-details/'.$getdetails->token_no)}}"><button class="btn btn-primary">Edit</button></a>
+                            </div>
                             <div class="col-sm-2 text-center">
                                 <form action="{{route('student.entrance-final-submit')}}" method="post">
                                     @csrf
@@ -90,6 +93,7 @@
                                     <input type="hidden" name="state" required value="{{$getdetails->state}}" />
                                     <input type="hidden" name="city" required value="{{$getdetails->city}}" />
                                     <input type="hidden" name="pincode" required value="{{$getdetails->pincode}}" />
+                                    <input type="hidden" name="passport_photo" required value="{{$getdetails->passport_photo}}" />
                                     <input type="hidden" name="aadhar_card" required value="{{$getdetails->aadhar_card}}" />
                                     <input type="hidden" name="father_aadhar_card" required value="{{$getdetails->father_aadhar_card}}" />
                                     <input type="hidden" name="last_year_exam_marksheet" required value="{{$getdetails->last_year_exam_marksheet}}" />
