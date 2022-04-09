@@ -291,5 +291,25 @@ class StudentController extends Controller
         $class_name = $className->class_name;
         return $class_name;
     }
+    public function getPassportPhoto(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_process::where('id',$passreq)->pluck('passport_photo')->first();
+        return $data;        
+    }
+    public function getAadharCard(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_process::where('id',$passreq)->pluck('aadhar_card')->first();
+        return $data;        
+    }
+    public function getFatherAadharCard(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_process::where('id',$passreq)->pluck('father_aadhar_card')->first();
+        return $data;        
+    }
+    public function getMarkSheet(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_process::where('id',$passreq)->pluck('last_year_exam_marksheet')->first();
+        return $data;        
+    }
     
 }

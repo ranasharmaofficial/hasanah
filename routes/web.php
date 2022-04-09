@@ -61,6 +61,10 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::post('student.entrance-final-submit', [StudentController::class, 'studentEntranceFinalSubmit'])->name('student.entrance-final-submit');
     Route::get('student/entrance-form-receiept/{form_id}', [StudentController::class, 'studentEntranceFinalReceipt'])->name('student/entrance-form-receiept/{form_id}');
     Route::get('student/edit-details/{token_no}', [StudentController::class, 'editStudentDetails'])->name('student/edit-details/{token_no}');
+    Route::post('getPassportPhoto', [StudentController::class, 'getPassportPhoto'])->name('getPassportPhoto');
+    Route::post('getAadharCard', [StudentController::class, 'getAadharCard'])->name('getAadharCard');
+    Route::post('getFatherAadharCard', [StudentController::class, 'getFatherAadharCard'])->name('getFatherAadharCard');
+    Route::post('getMarkSheet', [StudentController::class, 'getMarkSheet'])->name('getMarkSheet');
 });
 //Student Modules End
 

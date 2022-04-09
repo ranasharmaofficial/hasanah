@@ -80,23 +80,23 @@ use \App\Http\Controllers\StudentController;
                                     <h5 class="text-primary mt-3">Upload Documents</h5><hr>
                                     <div class="col-sm-4">
                                         <label for="PassportPhoto" class="col-form-label">Passport Photo. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Passport Photo" value="" name="passport_photo" id="PassportPhoto" required>
-                                        <button class="btn btn-primary btn-sm mt-2">Preview</button>
+                                        <input type="file" class="form-control" placeholder="Passport Photo" value="{{$studendetails->passport_photo}}" name="passport_photo" id="PassportPhoto">
+                                        <a onclick="showPassportPhoto(this)" id="{{$studendetails->id}}" class="btn btn-primary btn-sm mt-2">Preview Passport Photo</a>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Aadhar" class="col-form-label">Aadhar Card. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Aadhar Card" value="" name="aadhar_card" id="Aadhar" required>
-                                        <button class="btn btn-primary btn-sm mt-2">Preview</button>
+                                        <input type="file" class="form-control" placeholder="Aadhar Card" value="{{$studendetails->aadhar_card}}" name="aadhar_card" id="Aadhar" required>
+                                        <button type="button" onclick="showAadharCard(this)" id="{{$studendetails->id}}" class="btn btn-primary btn-sm mt-2">Preview Aadhar card</button>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Father" class="col-form-label">Father's Aadhar Card. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Father Card" value="" name="father_aadhar_card" id="Aadhar" required>
-                                        <button class="btn btn-primary btn-sm mt-2">Preview</button>
+                                        <input type="file" class="form-control" placeholder="Father Card" value="{{$studendetails->father_aadhar_card}}" name="father_aadhar_card" id="Aadhar" required>
+                                        <button type="button" onclick="showFatherAadharCard(this)" id="{{$studendetails->id}}" class="btn btn-primary btn-sm mt-2">Preview</button>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Marksheet" class="col-form-label">Last Year Exam Marksheet <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Last Year Exam Marksheet" value="" name="last_year_marksheet" id="Marksheet" required>
-                                        <button class="btn btn-primary btn-sm mt-2">Preview</button>
+                                        <input type="file" class="form-control" placeholder="Last Year Exam Marksheet" value="{{$studendetails->last_year_exam_marksheet}}" name="last_year_marksheet" id="Marksheet" required>
+                                        <button type="button" onclick="showMarkSheet(this)" id="{{$studendetails->id}}" class="btn btn-primary btn-sm mt-2">Preview</button>
                                     </div>
                                     <h5 class="text-primary mt-3">Payment Details</h5><hr>
                                     <div class="col-sm-4">
@@ -117,35 +117,163 @@ use \App\Http\Controllers\StudentController;
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+    
+    <!--  Passport Photo Image Start -->
+<div class="modal fade bs-example-modal-lg" id="passportphoto" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">{{$studendetails->name}}'s Passport Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="passportphotodetails" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Passport Photo Image Start-->
+
+<!--  Aadhar Card Photo Image Start -->
+<div class="modal fade bs-example-modal-lg" id="aadharCard" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">{{$studendetails->name}}'s Aadhar Card Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="aadharcarddetails" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Aadhar card Image Start-->
+
+<!--  Father Aadhar card Image Start -->
+<div class="modal fade bs-example-modal-lg" id="fatheraadharCard" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">{{$studendetails->name}}'s Father's Aadhar Card Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="fatheraadharcarddetails" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Father aadhar card Image Start-->
+
+<!--  Mark sheet card Image Start -->
+<div class="modal fade bs-example-modal-lg" id="marksheet" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">{{$studendetails->name}}'s Father's Aadhar Card Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="marksheetdetails" class="modal-body">
+                {{-- <img id="coursedetailsshow" style="max-width:120px;" src="" alt="" class="img-thumbanil"> --}}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Mark sheet card Image Start-->
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    {{-- <script>
-        jQuery(document).ready(function(){
-        jQuery('#class_id').change(function(){
-            let class=jQuery(this).val();
-            let datas = "";
-            console.log(class)
-            jQuery.ajax({
-                url:'{{url('getClassAmount')}}',
-                type:'post',
-                data:'class='+class+'&_token={{csrf_token()}}',
-                success:function(result){
-                    // jQuery('#project_id').val(''+result+'')
-                    if (result == '') {
-                        datas += '<option>Not Found.</option>';
-                    } else{
-                        // console.log(result);
-                        $.each(result, function (i) {
-                            datas += '<option value="'+result[i].id+'">'+result[i].amount+'</option>';
-                            // console.log(datas);
-                        });                    
-                    }
-                    jQuery('#regAmount').html(datas);
+    <script>
+        function showPassportPhoto(showPassportPhoto){
+        $('#passportphoto').modal('show'); 
+		let datas = '';
+        let studentid = $(showPassportPhoto).attr('id');
+        $('#studentid').html(studentid);
+        $.ajax({
+            url: '{{url('getPassportPhoto')}}',
+            type: 'post',
+            data:'studentid='+studentid+'&_token={{csrf_token()}}',
+            success:function(respons){                
+				console.log(respons);
+                if(respons == '')
+                {
+                    datas += '<div class="alert alert-danger">Image not found</div>';
                 }
-            });
-        });
-    });
-    </script> --}}
+                else{
+                    datas += '<img class="img-fluid" src="{{asset("uploads/student-documents")}}/'+respons+'" alt="Passport Photo">';
+                }
+				$('#passportphotodetails').html(datas);
+			}
+        })
+    }
+
+    function showAadharCard(showAadharCard){
+        $('#aadharCard').modal('show'); 
+		let datas = '';
+        let studentid = $(showAadharCard).attr('id');
+        $('#studentid').html(studentid);
+        $.ajax({
+            url: '{{url('getAadharCard')}}',
+            type: 'post',
+            data:'studentid='+studentid+'&_token={{csrf_token()}}',
+            success:function(respons){                
+				console.log(respons);
+                if(respons == '')
+                {
+                    datas += '<div class="alert alert-danger">Image not found</div>';
+                }
+                else{
+                    datas += '<img class="img-fluid" src="{{asset("uploads/student-documents")}}/'+respons+'" alt="Passport Photo">';
+                }
+				$('#aadharcarddetails').html(datas);
+			}
+        })
+    }
+    
+    function showFatherAadharCard(showFatherAadharCard){
+        $('#fatheraadharCard').modal('show'); 
+		let datas = '';
+        let studentid = $(showFatherAadharCard).attr('id');
+        $('#studentid').html(studentid);
+        $.ajax({
+            url: '{{url('getFatherAadharCard')}}',
+            type: 'post',
+            data:'studentid='+studentid+'&_token={{csrf_token()}}',
+            success:function(respons){                
+				console.log(respons);
+                if(respons == '')
+                {
+                    datas += '<div class="alert alert-danger">Image not found</div>';
+                }
+                else{
+                    datas += '<img class="img-fluid" src="{{asset("uploads/student-documents")}}/'+respons+'" alt="Passport Photo">';
+                }
+				$('#fatheraadharcarddetails').html(datas);
+			}
+        })
+    }
+
+    function showMarkSheet(showMarkSheet){
+        $('#marksheet').modal('show'); 
+		let datas = '';
+        let studentid = $(showMarkSheet).attr('id');
+        $('#studentid').html(studentid);
+        $.ajax({
+            url: '{{url('getMarkSheet')}}',
+            type: 'post',
+            data:'studentid='+studentid+'&_token={{csrf_token()}}',
+            success:function(respons){                
+				console.log(respons);
+                if(respons == '')
+                {
+                    datas += '<div class="alert alert-danger">Image not found</div>';
+                }
+                else{
+                    datas += '<img class="img-fluid" src="{{asset("uploads/student-documents")}}/'+respons+'" alt="Passport Photo">';
+                }
+				$('#marksheetdetails').html(datas);
+			}
+        })
+    }
+    </script>
     <script>
   
         jQuery(document).ready(function(){
