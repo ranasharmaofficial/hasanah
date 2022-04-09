@@ -104,7 +104,7 @@
                                             data-prefill.name="{{$getdetails->name}}"
                                             data-prefill.email="{{$getdetails->email}}"
                                             data-prefill.contact="{{$getdetails->mobile}}"
-                                            data-theme.color="#ff7529">
+                                            data-theme.color="#A4139D">
                                     </script>
                                 </form>
                             </div>
