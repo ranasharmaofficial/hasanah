@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\A_class;
+use App\Models\Entrance_exam_form;
 use App\Models\Entrance_exam_process;
 use Illuminate\Http\Request;
+use Razorpay\Api\Api;
+use Session;
+use Exception;
 
 class StudentController extends Controller
 {
@@ -148,11 +152,33 @@ class StudentController extends Controller
             'state' => 'required',
             'city' => 'required',
             'pincode' => 'required',
-            'aadhar_card' => 'required',
-            'father_aadhar_card' => 'required',
-            'last_year_marksheet' => 'required',
+            'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+            'father_aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+            'last_year_marksheet' => 'required|max:500|image|mimes:jpg,jpeg,png',
             'registration_fee' => 'required',
         ]);
+
+        if ($request->hasfile('aadhar_card')) {
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadhar_card = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $aadhar_card);
+        }
+
+        if ($request->hasfile('father_aadhar_card')) {
+            $file = $request->file('father_aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $father_aadhar_card = 'father_aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $father_aadhar_card);
+        }
+
+        if ($request->hasfile('last_year_marksheet')) {
+            $file = $request->file('last_year_marksheet');
+            $extenstion = $file->getClientOriginalExtension();
+            $last_year_marksheet = 'last_year_marksheet-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $last_year_marksheet);
+        }
+
         $tokenno = time().rand(1111,9999);
         $entrancepost = Entrance_exam_process::create([
             "token_no" => "$tokenno",
@@ -164,15 +190,15 @@ class StudentController extends Controller
             "state" => "$request->state",
             "city" => "$request->city",
             "pincode" => "$request->pincode",
-            "aadhar_card" => "$request->aadhar_card",
-            "father_aadhar_card" => "$request->father_aadhar_card",
-            "last_year_exam_marksheet" => "$request->last_year_marksheet",
+            "aadhar_card" => "$aadhar_card",
+            "father_aadhar_card" => "$father_aadhar_card",
+            "last_year_exam_marksheet" => "$last_year_marksheet",
             "registration_fee" => "$request->registration_fee",
             "status" => 1,
         ]);
 
         if ($entrancepost) {
-            return redirect()->route('student.entrance-exam-preview'.'/'.$tokenno)->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
+            return redirect('student/entrance-exam-preview'.'/'.$tokenno);
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
     }
@@ -180,9 +206,66 @@ class StudentController extends Controller
 
     //Entrance Exam Form Preview Start
     public function studentEntranceExamPreview($tokenno){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
         $getdetails = Entrance_exam_process::where('token_no',$tokenno)->first();
-        dd($getdetails); die;
-        return view('student/entrance-exam-preview', compact('getdetails'));
+        $classname = A_class::where('id', $getdetails->class_id)->first();
+        // dd($getdetails); die;
+        return view('student/entrance-exam-preview', $data, compact('getdetails', 'classname'));
     }
     //Entrance Exam Form Preview End
+
+    public function studentEntranceFinalSubmit(Request $request)
+    {
+        $input = $request->all();
+  
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount']));
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+            $form_id = rand(111,999).time();
+            $formfilled = new Entrance_exam_form;
+            $formfilled->form_id = $form_id;
+            $formfilled->class_id = $request->class_id;
+            $formfilled->name = $request->name;
+            $formfilled->mobile = $request->mobile;
+            $formfilled->email = $request->email;
+            $formfilled->country = $request->country;
+            $formfilled->state = $request->state;
+            $formfilled->city = $request->city;
+            $formfilled->pincode = $request->pincode;
+            $formfilled->aadhar_card = $request->aadhar_card;
+            $formfilled->father_aadhar_card = $request->father_aadhar_card;
+            $formfilled->last_year_exam_marksheet = $request->last_year_exam_marksheet;
+            $formfilled->registration_fee = $request->registration_fee;
+            $formfilled->transaction_id = time().rand(11,99).date('yd');
+            $formfilled->payment_id = $request->razorpay_payment_id;
+            $formfilled->status = 2;
+            $formfilled->save();
+            
+            $tokenupdate = Entrance_exam_process::where('token_no', $request->tokenno)->update([
+                'status' => 2,
+            ]);
+        }
+          
+        if ($formfilled && $tokenupdate) {
+            return redirect()->route('student.entrance-form-receiept'.'.'.$form_id)->with(session()->flash('alert-success', 'Form successfully received.'));
+        } else{
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+        // Session::put('success', 'Payment successful');
+        // return redirect()->back();
+    }
+
+    public function studentEntranceFinalReceipt($form_id){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        return view('student/entrance-form-receiept', $data);
+    }
 }

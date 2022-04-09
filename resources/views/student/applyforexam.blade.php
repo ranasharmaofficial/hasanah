@@ -21,7 +21,7 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <form action="{{route('student.entranceExam')}}" method="POST" class="row">
+                            <form action="{{route('student.entranceExam')}}" method="POST" class="row" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <h5 class="text-primary">Personal Details</h5><hr>
