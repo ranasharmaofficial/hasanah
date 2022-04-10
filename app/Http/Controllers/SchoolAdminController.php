@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\School_admin;
 use App\Models\Student;
 use App\Models\A_class;
+use App\Models\Entrance_exam_form;
+use App\Models\Exam_schedule;
 use Illuminate\Http\Request;
 
 class SchoolAdminController extends Controller
@@ -69,6 +71,80 @@ class SchoolAdminController extends Controller
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
         } 
 
+    }
+
+    public function schoolAdminFormPending(Request $request){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $studentformlists = Entrance_exam_form::where('status', '1')->paginate(20);
+        return view('schooladmin/form-pending', $data, compact('studentformlists'));
+    }
+    public function getAadharCard(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_form::where('form_id',$passreq)->pluck('aadhar_card')->first();
+        return $data;        
+    }
+    public function getFatherAadharCard(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_form::where('form_id',$passreq)->pluck('father_aadhar_card')->first();
+        return $data;        
+    }
+    public function getMarkSheet(Request $request){
+        $passreq = $request->post('studentid');
+        $data = Entrance_exam_form::where('form_id',$passreq)->pluck('last_year_exam_marksheet')->first();
+        return $data;        
+    }
+
+    public function entranceApprove(Request $request){
+        $request->validate([
+            'form_id' => 'required',
+        ]);
+
+        $entranceapprove = Entrance_exam_form::where('form_id', $request->form_id)->update(['status' => 2]);
+        if ($entranceapprove) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Form successfully accepted.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
+    public function entranceRejected(Request $request){
+        $request->validate([
+            'form_id' => 'required',
+        ]);
+
+        $entrancereject = Entrance_exam_form::where('form_id', $request->form_id)->update(['status' => 3]);
+        if ($entrancereject) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Form successfully rejected.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
+    public function setSchedule(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $classlist = A_class::get();
+        return view('schooladmin/setschedule', $data, compact('classlist'));
+    }
+
+    public function Exam_schedules(Request $request){
+        $request->validate([
+            'class' => 'required',
+            'examdate' => 'required',
+            'examtimefrom' => 'required',
+            'examtimeto' => 'required',
+            'examcenter' => 'required',
+        ]);
+
+        $examschedule = Exam_schedule::create([
+            "exam_name" => "Entrance Exam",
+            "class" => "$request->class",
+            "exam_date" => "$request->examdate",
+            "exam_time_from" => "$request->examtimefrom",
+            "exam_time_to" => "$request->examtimeto",
+            "exam_center" => "$request->examcenter",
+        ]);
+        if ($examschedule) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Entrance exam schedule successfully created.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
     }
    
 }

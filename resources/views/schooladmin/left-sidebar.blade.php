@@ -26,6 +26,16 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Entrance Exam </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/form-pending')}}">Form Pending</a></li>
+                        <li><a href="{{url('schooladmin/setSchedule')}}">Set Schedule</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="{{url('schooladmin/addclass')}}" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span>Add Class</span>
                     </a>

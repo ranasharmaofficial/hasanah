@@ -14,7 +14,14 @@
         <link href="{{asset('assets_admin/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="{{asset('assets_admin/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
-
+<style>
+    .authentication-bg {
+        background-image: url("{{asset('assets_admin/images/auth-school-admin.svg')}}") !important;
+    }
+    .authentication-bg .bg-overlay {
+        background-color: #322d2d44; 
+    }
+</style>
     </head>
 
     <body class="auth-body-bg">

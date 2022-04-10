@@ -20,6 +20,12 @@
                         <span>Apply for Entrance Exam</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('student/admit-card')}}" class="waves-effect">
+                        <i class="ri-edit-2-fill"></i>
+                        <span>Download Admit Card</span>
+                    </a>
+                </li>
                 {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-slideshow-fill"></i>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use Session;
 use Exception;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StudentController extends Controller
 {
@@ -187,8 +188,10 @@ class StudentController extends Controller
         }
 
         $tokenno = time().rand(1111,9999);
+        $studentid = Student::where('id','=', session('LoggedStudent'))->first();
         $entrancepost = Entrance_exam_process::create([
             "token_no" => "$tokenno",
+            "student_id" => "$studentid->student_id",
             "class_id" => "$request->class_id",
             "name" => "$request->name",
             "email" => "$request->email",
@@ -238,8 +241,10 @@ class StudentController extends Controller
                 Session::put('error',$e->getMessage());
                 return redirect()->back();
             }
+            $studentid = Student::where('id','=', session('LoggedStudent'))->first();
             $form_id = rand(111,999).time();
             $formfilled = new Entrance_exam_form;
+            $formfilled->student_id = $studentid->student_id;
             $formfilled->form_id = $form_id;
             $formfilled->class_id = $request->class_id;
             $formfilled->name = $request->name;
@@ -256,7 +261,7 @@ class StudentController extends Controller
             $formfilled->registration_fee = $request->registration_fee;
             $formfilled->transaction_id = time().rand(11,99).date('yd');
             $formfilled->payment_id = $request->razorpay_payment_id;
-            $formfilled->status = 2;
+            $formfilled->status = 1;
             $formfilled->save();
             
             $tokenupdate = Entrance_exam_process::where('token_no', $request->tokenno)->update([
@@ -310,6 +315,46 @@ class StudentController extends Controller
         $passreq = $request->post('studentid');
         $data = Entrance_exam_process::where('id',$passreq)->pluck('last_year_exam_marksheet')->first();
         return $data;        
+    }
+
+    public function studentAdmitCard()
+    {
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        return view('student/admit-card', $data);
+    }
+
+    public function changeOldPassword(Request $request){
+        $request->validate([
+            'oldpassword' => 'required',
+            'newpassword' => 'required|min:6',
+            'cpassword' => 'required',
+        ]);
+        $oldpass = Student::where('id','=', session('LoggedStudent'))->first();
+        if ($request->oldpassword == $oldpass->password) {
+            if ($request->newpassword == $request->cpassword) {
+                $updatepass = Student::where('id','=', session('LoggedStudent'))->update(['password' => $request->newpassword,]);
+                if ($updatepass) {
+                    return redirect()->back()->with(session()->flash('alert-success', 'Your password successfully changed.'));
+                }
+            } else{
+                return redirect()->back()->with(session()->flash('alert-danger', 'Password and Confirm Password Not Matched.'));
+            }
+        } else{
+            return redirect()->back()->with(session()->flash('alert-danger', 'Please! Enter Correct Old Password.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
+    public function generateAdmitCardPDF(Request $request){
+        $request->validate([
+            'exam_type' => 'required',
+        ]);
+
+        $studentid = Student::where('id','=', session('LoggedStudent'))->first();
+        $studentse = Entrance_exam_form::where('student_id','=', $studentid->student_id)->first();
+          
+        $pdf = PDF::loadView('student/myAdmitCard', compact('studentse'));    
+        return $pdf->download($request->exam_type.'-'.$studentse->form_id.'.pdf');
     }
     
 }

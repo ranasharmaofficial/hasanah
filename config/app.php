@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         JD\Cloudder\CloudderServiceProvider::class,
         CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -235,6 +236,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

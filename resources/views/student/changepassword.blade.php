@@ -34,7 +34,7 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <form action="" method="POST" class="row">
+                            <form action="{{route('student.change-password')}}" method="POST" class="row">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
