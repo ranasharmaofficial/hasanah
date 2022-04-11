@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-xl-12">
                 
-                <div class="row justify-content-center">
+                <div  class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="flash-message">
                             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -44,7 +44,7 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!--End column--->
+                            </div><!--End column---> --}}
                         </div>
                     </div><!--End column--->
                 </div>

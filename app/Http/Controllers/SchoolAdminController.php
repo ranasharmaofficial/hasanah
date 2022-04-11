@@ -124,6 +124,12 @@ class SchoolAdminController extends Controller
         return view('schooladmin/setschedule', $data, compact('classlist'));
     }
 
+    public function scheduleList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $schedulelist = Exam_schedule::paginate(5);
+        return view('schooladmin/schedulelist', $data, compact('schedulelist'));
+    }
+
     public function Exam_schedules(Request $request){
         $request->validate([
             'class' => 'required',
@@ -145,6 +151,11 @@ class SchoolAdminController extends Controller
             return redirect()->back()->with(session()->flash('alert-info', 'Entrance exam schedule successfully created.'));
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+    public static function getClassName($cid){
+        $className = A_class::where('id', $cid)->first();
+        $class_name = $className->class_name;
+        return $class_name;
     }
    
 }

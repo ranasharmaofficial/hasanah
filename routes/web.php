@@ -90,6 +90,7 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::post('entranceRejected', [SchoolAdminController::class, 'entranceRejected'])->name('entranceRejected');
     Route::get('schooladmin/setSchedule', [SchoolAdminController::class, 'setSchedule']);
     Route::post('schooladmin/exam_schedules', [SchoolAdminController::class, 'Exam_schedules'])->name('schooladmin.exam_schedules');
+    Route::get('schooladmin/schedulelist', [SchoolAdminController::class, 'scheduleList'])->name('schooladmin.schedulelist');
 });
 
 //School Admin Modules End

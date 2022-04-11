@@ -33,6 +33,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('schooladmin/form-pending')}}">Form Pending</a></li>
                         <li><a href="{{url('schooladmin/setSchedule')}}">Set Schedule</a></li>
+                        <li><a href="{{url('schooladmin/schedulelist')}}">Schedule List</a></li>
                     </ul>
                 </li>
                 <li>
