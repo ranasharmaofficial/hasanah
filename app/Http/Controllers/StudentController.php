@@ -11,7 +11,7 @@ use App\Models\User_login_history;
 use App\Models\School;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Exception;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -367,12 +367,14 @@ class StudentController extends Controller
         $request->validate([
             'exam_type' => 'required',
         ]);
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
 
         $studentid = Student::where('id','=', session('LoggedStudent'))->first();
-        $studentse = Entrance_exam_form::where('student_id','=', $studentid->student_id)->first();
-          
-        $pdf = PDF::loadView('student/myAdmitCard', compact('studentse'));    
-        return $pdf->download($request->exam_type.'-'.$studentse->form_id.'.pdf');
+        $studentdetails = Entrance_exam_form::where('student_id','=', $studentid->student_id)->first();
+        //   dd($studentdetails); die;
+        // $pdf = PDF::loadView('student/myAdmitCard', compact('studentdetails'));    
+        // return $pdf->download($request->exam_type.'-'.$studentdetails['form_id'].'.pdf');
+        return view('student/myAdmitCard', $data, compact('studentdetails'));
     }
 
     public function getClassNames(Request $request){
