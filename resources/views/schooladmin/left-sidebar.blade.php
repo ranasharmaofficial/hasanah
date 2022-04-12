@@ -27,7 +27,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-file-user-fill"></i>
+                        <i class="ri-file-list-3-fill"></i>
                         <span>Entrance Exam </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -37,15 +37,26 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{url('schooladmin/addclass')}}" class="waves-effect">
-                        <i class="ri-dashboard-line"></i><span>Add Class</span>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-slideshow-fill"></i>
+                        <span>Class </span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/addclass')}}">Add Class</a></li>
+                        <li><a href="{{url('schooladmin/class-list')}}">Class List</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{url('schooladmin/class-list')}}" class="waves-effect">
-                        <i class="ri-dashboard-line"></i><span>Class List</span>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-building-fill"></i>
+                        <span>School </span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/addschool')}}">Add School</a></li>
+                        <li><a href="{{url('schooladmin/school-list')}}">School List</a></li>
+                    </ul>
                 </li>
+                
             </ul>
         </div>
         <!-- Sidebar -->

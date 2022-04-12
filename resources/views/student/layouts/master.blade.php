@@ -19,6 +19,7 @@
     <link href="{{asset('assets_admin/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Custom Css -->
     <link href="{{asset('assets_admin/css/custom.css')}}" rel="stylesheet" type="text/css" />
+    <script type="text/JavaScript" src="{{asset('assets_admin/js/country-states.js')}}"></script>
     <script language="Javascript" src="{{asset('assets_admin/images/search/jquery.js')}}"></script>
     <script type="text/JavaScript" src='{{asset('assets_admin/images/search/state.js')}}'></script>
 <style>

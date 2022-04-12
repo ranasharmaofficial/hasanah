@@ -1,5 +1,5 @@
 @extends('schooladmin.layouts.master')
-@section('title','Add Class')
+@section('title','Add School')
 @section('content')
     
 <div class="page-content">
@@ -39,31 +39,15 @@
                                         @endif
                                     @endforeach
                                 </div> 
-                                <form action="{{route('uploadClass')}}" method="post" class="row" enctype="multipart/form-data">
+                                <form action="{{route('uploadSchool')}}" method="post" class="row" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="col-sm-4">
-                                        <label for="schoolid" class="col-form-label">Select School <star>*</star></label>
-                                        <select class="form-select" type="text" name="schoolid" required id="schoolid">
-                                            <option value="">---Select School---</option>
-                                            @foreach ($schools as $item)
-                                                <option value="{{$item->id}}">{{$item->school_name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <small class="text-danger form-text">@error('schoolid') {{$message}} @enderror</small>
+                                    <div class="col-sm-6">
+                                        <label for="schoolname" class="col-form-label">School Name <star>*</star></label>
+                                        <input class="form-control" type="text" name="schoolname" required placeholder="School Name" id="schoolname" value="{{old('schoolname')}}">
+                                        <small class="text-danger form-text">@error('schoolname') {{$message}} @enderror</small>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <label for="className" class="col-form-label">Class Name <star>*</star></label>
-                                        <input class="form-control" type="text" name="classname" required placeholder="Class Name" id="className" value="{{old('coursename')}}">
-                                        <small class="text-danger form-text">@error('classname') {{$message}} @enderror</small>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label for="ClassAmount" class="col-form-label">Amount <star>*</star></label>
-                                        <input class="form-control" type="text" name="classamount" required placeholder="Class Amount" id="ClassAmount" value="{{old('coursetitle')}}">
-                                        <small class="text-danger form-text">@error('classamount') {{$message}} @enderror</small>
-                                    </div>
-                                    
                                     <div class="col-sm-12 mt-3 text-center">
-                                        <button name="add_class" type="submit" class="btn btn-primary btn-sm">Submit Class Details</button>
+                                        <button name="add_school" type="submit" class="btn btn-primary btn-sm">Submit Details</button>
                                     </div>
                                 </form>
                             </div>                                

@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\A_class;
 use App\Models\Entrance_exam_form;
 use App\Models\Exam_schedule;
+use App\Models\School;
 use Illuminate\Http\Request;
 
 class SchoolAdminController extends Controller
@@ -20,6 +21,7 @@ class SchoolAdminController extends Controller
             'username'=>'required',
             'password'=>'required',
         ]);
+        
         $schoolAdminInfo = School_admin::where('user_id','=',$request->username)->where('status', '1')->first();
         if (!$schoolAdminInfo) {
             return redirect()->route('schooladmin/login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
@@ -40,6 +42,7 @@ class SchoolAdminController extends Controller
     }
     public function schoolAdminHome(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        
         return view('schooladmin/home', $data);
     }
     public function studentList(){
@@ -49,7 +52,8 @@ class SchoolAdminController extends Controller
     }
     public function addClass(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
-        return view('schooladmin/addclass', $data);
+        $schools  = School::get(); 
+        return view('schooladmin/addclass', $data, compact('schools'));
     }
     public function classList(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
@@ -60,10 +64,12 @@ class SchoolAdminController extends Controller
         $request->validate([
             'classname' => 'required',
             'classamount' => 'required',
+            'schoolid' => 'required',
         ]);
         $classdetails = new A_class;
         $classdetails->class_name = $request->classname;
         $classdetails->amount = $request->classamount;
+        $classdetails->school_id = $request->schoolid;
         $classdetails-> save();
         if($classdetails){
             return redirect()->back()->with(session()->flash('alert-success', 'Class Added Successfully!'));
@@ -151,6 +157,28 @@ class SchoolAdminController extends Controller
             return redirect()->back()->with(session()->flash('alert-info', 'Entrance exam schedule successfully created.'));
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+    public function addSchool(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        return view('schooladmin/addschool', $data);
+    }
+    public function uploadSchool(Request $request){
+        $request->validate([
+            'schoolname' => 'required',
+        ]);
+        $schooldetails = new School;
+        $schooldetails->school_name = $request->schoolname;
+        $schooldetails-> save();
+        if($schooldetails){
+            return redirect()->back()->with(session()->flash('alert-success', 'Class Added Successfully!'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    public function schoolList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $schoollist = School::paginate(5);
+        return view('schooladmin/schoollist', $data, compact('schoollist'));
     }
     public static function getClassName($cid){
         $className = A_class::where('id', $cid)->first();

@@ -7,6 +7,8 @@ use App\Models\Student;
 use App\Models\A_class;
 use App\Models\Entrance_exam_form;
 use App\Models\Entrance_exam_process;
+use App\Models\User_login_history;
+use App\Models\School;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use Session;
@@ -17,12 +19,20 @@ class StudentController extends Controller
 {
     public function studentHome(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        return view('student/home', $data);
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedStudentInfo']->student_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedStudentInfo']->student_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedStudentInfo']->student_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
+        return view('student/home', $data, compact('lastLoginTime'));
     }
     public function applyforexam(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
         $classes = A_class::get();
-        return view('student/applyforexam', $data, compact('classes'));
+        $school = School::get();
+        return view('student/applyforexam', $data, compact('classes','school'));
     }
 
     public function studentGetOTP(Request $request){
@@ -97,6 +107,11 @@ class StudentController extends Controller
             'password'=>'required',
         ]);
         
+        $ip=$_SERVER['REMOTE_ADDR'];
+        $userLoginHistory = User_login_history::create([
+            "user_id" => "$request->username",
+            "ip_address" => "$ip"
+        ]);
         
         $studentInfo = Student::where('student_id','=',$request->username)->where('status', '1')->first();
         if (!$studentInfo) {
@@ -145,6 +160,7 @@ class StudentController extends Controller
     //Entrance Exam Form Process Start
     public function studentEntranceExam(Request $request){
         $request->validate([
+            'school_id' => 'required',
             'class_id' => 'required',
             'name' => 'required|string',
             'email' => 'required|email',
@@ -192,6 +208,7 @@ class StudentController extends Controller
         $entrancepost = Entrance_exam_process::create([
             "token_no" => "$tokenno",
             "student_id" => "$studentid->student_id",
+            "school_id" => "$request->school_id",
             "class_id" => "$request->class_id",
             "name" => "$request->name",
             "email" => "$request->email",
@@ -247,6 +264,7 @@ class StudentController extends Controller
             $formfilled->student_id = $studentid->student_id;
             $formfilled->form_id = $form_id;
             $formfilled->class_id = $request->class_id;
+            $formfilled->school_id = $request->school_id;
             $formfilled->name = $request->name;
             $formfilled->mobile = $request->mobile;
             $formfilled->email = $request->email;
@@ -355,6 +373,12 @@ class StudentController extends Controller
           
         $pdf = PDF::loadView('student/myAdmitCard', compact('studentse'));    
         return $pdf->download($request->exam_type.'-'.$studentse->form_id.'.pdf');
+    }
+
+    public function getClassNames(Request $request){
+        $schoolid = $request->post('school');
+        $schooldetails = A_class::where('school_id', $schoolid)->get();
+        return $schooldetails;
     }
     
 }

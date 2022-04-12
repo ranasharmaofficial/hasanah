@@ -68,6 +68,7 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::post('getFatherAadharCard', [StudentController::class, 'getFatherAadharCard'])->name('getFatherAadharCard');
     Route::post('getMarkSheet', [StudentController::class, 'getMarkSheet'])->name('getMarkSheet');
     Route::get('generateAdmitCardPDF', [StudentController::class, 'generateAdmitCardPDF'])->name('generateAdmitCardPDF');
+    Route::post('getClassNames', [StudentController::class, 'getClassNames'])->name('getClassNames');
 });
 //Student Modules End
 
@@ -91,6 +92,10 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/setSchedule', [SchoolAdminController::class, 'setSchedule']);
     Route::post('schooladmin/exam_schedules', [SchoolAdminController::class, 'Exam_schedules'])->name('schooladmin.exam_schedules');
     Route::get('schooladmin/schedulelist', [SchoolAdminController::class, 'scheduleList'])->name('schooladmin.schedulelist');
+    Route::get('schooladmin/addschool', [SchoolAdminController::class, 'addSchool'])->name('schooladmin/addschool');
+    Route::post('uploadSchool', [SchoolAdminController::class, 'uploadSchool'])->name('uploadSchool');
+    Route::get('schooladmin/school-list', [SchoolAdminController::class, 'schoolList'])->name('schooladmin/school-list');
+    
 });
 
 //School Admin Modules End

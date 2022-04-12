@@ -3,44 +3,7 @@
 <head>
     <title>Hi</title>
     
-    <style>
-        .txt-center {
-            text-align: center;
-        }
-        .border- {
-            border: 1px solid rgb(156, 156, 156) !important;
-        }
-        .padding {
-            padding: 15px;
-        }
-        .mar-bot {
-            margin-bottom: 15px;
-        }
-        .admit-card {
-            /* background-image: url('{{asset('front_assets/img/logo.jpeg')}}'); */
-            background: linear-gradient(rgba(255, 255, 255,.9), rgba(248, 249, 249, .9)), url("{{asset('front_assets/img/logo.jpeg')}}");
-            background-size: 160px;
-            border: 2px solid #000;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .BoxA h5, .BoxA p {
-            margin: 0;
-        }
-        h5 {
-            text-transform: uppercase;
-        }
-        table img {
-            width: 100%;
-            margin: 0 auto;
-        }
-        .table-bordered td, .table-bordered th, .table thead th {
-            border: 1px solid #000000 !important;
-        }
-        table tr td, table tr td b{
-            color: rgb(0, 0, 0);
-        }
-        </style>
+     
 </head>
 <body>
     <h1>{{ $studentse->form_id }}</h1>

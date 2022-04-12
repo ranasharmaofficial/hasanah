@@ -14,12 +14,12 @@
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
-                <div  style="float:right;" class="page-title-box d-flex align-items-center justify-content-between">
-                    <div class="page-title align-items-right text-center">
-                        <h4 class="text-center"><span class="text-primary"> STUDENT PANEL</span></h4>
-                        {{-- <h4 class="">Last Login at :<span class="text-primary"> {{$lastLoginTime->created_at}}</span></h4>
-                        <h4 class="mt-1">Name : <span class="text-primary"> {{ $employeedata['name'] }}</span</h4>
-                        <h4 class="mt-1">User Id :<span class="text-primary">  {{ $employeedata['user_id'] }}</span</h4> --}}
+                <div style="float:right;" class="page-title-box d-flex align-items-center justify-content-right">
+                    <div class="page-title align-items-right text-right">
+                        <h4 class="text-right">Designation :<span class="text-primary"> STUDENT PANEL</span></h4>
+                        <h4 class="">Last Login at :<span class="text-primary"> {{$lastLoginTime->created_at}}</span></h4>
+                        <h4 class="mt-1">Name : <span class="text-primary"> {{ $LoggedStudentInfo['name'] }}</span</h4>
+                        <h4 class="mt-1">Student Id :<span class="text-primary">  {{ $LoggedStudentInfo['student_id'] }}</span</h4>
                     </div>
 
 
