@@ -101,27 +101,61 @@ table tr td, table tr td b{
                                                   <td><b>City : </b>{{$studentdetails->city}}</td>
                                                   <td><b>Pin Code: </b>{{$studentdetails->pincode}}</td>
                                                 </tr>
-                                                <tr>
-                                                  <td><b>Registration Amount : </b>&#8377;&nbsp;{{$studentdetails->registration_fee}}</td>
-                                                  <td><b>Transaction Id : </b>{{$studentdetails->transaction_id}}</td>
-                                                </tr>
-                                                {{-- <tr>
-                                                    <td><b>Aadhar Card : </b><img src="{{asset('uploads/student-documents').'/'.$studentdetails->aadhar_card}}" class="img-thumbnail" style="max-height:140px;" /></td>
-                                                    <td><b>Father's Aadhar Card: </b><img src="{{asset('uploads/student-documents').'/'.$studentdetails->father_aadhar_card}}" class="img-thumbnail" style="max-height:180px;" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Last Year Makrsheet : </b><img src="{{asset('uploads/student-documents').'/'.$studentdetails->last_year_exam_marksheet}}" class="img-thumbnail" style="max-height:180px;" /></td>
-                                                </tr> --}}
-                                               
+                                                
                                                </tbody>
                                             </table>
                                         </div>
                                        
                                     </div>
                                 </div>                                
-                                {{-- <footer class="text-center">
-                                    <h5 class="text-center text-primary text-lowercase p-0 m-0">Visit : <span class="text-lowercase">www.prabuddham.co.in</span></h5>                                    
-                                </footer>                                 --}}
+                                <div class="BoxE border- padding mar-bot txt-center">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h5>EXAMINATION VENUE</h5>
+                                            <p><b>Date of Exam:</b> {{date('d-M-Y',strtotime($examschedules->exam_date))}}</p>
+                                            <p><b>Examination Time:</b> {{$examschedules->exam_center}}</p>
+                                            <p><b>Examination Time:</b> {{date("g:i a", strtotime($examschedules->exam_time_from)).'-'.date("g:i a", strtotime($examschedules->exam_time_to))}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="BoxF border- padding mar-bot txt-center">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr. No.</th>
+                                                        <th>Subject/Paper</th>
+                                                        <th>Exam Date</th>
+                                                    </tr>
+                                                </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>1</td>
+                                                  <td>ADCA</td>
+                                                  <td>20 December 2020</td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <footer class="txt-center">
+                                    <h5 class="font-weight-bold">अभ्यर्थियों  के लिए सामान्य निर्देश |</h5>
+                                    </br>
+                                    <ul>
+                    <li style="text-align: justify;">अभ्यर्थियों को सलाह दी जाती है कि वे प्रवेश पत्र में दिए गए रिपोर्टिंग / प्रवेश-समय में निर्धारित समय स्लॉट&nbsp; अनुसार केंद्र पर पहुचें |</li>
+                    <li style="text-align: justify;">अभ्यर्थी&nbsp;ध्यान दे कि किसी भी परिस्थिति में या किसी भी कारण से प्रवेश-समय के बाद किसी भी अभ्यर्थी को प्रवेश करने की अनुमति नहीं दी जाएगी | प्रवेश-समय के बाद गेटों को हर हाल में बंद कर दिया जाएगा |</li>
+                    <li style="text-align: justify;">परीक्षा के लिए रिपोर्टिंग के समय सदैव निम्नलिखित अपने साथ लाएं&nbsp;
+                    <ul>
+                    <li style="text-align: justify;">प्रवेश पत्र |<br /></li>
+                    <li style="text-align: justify;">पासपोर्ट आकर की अपनी नवीनतम रंगीन फोटो की तो प्रतियां (3 सेमी X 3 सेमी) | <br /></li>
+                    <li style="text-align: justify;">फेस मास्क |</li>
+                    </ul>
+                    </li>
+                    </ul>
+                                </footer>
                             </div>
                         </div>
                     </div>
