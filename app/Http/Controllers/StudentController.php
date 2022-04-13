@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\A_class;
 use App\Models\Entrance_exam_form;
 use App\Models\Entrance_exam_process;
+use App\Models\Exam_schedule;
 use App\Models\User_login_history;
 use App\Models\School;
 use Illuminate\Http\Request;
@@ -95,8 +96,20 @@ class StudentController extends Controller
                     "mobile" => "$mobile",
                     "password" => "$request->password",
                 ]);
+                //Send Message
+                $msg = 'Dear Student, Your registration details are: Username : '.$studentidgen.' Password : '.$request->password.' Visit : https://bit.ly/3uA3gaJ Regards - HASANAH EDUCATIONAL TRUST';
+        $phones = $mobile;
+        $url = "http://45.249.108.134/api.php";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "username=hasanahtrust&password=752761&sender=HETRST&sendto=".$phones."&message=".$msg."&PEID=1301164733895014972&templateid=1307164922596635229&type=3");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($ch);
+
                 session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect()->back()->with(session()->flash('alert-success', 'You have successfully registered in Hasanah Educational Trust.'));
+                return redirect('thankyou')->with(session()->flash('alert-success', 'You have successfully registered in Hasanah Educational Trust.'));
             }else{
                 return redirect()->back()->with(session()->flash('alert-warning', 'Password and Confirm Password not matched.'));
             }}
@@ -606,10 +619,11 @@ class StudentController extends Controller
 
         $studentid = Student::where('id','=', session('LoggedStudent'))->first();
         $studentdetails = Entrance_exam_form::where('student_id','=', $studentid->student_id)->first();
-        //   dd($studentdetails); die;
+        $examschedules = Exam_schedule::where('class', '=', $studentdetails->class_id)->first();
+        //   dd($examschedules); die;
         // $pdf = PDF::loadView('student/myAdmitCard', compact('studentdetails'));    
         // return $pdf->download($request->exam_type.'-'.$studentdetails['form_id'].'.pdf');
-        return view('student/myAdmitCard', $data, compact('studentdetails'));
+        return view('student/myAdmitCard', $data, compact('studentdetails', 'examschedules'));
     }
 
     public function getClassNames(Request $request){

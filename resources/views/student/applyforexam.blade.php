@@ -266,6 +266,7 @@
                         datas += '<option>Not Found.</option>';
                     } else{
                         // console.log(result);
+                        datas +='<option selected disabled>---Select Class---</option>';
                         $.each(result, function (i) {
                             datas += '<option value="'+result[i].id+'">'+result[i].class_name+'</option>';
                             // console.log(datas);

@@ -20,6 +20,9 @@ class ExternalController extends Controller
     public function login(){
         return view('login');
     }
+    public function thankyou(){
+        return view('thankyou');
+    }
     public function course(){
         $courses = Course::get();
         return view('course', compact('courses'));

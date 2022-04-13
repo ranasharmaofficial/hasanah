@@ -37,6 +37,7 @@ Route::view('verification', 'verification');
 Route::view('login', 'login');
 Route::view('blog', 'blog');
 Route::view('teacher', 'teacher');
+Route::get('thankyou', [ExternalController::class, 'thankyou'])->name('thankyou');
 Route::get('login', [ExternalController::class, 'login'])->name('login');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');
 Route::get('events',[ExternalController::class, 'events'])->name('events');
