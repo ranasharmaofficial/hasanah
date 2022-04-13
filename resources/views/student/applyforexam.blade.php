@@ -70,17 +70,17 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="name" class="col-form-label">Name <star>*</star></label>
-                                        <input type="text" class="form-control" placeholder="Name" value="" name="name" id="name" required>
+                                        <input type="text" readonly class="form-control" value="{{ $LoggedStudentInfo['name'] }}" placeholder="Name" value="" name="name" id="name" required>
                                         <small class="form-text text-danger">@error('name') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Mobile" class="col-form-label">Mobile <star>*</star></label>
-                                        <input type="tel" class="form-control" placeholder="Mobile" value="" name="mobile" id="Mobile" required>
+                                        <input type="tel" readonly  value="{{ $LoggedStudentInfo['mobile'] }}" class="form-control" placeholder="Mobile" value="" name="mobile" id="Mobile" required>
                                         <small class="form-text text-danger">@error('mobile') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Email" class="col-form-label">Email <star>*</star></label>
-                                        <input type="email" class="form-control" placeholder="Email" value="" name="email" id="Email" required>
+                                        <input type="email" class="form-control" placeholder="Email" value="{{ $LoggedStudentInfo['email'] }}" name="email" id="Email" required>
                                         <small class="form-text text-danger">@error('email') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">

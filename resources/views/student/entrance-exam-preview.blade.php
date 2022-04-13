@@ -86,6 +86,7 @@
                                     @csrf
                                     <input type="hidden" name="tokenno" required value="{{$getdetails->token_no}}" />
                                     <input type="hidden" name="class_id" required value="{{$getdetails->class_id}}" />
+                                    <input type="hidden" name="school_id" required value="{{$getdetails->school_id}}" />
                                     <input type="hidden" name="name" required value="{{$getdetails->name}}" />
                                     <input type="hidden" name="email" required value="{{$getdetails->email}}" />
                                     <input type="hidden" name="mobile" required value="{{$getdetails->mobile}}" />
