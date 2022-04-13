@@ -30,9 +30,11 @@ class StudentController extends Controller
     }
     public function applyforexam(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        // dd($data); die;
         $classes = A_class::get();
         $school = School::get();
-        return view('student/applyforexam', $data, compact('classes','school'));
+        $getformappliedornot = Entrance_exam_form::where('student_id', $data['LoggedStudentInfo']->student_id)->first();
+        return view('student/applyforexam', $data, compact('classes', 'school', 'getformappliedornot'));
     }
 
     public function studentGetOTP(Request $request){
@@ -305,8 +307,240 @@ class StudentController extends Controller
     public function editStudentDetails($token_no){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
         $classes  = A_class::get();
+        $school = School::get();
         $studendetails = Entrance_exam_process::where('token_no', $token_no)->first();
-        return view('student/editexampapplyform', $data, compact('studendetails', 'classes'));
+        $getappliedornot = Entrance_exam_form::where('student_id', $data['LoggedStudentInfo']->student_id)->first();
+        return view('student/editexampapplyform', $data, compact('studendetails', 'classes', 'school', 'getappliedornot'));
+    }
+
+    public function studentEntranceExamEdit(Request $request){
+        $request->validate([
+            'school_id' => 'required',
+            'class_id' => 'required',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'mobile' => 'required|min:10|max:10',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'pincode' => 'required',
+            'registration_fee' => 'required',
+        ]);
+
+        $entrancepostedit = Entrance_exam_process::where('token_no',$request->token_no)->where('student_id',$request->student_id)->update([
+            'school_id' => $request->school_id,
+            'class_id' => $request->class_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'pincode' => $request->pincode,
+            'registration_fee' => $request->registration_fee,
+            'status' => 1,
+        ]);
+
+        if ($request->hasfile('aadhar_card')) {
+            $request->validate([
+                'school_id' => 'required',
+                'class_id' => 'required',
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'mobile' => 'required|min:10|max:10',
+                'country' => 'required',
+                'state' => 'required',
+                'city' => 'required',
+                'pincode' => 'required',
+                'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'registration_fee' => 'required',
+            ]);
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadhar_card = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $aadhar_card);
+
+            $entrancepostedit = Entrance_exam_process::where('token_no',$request->token_no)->where('student_id',$request->student_id)->update([
+                'school_id' => $request->school_id,
+                'class_id' => $request->class_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pincode' => $request->pincode,
+                'aadhar_card' => $aadhar_card,
+                'registration_fee' => $request->registration_fee,
+                'status' => 1,
+            ]);
+            if($entrancepostedit) {
+                return redirect('student/entrance-exam-preview'.'/'.$request->token_no);
+            }
+            return redirect('student/entrance-exam-preview'.'/'.$request->token_no)->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+
+        if ($request->hasfile('father_aadhar_card') && $request->hasfile('aadhar_card')) {
+            $request->validate([
+                'school_id' => 'required',
+                'class_id' => 'required',
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'mobile' => 'required|min:10|max:10',
+                'country' => 'required',
+                'state' => 'required',
+                'city' => 'required',
+                'pincode' => 'required',
+                'father_aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'registration_fee' => 'required',
+            ]);
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadhar_card = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $aadhar_card);
+
+            $file = $request->file('father_aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $father_aadhar_card = 'father_aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $father_aadhar_card);
+
+            $entrancepostedit = Entrance_exam_process::where('token_no',$request->token_no)->where('student_id',$request->student_id)->update([
+                'school_id' => $request->school_id,
+                'class_id' => $request->class_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pincode' => $request->pincode,
+                'aadhar_card' => $aadhar_card,
+                'father_aadhar_card' => $father_aadhar_card,
+                'registration_fee' => $request->registration_fee,
+                'status' => 1,
+            ]);
+            if($entrancepostedit) {
+                return redirect('student/entrance-exam-preview'.'/'.$request->token_no);
+            }
+            return redirect('student/entrance-exam-preview'.'/'.$request->token_no)->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+
+        if ($request->hasfile('last_year_marksheet') && $request->hasfile('father_aadhar_card') && $request->hasfile('aadhar_card')) {
+            $request->validate([
+                'school_id' => 'required',
+                'class_id' => 'required',
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'mobile' => 'required|min:10|max:10',
+                'country' => 'required',
+                'state' => 'required',
+                'city' => 'required',
+                'pincode' => 'required',
+                'last_year_marksheet' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'father_aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'registration_fee' => 'required',
+            ]);
+            $file = $request->file('last_year_marksheet');
+            $extenstion = $file->getClientOriginalExtension();
+            $last_year_marksheet = 'last_year_marksheet-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $last_year_marksheet);
+            
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadhar_card = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $aadhar_card);
+            
+            $file = $request->file('father_aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $father_aadhar_card = 'father_aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $father_aadhar_card);
+
+            $entrancepostedit = Entrance_exam_process::where('token_no',$request->token_no)->where('student_id',$request->student_id)->update([
+                'school_id' => $request->school_id,
+                'class_id' => $request->class_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pincode' => $request->pincode,
+                'aadhar_card' => $aadhar_card,
+                'father_aadhar_card' => $father_aadhar_card,
+                'last_year_exam_marksheet' => $last_year_marksheet,
+                'registration_fee' => $request->registration_fee,
+                'status' => 1,
+            ]);
+            if($entrancepostedit) {
+                return redirect('student/entrance-exam-preview'.'/'.$request->token_no);
+            }
+            return redirect('student/entrance-exam-preview'.'/'.$request->token_no)->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+        if ($request->hasfile('passport_photo') && $request->hasfile('last_year_marksheet') && $request->hasfile('father_aadhar_card') && $request->hasfile('aadhar_card')) {
+            $request->validate([
+                'school_id' => 'required',
+                'class_id' => 'required',
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'mobile' => 'required|min:10|max:10',
+                'country' => 'required',
+                'state' => 'required',
+                'city' => 'required',
+                'pincode' => 'required',
+                'passport_photo' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'last_year_marksheet' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'father_aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'aadhar_card' => 'required|max:500|image|mimes:jpg,jpeg,png',
+                'registration_fee' => 'required',
+            ]);
+            $file = $request->file('passport_photo');
+            $extenstion = $file->getClientOriginalExtension();
+            $passport_photo = 'passport_photo-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $passport_photo);
+            
+            $file = $request->file('last_year_marksheet');
+            $extenstion = $file->getClientOriginalExtension();
+            $last_year_marksheet = 'last_year_marksheet-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $last_year_marksheet);
+            
+            $file = $request->file('aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $aadhar_card = 'aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $aadhar_card);
+            
+            $file = $request->file('father_aadhar_card');
+            $extenstion = $file->getClientOriginalExtension();
+            $father_aadhar_card = 'father_aadhar_card-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/student-documents'), $father_aadhar_card);
+
+            $entrancepostedit = Entrance_exam_process::where('token_no',$request->token_no)->where('student_id',$request->student_id)->update([
+                'school_id' => $request->school_id,
+                'class_id' => $request->class_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pincode' => $request->pincode,
+                'passport_photo' => $passport_photo,
+                'aadhar_card' => $aadhar_card,
+                'father_aadhar_card' => $father_aadhar_card,
+                'last_year_exam_marksheet' => $last_year_marksheet,
+                'registration_fee' => $request->registration_fee,
+                'status' => 1,
+            ]);
+            if($entrancepostedit) {
+                return redirect('student/entrance-exam-preview'.'/'.$request->token_no);
+            }
+            return redirect('student/entrance-exam-preview'.'/'.$request->token_no)->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+        if($entrancepostedit) {
+            return redirect('student/entrance-exam-preview'.'/'.$request->token_no);
+        }
+        return redirect('student/entrance-exam-preview'.'/'.$request->token_no)->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
     }
 
     public static function getClassName($cid){
@@ -335,10 +569,11 @@ class StudentController extends Controller
         return $data;        
     }
 
-    public function studentAdmitCard()
-    {
+    public function studentAdmitCard(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        return view('student/admit-card', $data);
+        // dd($data); die;
+        $getadmitcard = Entrance_exam_form::where('student_id', $data['LoggedStudentInfo']->student_id)->where('status', '2')->first();
+        return view('student/admit-card', $data, compact('getadmitcard'));
     }
 
     public function changeOldPassword(Request $request){

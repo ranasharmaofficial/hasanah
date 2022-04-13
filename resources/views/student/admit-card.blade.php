@@ -11,6 +11,7 @@
                             <h3 class="card-title">Download Admit Card</h3>
                         </div>
                         <div class="card-body">
+                            @if ($getadmitcard)
                             <form action="{{route('generateAdmitCardPDF')}}" method="get">
                                 <div class="form-group col-sm-12">
                                     <select name="exam_type" id="examType" class="form-select" required>
@@ -24,6 +25,9 @@
                                     <button class="btn btn-success" ><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download Now</button>
                                 </div>
                             </form>
+                            @else
+                            <div class="text-center text-danger">Your admit card not generated.</div>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,8 @@
                                     @endif
                                 @endforeach
                             </div>
+
+                            @if (!$getformappliedornot)
                             <form action="{{route('student.entranceExam')}}" method="POST" class="row" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -107,28 +109,28 @@
                                     <h5 class="text-primary mt-3">Upload Documents</h5><hr>
                                     <div class="col-sm-4">
                                         <label for="PassportPhoto" class="col-form-label">Passport Photo. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Passport Photo" value="" name="passport_photo" id="PassportPhoto" required>
+                                        <input type="file" class="form-control" placeholder="Passport Photo" value="" name="passport_photo" id="PassportPhoto">
                                         <small class="form-text text-danger">@error('passport_photo') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Aadhar" class="col-form-label">Aadhar Card. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Aadhar Card" value="" name="aadhar_card" id="Aadhar" required>
+                                        <input type="file" class="form-control" placeholder="Aadhar Card" value="" name="aadhar_card" id="Aadhar">
                                         <small class="form-text text-danger">@error('aadhar_card') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Father" class="col-form-label">Father's Aadhar Card. <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Father Card" value="" name="father_aadhar_card" id="Aadhar" required>
+                                        <input type="file" class="form-control" placeholder="Father Card" value="" name="father_aadhar_card" id="Aadhar">
                                         <small class="form-text text-danger">@error('father_aadhar_card') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="Marksheet" class="col-form-label">Last Year Exam Marksheet <star>*</star></label>
-                                        <input type="file" class="form-control" placeholder="Last Year Exam Marksheet" value="" name="last_year_marksheet" id="Marksheet" required>
+                                        <input type="file" class="form-control" placeholder="Last Year Exam Marksheet" value="" name="last_year_marksheet" id="Marksheet">
                                         <small class="form-text text-danger">@error('last_year_marksheet') {{ $message }} @enderror</small>
                                     </div>
                                     <h5 class="text-primary mt-3">Payment Details</h5><hr>
                                     <div class="col-sm-4">
                                         <label for="regAmount" class="col-form-label">Registration Fee <star>*</star></label>
-                                        <input type="text" class="form-control" placeholder="Registration Amount" value="" readonly name="registration_fee" id="regAmount" required>
+                                        <input type="text" class="form-control" required placeholder="Registration Amount" value="" readonly name="registration_fee" id="regAmount">
                                         <small class="form-text text-danger">@error('registration_fee') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-12 mt-4 text-center">
@@ -137,6 +139,19 @@
                                 </div>
                                    
                             </form>
+                            @else
+                                <h4 class="text-success text-center">You have already applied.</h4>
+                                <p class="text-center">
+                                    Form Status: @if ($getformappliedornot->status == '1')
+                                    <span class="text-warning">Pending</span>
+                                @elseif ($getformappliedornot->status == '2')
+                                <span class="text-success" onclick="window.location.href='{{url('student/admit-card')}}'">Accepted download your admit card.</span>
+                                @else
+                                <span class="text-danger">Rejected</span>
+                                @endif
+                            </p>                           
+                            @endif
+                            
                         </div>
                     </div>
                 </div> <!-- end col -->

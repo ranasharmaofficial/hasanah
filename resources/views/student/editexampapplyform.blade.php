@@ -24,17 +24,30 @@ use \App\Http\Controllers\StudentController;
                                     @endif
                                 @endforeach
                             </div>
-                            <form action="{{route('student.entranceExam')}}" method="POST" class="row" enctype="multipart/form-data">
+                            @if (!$getappliedornot)
+                            <form action="{{route('student.entranceExamEdit')}}" method="POST" class="row" enctype="multipart/form-data">
                                 @csrf
+                                <input type="hidden" name="token_no" required value="{{$studendetails->token_no}}">
+                                <input type="hidden" name="student_id" required value="{{$studendetails->student_id}}">
                                 <div class="row">
                                     <h5 class="text-primary">Personal Details</h5><hr>
                                     <div class="col-sm-4">
+                                        <label for="school_id" class="col-form-label">Select School <star>*</star></label>
+                                        <select class="form-select" required type="text" name="school_id" id="school_id">
+                                            <option selected disabled>---Select School----</option>
+                                            @foreach ($school as $citem)
+                                                <option value="{{$citem->id}}">{{$citem->school_name}}</option>                                            
+                                            @endforeach
+                                        </select>
+                                        <small class="form-text text-danger">@error('school_id') School is required. @enderror</small>
+                                    </div>                                    
+                                    <div class="col-sm-4">
                                         <label for="Class" class="col-form-label">Select Class <star>*</star></label>
                                         <select class="form-select" required type="text" name="class_id" id="class_id">
-                                            <option selected value="{{$studendetails->class_id}}">{{StudentController::getClassName($studendetails->class_id)}}</option>
-                                            @foreach ($classes as $citem)
+                                            <option selected disabled>---Select Class----</option>
+                                            {{-- @foreach ($classes as $citem)
                                                 <option value="{{$citem->id}}">{{$citem->class_name}}</option>                                            
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                         <small class="form-text text-danger">@error('class_id') Class is required. @enderror</small>
                                     </div>
@@ -110,6 +123,10 @@ use \App\Http\Controllers\StudentController;
                                 </div>
                                    
                             </form>
+                            @else
+                                <div class="text-danger">Something went wrong. Please! apply form again.</div>
+                            @endif
+                            
                         </div>
                     </div>
                 </div> <!-- end col -->
@@ -277,6 +294,33 @@ use \App\Http\Controllers\StudentController;
     <script>
   
         jQuery(document).ready(function(){
+            jQuery('#school_id').change(function(){
+            let school=jQuery(this).val();
+            let datas = "";
+            console.log(school)
+    // $('#sub_category').empty();
+    // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+            jQuery.ajax({
+                url:'{{url('getClassNames')}}',
+                type:'post',
+                data:'school='+school+'&_token={{csrf_token()}}',
+                success:function(result){
+                    // jQuery('#project_id').val(''+result+'')
+                    datas += '<option value="" selected disabled>---Select Class---</option>';
+                    if (result == '') {
+                        datas += '<option>Not Found.</option>';
+                    } else{
+                        // console.log(result);
+                        $.each(result, function (i) {
+                            datas += '<option value="'+result[i].id+'">'+result[i].class_name+'</option>';
+                            // console.log(datas);
+                        });                    
+                    }
+                    jQuery('#class_id').html(datas);
+                }
+            });
+        });
+
             jQuery('#class_id').change(function(){
                 let cid=jQuery(this).val();
                 let datas = "";
