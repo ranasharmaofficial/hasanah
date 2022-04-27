@@ -26,16 +26,17 @@
                         <span>Download Admit Card</span>
                     </a>
                 </li>
-                {{-- <li>
+                
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-slideshow-fill"></i>
-                        <span>Project</span>
+                        <span>Admission</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('employee/ongoing-project')}}">Ongoing Project</a></li>
-                        {{-- <li><a href="{{url('user/completed-project')}}">Completed Project</a></li> --}}
-                     {{-- </ul>
-                </li> --}}
+                        <li><a href="{{url('student/admission-form')}}" class="waves-effect"><span>Apply Admission Form</span></a></li>
+                        <li><a href="{{url('student/admission-fee')}}" class="waves-effect"><span>Pay Admission Fee</span></a></li>
+                    </ul>
+                </li>
                 
                 <li>
                     <a href="{{url('student/view-profile')}}" class="waves-effect">

@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\School_admin;
 use App\Models\Student;
 use App\Models\A_class;
+use App\Models\Academicyear;
+use App\Models\Admission_fee;
+use App\Models\Batchtime;
+use App\Models\Course;
 use App\Models\Entrance_exam_form;
 use App\Models\Exam_schedule;
 use App\Models\School;
@@ -184,6 +188,80 @@ class SchoolAdminController extends Controller
         $className = A_class::where('id', $cid)->first();
         $class_name = $className->class_name;
         return $class_name;
+    }
+
+    public function addAcademicYear()
+    {
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        return view('schooladmin/add-academic-year', $data);
+    }
+
+    public function uploadAcademicYear(Request $request)
+    {
+        $request->validate([
+            'datefrom' => 'required',
+            'dateto' => 'required',
+        ]);
+
+        $academicyear = new Academicyear;
+        $academicyear->academicYear = $request->datefrom . '-' . $request->dateto;
+        $academicyear->save();
+        if ($academicyear) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Academic Year Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
+    }
+    public function addBatch()
+    {
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $courses = Course::get();
+        return view('schooladmin/add-batch-time', $data, compact('courses'));
+    }
+    public function uploadBatchTime(Request $request)
+    {
+        $request->validate([
+            'coursename' => 'required|string',
+            'batchtimefrom' => 'required',
+            'batchtimeto' => 'required',
+        ]);
+
+        $batchtime = new Batchtime;
+        $batchtime->courseid = $request->coursename;
+        $batchtime->batchtimefrom = $request->batchtimefrom;
+        $batchtime->batchtimeto = $request->batchtimeto;
+        $batchtime->save();
+
+        if ($batchtime) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Batchtime Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
+    }
+
+    public function fixAdmissionFee(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $courses = Course::get();
+        return view('schooladmin/fix-admission-fee', $data, compact('courses'));
+    }
+
+    public function uploadAdmissionFee(Request $request){
+        $request->validate([
+            'coursename' => 'required|string',
+            'admissionfee' => 'required',
+            'tutionfee' => 'required',
+        ]);
+
+        $admissionfee = new Admission_fee;
+        $admissionfee->course_id = $request->coursename;
+        $admissionfee->admission_fee = $request->admissionfee;
+        $admissionfee->tution_fee = $request->tutionfee;
+        $admissionfee->save();
+        if ($admissionfee) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Admission Fee Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
    
 }

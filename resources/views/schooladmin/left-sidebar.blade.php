@@ -47,6 +47,35 @@
                     </ul>
                 </li>
                 <li>
+                   <a href="javascript: void(0);" class="has-arrow waves-effect">
+                       <i class="ri-file-list-line"></i>
+                       <span>Academic Year</span>
+                   </a>
+                   <ul class="sub-menu" aria-expanded="true">
+                       <li><a href="{{url('schooladmin/add-academic-year')}}">Add Academic Year</a></li>
+                       {{-- <li><a href="{{url('admin/academic-list')}}">Academic List</a></li> --}}
+                   </ul>
+                </li>
+                <li>
+                   <a href="javascript: void(0);" class="has-arrow waves-effect">
+                       <i class="ri-file-list-line"></i>
+                       <span>Batch Timing</span>
+                   </a>
+                   <ul class="sub-menu" aria-expanded="true">
+                       <li><a href="{{url('schooladmin/add-batch-time')}}">Add Batch Time</a></li>
+                       {{-- <li><a href="{{url('admin/batch-list')}}">Batch Timing List</a></li> --}}
+                   </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i>FP</i>
+                        <span>Fix Payment</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schooladmin/fix-admission-fee')}}">Fix Admission Fee</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-building-fill"></i>
                         <span>School </span>

@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\A_class;
+use App\Models\Academicyear;
+use App\Models\Admission;
+use App\Models\Admission_fee;
+use App\Models\Batchtime;
+use App\Models\Course;
 use App\Models\Entrance_exam_form;
 use App\Models\Entrance_exam_process;
 use App\Models\Exam_schedule;
+use App\Models\Fee;
 use App\Models\User_login_history;
 use App\Models\School;
+use App\Models\Student_admission;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use Illuminate\Support\Facades\Session;
@@ -630,6 +637,162 @@ class StudentController extends Controller
         $schoolid = $request->post('school');
         $schooldetails = A_class::where('school_id', $schoolid)->get();
         return $schooldetails;
+    }
+
+    public function studentAdmissionForm(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $courses = Course::get();
+        $academicyears = Academicyear::get();
+        $batchtimes = Batchtime::get();
+        return view('student/admission-form', $data, compact('courses', 'academicyears', 'batchtimes'));
+    }
+    public function getBatchTime(Request $request)
+    {
+        $courseid = $request->post('courseid');
+        $courseids = Batchtime::where('courseid', '=', $courseid)->get();
+        $batchtiming = '<option selected disabled value="">Select Batch Time</option>';
+        foreach ($courseids as $list) {
+            $batchtiming .= '<option value="' . $list->id . '">' . date("g:i a", strtotime($list->batchtimefrom)) . ' - ' . date("g:i a", strtotime($list->batchtimeto)) . '</option>';
+        }
+        echo $batchtiming;
+    }
+    public function getAdmissionFee(Request $request)
+    {
+        $courseid = $request->post('courseid');
+        $fees = Admission_fee::where('course_id', '=', $courseid)->where('status', '1')->first();
+        echo $fees;
+    }
+
+    public function studentAdmissionApply(Request $request)
+    {
+        $request->validate([
+            'studentid' => 'required',
+            'academic_year' => 'required',
+            'selectcourse' => 'required',
+            'fullname' => 'required',
+            'dob' => 'required',
+            'gender' => 'required',
+            'bloodgroup' => 'required',
+            'nationality' => 'required',
+            'category' => 'required',
+            'aadharnumber' => 'required',
+            'mobilenumber' => 'required|min:10|max:10',
+            'studentphoto' => 'required',
+            'addresslineone' => 'required|max:150',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'pincode' => 'required',
+            'guardianname' => 'required',
+            'relation' => 'required',
+            'guardianaddresslineone' => 'required|max:150',
+            'guardiancity' => 'required',
+            'guardianstate' => 'required',
+            'guardiancountry' => 'required',
+            'guardianpincode' => 'required',
+            'guardianmobile' => 'required|min:10|max:10',
+            'admissionfee' => 'required',
+            'tutionfee' => 'required',
+        ]);
+
+       //$lastAdmission = Admission::orderBy('id', 'desc')->first();
+        $lastRollNumber = Admission::orderBy('id', 'desc')->first();
+        $userIDGene = Admission::orderBy('id', 'desc')->first();
+        $admission = new Admission;
+        // Admission Number Generate Start
+        if (isset($lastRollNumber)) {
+            // Sum 1 + last id
+            $admission->admissionNumber = 'HET-' . ($lastRollNumber->rollNumber + 1) . '-' . date('Y');
+        } else {
+            $admission->admissionNumber = 'HET-'.date('d') . '11'.'-' . date('Y');
+        }
+        // Admission Number Generate End
+
+        // Roll Number Generate Start
+        if (isset($lastRollNumber)) {
+            // Sum 1 + last id
+            $rollnumber = $lastRollNumber->rollNumber + 1;
+        } else {
+            // $rollnumber = date('d') . '10121';
+            $rollnumber = date('d') . '11';
+        }
+        // Roll Number Generate End
+        if ($request->hasfile('studentphoto')) {
+            $file = $request->file('studentphoto');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'student-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/student-documents'), $filename);
+        }
+        
+        // $admission->admissionNumber = date('Ymd') . rand(1111, 9999);
+        $student = new Student_admission;
+        $student->student_id = $request->studentid;
+        $student->session = $request->academic_year;
+        $student->courseID = $request->selectcourse;
+        $student->save();
+        
+        $admission->student_id = $request->studentid;
+        $admission->rollNumber = $rollnumber;
+        $admission->bloodGroup = $request->bloodgroup;
+        $admission->birthPlace = $request->birthplace;
+        $admission->aadharNumber = $request->aadharnumber;
+        $admission->studentPhoto = $filename;
+        $admission->gurdianName = $request->guardianname;
+        $admission->guardianMobile = $request->guardianmobile;
+        $admission->guardianAadhar = $request->guardianaadhar;
+        $admission->relation = $request->relation;
+        $admission->gurdiandob = $request->guardiandob;
+        $admission->gurdianeducation = $request->education;
+        $admission->gurdianoccupation = $request->occupation;
+        $admission->gurdianincome = $request->income;
+        $admission->dob = $request->dob;
+        $admission->gender = $request->gender;
+        $admission->nationality = $request->nationality;
+        $admission->category = $request->category;
+        $admission->religion = $request->religion;
+        $admission->addresslineone = $request->addresslineone;
+        $admission->addresslinetwo = $request->addresslinetwo;
+        $admission->city = $request->city;
+        $admission->state = $request->state;
+        $admission->country = $request->country;
+        $admission->pincode = $request->pincode;
+        $admission->gurdianaddresslineone = $request->guardianaddresslineone;
+        $admission->gurdianaddresslinetwo = $request->guardianaddresslinetwo;
+        $admission->gurdiancity = $request->guardiancity;
+        $admission->gurdianstate = $request->guardianstate;
+        $admission->gurdiancountry = $request->guardiancountry;
+        $admission->gurdianpincode = $request->guardianpincode;
+        // $admission->admissionFee = $request->admissionfee;
+        // $admission->tutionFee = $request->tutionfee;
+        $admission->joiningDate = now();
+        $admission->save();
+        $feedetails = Admission_fee::where('course_id', $request->selectcourse)->first();
+        $paymentfee = new Fee;
+        $paymentfee->student_id = $request->studentid;
+        $paymentfee->rollNumber = $rollnumber;
+        $paymentfee->session = $request->academic_year;
+        $paymentfee->admissionFee = $feedetails->admission_fee;
+        $paymentfee->tutionFee = $feedetails->tution_fee;
+        $paymentfee->status = 2;
+        // $paymentfee->discount = $request->discount;
+        $paymentfee->save();
+
+        if ($student && $admission && $paymentfee) {
+            return redirect('student/admission-fee')->with(session()->flash('alert-success', 'Admission form successfully filled. Please! Pay admission fee.'));
+            // return redirect('admin/studentreceiving'.'/'.$request->studentid);
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
+    }
+
+    public function studentAdmissionFee(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $feedata = Fee::where('student_id', '=', $data['LoggedStudentInfo']->student_id)->first();
+        if ($feedata) {
+            $studentdata = Student::where('student_id', '=', $feedata->student_id)->first();
+            return view('student/admission-fee', $data, compact('feedata', 'studentdata'));
+        }
+        return view('student/admission-fee', $data, compact('feedata'));
     }
     
 }

@@ -59,6 +59,9 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::post('student/change-password', [StudentController::class, 'changeOldPassword'])->name('student.change-password');
     Route::post('getClassAmount', [StudentController::class, 'getClassAmount'])->name('getClassAmount');
     Route::post('student/entranceExam', [StudentController::class, 'studentEntranceExam'])->name('student.entranceExam');
+    Route::post('studentAdmissionApply', [StudentController::class, 'studentAdmissionApply'])->name('studentAdmissionApply');
+    Route::get('student/admission-form', [StudentController::class, 'studentAdmissionForm'])->name('student.admission-form');
+    Route::get('student/admission-fee', [StudentController::class, 'studentAdmissionFee'])->name('student.admission-fee');
     Route::get('student/admit-card', [StudentController::class, 'studentAdmitCard'])->name('student.admit-card');
     Route::get('student/entrance-exam-preview/{tokenno}', [StudentController::class, 'studentEntranceExamPreview'])->name('student.entrance-exam-preview.{tokenno}');
     Route::post('student.entranceExamEdit', [StudentController::class, 'studentEntranceExamEdit'])->name('student.entranceExamEdit');
@@ -71,6 +74,8 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::post('getMarkSheet', [StudentController::class, 'getMarkSheet'])->name('getMarkSheet');
     Route::get('generateAdmitCardPDF', [StudentController::class, 'generateAdmitCardPDF'])->name('generateAdmitCardPDF');
     Route::post('getClassNames', [StudentController::class, 'getClassNames'])->name('getClassNames');
+    Route::post('getBatchTime', [StudentController::class, 'getBatchTime'])->name('getBatchTime');
+    Route::post('getAdmissionFee', [StudentController::class, 'getAdmissionFee'])->name('getAdmissionFee');
 });
 //Student Modules End
 
@@ -97,6 +102,12 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/addschool', [SchoolAdminController::class, 'addSchool'])->name('schooladmin/addschool');
     Route::post('uploadSchool', [SchoolAdminController::class, 'uploadSchool'])->name('uploadSchool');
     Route::get('schooladmin/school-list', [SchoolAdminController::class, 'schoolList'])->name('schooladmin/school-list');
+    Route::get('schooladmin/add-academic-year', [SchoolAdminController::class, 'addAcademicYear'])->name('schooladmin/add-academic-year');
+    Route::post('uploadAcademicYear', [SchoolAdminController::class, 'uploadAcademicYear'])->name('uploadAcademicYear');
+    Route::get('schooladmin/add-batch-time', [SchoolAdminController::class, 'addBatch'])->name('schooladmin.add-batch-time');
+    Route::post('uploadBatchTime', [SchoolAdminController::class, 'uploadBatchTime'])->name('uploadBatchTime');
+    Route::get('schooladmin/fix-admission-fee', [SchoolAdminController::class, 'fixAdmissionFee'])->name('schooladmin.fix-admission-fee');
+    Route::post('uploadAdmissionFee', [SchoolAdminController::class, 'uploadAdmissionFee'])->name('uploadAdmissionFee');
     
 });
 
