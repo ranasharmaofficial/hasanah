@@ -1,6 +1,21 @@
 @extends('student.layouts.master')
 @section('title', 'Pay Admission Fee')
 @section('content')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .razorpay-payment-button {
+        color: white !important;
+        background-color: #A4139D;
+        border-color: #A4139D;
+        font-size: 14px;
+        width: 100%;
+        height: 45px;
+        text-align: center;
+        border-radius: 2px;
+        padding: 10px;
+    }
+    </style>
 <div class="page-content">
     <div class="container-fluid">
 
@@ -45,12 +60,12 @@
                             <table class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
-                                        <th>Roll Number:</th>
-                                        <td>{{$feedata->rollNumber}}</td>
-                                    </tr>
-                                    <tr>
                                         <th>Name:</th>
                                         <td>{{$studentdata->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Roll Number:</th>
+                                        <td>{{$feedata->rollNumber}}</td>
                                     </tr>
                                     <tr>
                                         <th>Form Applied Date:</th>
@@ -65,11 +80,43 @@
                                         <td>Rs: {{$feedata->tutionFee}}/-</td>
                                     </tr>
                                     <tr>
+                                        <th>Security Deposit:</th>
+                                        <td>Rs: {{$feedata->security_deposit}}/-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Annual Fee:</th>
+                                        <td>Rs: {{$feedata->annual_fee}}/-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Miscellanous Fee:</th>
+                                        <td>Rs: {{$feedata->miscellanous_fee}}/-</td>
+                                    </tr>
+                                    <tr>
                                         <th>Total Payment:</th>
-                                        <td>Rs: {{$feedata->admissionFee + $feedata->tutionFee}}/-</td>
+                                        <td>Rs: {{$feedata->admissionFee + $feedata->tutionFee + $feedata->security_deposit + $feedata->annual_fee + $feedata->miscellanous_fee}}/-</td>
                                     </tr>
                                     <tr class="text-center">
-                                        <td colspan="2"><button class="btn btn-danger">Pay Now</button></td>
+                                        <td colspan="2">
+                                            <div class="row justify-content-center">
+                                                <div class="col-sm-2">
+                                                    <form action="{{url('admissionPayment')}}" method="POST" >
+                                                        @csrf
+                                                        <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                                            data-key="{{ env('RAZORPAY_KEY') }}"
+                                                            data-amount="{{$feedata->admissionFee + $feedata->tutionFee + $feedata->security_deposit + $feedata->annual_fee + $feedata->miscellanous_fee}}00"
+                                                            data-buttontext="Pay Now"
+                                                            data-name="Hasanah Educational Trust"
+                                                            data-description="Admission Payment"
+                                                            data-image="{{asset('assets_admin/images/logo-light.png')}}"
+                                                            data-prefill.name="{{$studentdata->name}}"
+                                                            data-prefill.email="{{$studentdata->email}}"
+                                                            data-prefill.contact="{{$studentdata->mobile}}"
+                                                            data-theme.color="#A4139D">
+                                                        </script>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

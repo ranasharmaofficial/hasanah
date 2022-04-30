@@ -33,8 +33,9 @@
                         <span>Admission</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('student/admission-form')}}" class="waves-effect"><span>Apply Admission Form</span></a></li>
-                        <li><a href="{{url('student/admission-fee')}}" class="waves-effect"><span>Pay Admission Fee</span></a></li>
+                        {{-- <li><a href="{{url('student/admission-form')}}" class="waves-effect"><span>Apply Admission Form</span></a></li>
+                        <li><a href="{{url('student/admission-fee')}}" class="waves-effect"><span>Pay Admission Fee</span></a></li> --}}
+                        <li><a href="{{url('student/admission')}}" class="waves-effect"><span>Take Admission</span></a></li>
                     </ul>
                 </li>
                 

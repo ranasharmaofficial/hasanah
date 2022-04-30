@@ -773,6 +773,9 @@ class StudentController extends Controller
         $paymentfee->session = $request->academic_year;
         $paymentfee->admissionFee = $feedetails->admission_fee;
         $paymentfee->tutionFee = $feedetails->tution_fee;
+        $paymentfee->security_deposit = $feedetails->security_deposit;
+        $paymentfee->annual_fee = $feedetails->annual_fee;
+        $paymentfee->miscellanous_fee = $feedetails->miscellanous_fee;
         $paymentfee->status = 2;
         // $paymentfee->discount = $request->discount;
         $paymentfee->save();
@@ -793,6 +796,81 @@ class StudentController extends Controller
             return view('student/admission-fee', $data, compact('feedata', 'studentdata'));
         }
         return view('student/admission-fee', $data, compact('feedata'));
+    }
+
+    public function admissionPaymentPai(Request $request){
+        $input = $request->all();
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount']));
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+            
+        // dd($response); die;
+            $studentid = Student::where('id','=', session('LoggedStudent'))->first();
+
+            $payment_update = Fee::where('student_id', '=', $studentid->student_id)
+                                            ->where('status', '=', '2')
+                                            ->update([
+                                                'receipt_no' => time().$studentid->id,
+                                                'payment_mobile' => $response->contact,
+                                                'payment_email' => $response->email,
+                                                'payment_id' => $request->razorpay_payment_id,
+                                                'transaction_id' => time().rand(11,99).date('yd'),
+                                                'transaction_date' => now(),
+                                                'payment_status' => $response->status,
+                                                'payment_card_id' => $response->card_id,
+                                                'method' => $response->method,
+                                                'wallet' => $response->wallet,
+                                                'payment_vpa' => $response->vpa,
+                                                'international_payment' => $response->international,
+                                                'error_reason' => $response->error_reason,
+                                                'status' => 1,
+                                            ]);
+        }
+        //   dd($payment_update); die;
+        if ($payment_update) {
+            return redirect('student/admission')->with(session()->flash('alert-success', 'Transaction successful.'));
+        } else{
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        }
+    }
+
+    public function studentAdmissionReceipt(Request $request, $studentid){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $getfeedetails = Fee::where('student_id',$studentid)->first();
+        $getdetails = Student::where('student_id', $studentid)->first();
+        $getadmissiondetails = Admission::where('student_id', $studentid)->first();
+        $getcdetails = Student_admission::where('student_id', $studentid)->first();
+        $getcourse = Course::where('course_id', $getcdetails->courseID)->first();
+        $getsession = Academicyear::where('id', $getcdetails->session)->first();
+        // dd($getdetails); die;
+        return view('student/admission-receiept', $data, compact('getfeedetails', 'getdetails', 'getadmissiondetails', 'getcourse', 'getsession'));
+    }
+
+    public function studentAdmissionPaymentReceipt($studentid){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $getfeedetails = Fee::where('student_id',$studentid)->first();
+        $getdetails = Student::where('student_id', $studentid)->first();
+        $getadmissiondetails = Admission::where('student_id', $studentid)->first();
+        $getcdetails = Student_admission::where('student_id', $studentid)->first();
+        $getcourse = Course::where('course_id', $getcdetails->courseID)->first();
+        $getsession = Academicyear::where('id', $getcdetails->session)->first();
+        // dd($getdetails); die;
+        return view('student/admission-payment-receipt', $data, compact('getfeedetails', 'getdetails', 'getadmissiondetails', 'getcourse', 'getsession'));
+    }
+
+    public function studentAdmission(){
+        $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
+        $admissionstatus = Fee::where('student_id', $data['LoggedStudentInfo']->student_id)->first();
+        return view('student/admission', $data, compact('admissionstatus'));
     }
     
 }

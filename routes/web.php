@@ -76,6 +76,10 @@ Route::group(['middleware'=>['StudentAuthCheck']], function(){
     Route::post('getClassNames', [StudentController::class, 'getClassNames'])->name('getClassNames');
     Route::post('getBatchTime', [StudentController::class, 'getBatchTime'])->name('getBatchTime');
     Route::post('getAdmissionFee', [StudentController::class, 'getAdmissionFee'])->name('getAdmissionFee');
+    Route::post('admissionPayment', [StudentController::class, 'admissionPaymentPai'])->name('admissionPayment');
+    Route::get('student/admission-receiept/{studentid}', [StudentController::class, 'studentAdmissionReceipt'])->name('student/admission-receiept/{studentid}');
+    Route::get('student/admission-payment-receipt/{studentid}', [StudentController::class, 'studentAdmissionPaymentReceipt'])->name('student/admission-payment-receiept/{studentid}');
+    Route::get('student/admission', [StudentController::class, 'studentAdmission'])->name('student/admission');
 });
 //Student Modules End
 

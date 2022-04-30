@@ -287,22 +287,12 @@
                                         <small class="form-text text-danger">@error('guardianpincode') {{$message}} @enderror</small>
                                     </div>                                                                
                                 </div>
-                            </div> 
-                            <h6 class="card-title font-weight-bold text-uppercase">Payment Details:-</h6><hr>
-                            <div class="container">
-                                <div class="row mb-3">                                
-                                    <div class="col-sm-6">
-                                        <label for="admissionfee" class="col-form-label">Admission Fee <star>*</star></label>
-                                        <input class="form-control" type="text" required name="admissionfee" placeholder="Admission fee here..." value="{{old('admissionfee')}}" readonly id="admissionfee"/>
-                                        <small class="form-text text-danger">@error('admissionfee') {{$message}} @enderror</small>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="tutionfee" class="col-form-label">Tution Fee <star>*</star></label>
-                                        <input class="form-control" type="text" name="tutionfee" readonly placeholder="Tution fee here..." required value="{{old('tutionfee')}}" id="tutionfee"/>
-                                        <small class="form-text text-danger">@error('tutionfee') {{$message}} @enderror</small>
-                                    </div>                                                                
-                                </div>
-                            </div>                   
+                            </div>       
+                            <input class="form-control" type="hidden" required name="admissionfee" value="{{old('admissionfee')}}" readonly id="admissionfee"/> 
+                            <input class="form-control" type="hidden" name="tutionfee" readonly required value="{{old('tutionfee')}}" id="tutionfee"/>            
+                            <input class="form-control" type="hidden" name="annualfee" readonly required value="{{old('annualfee')}}" id="annualfee"/>            
+                            <input class="form-control" type="hidden" name="securitydeposit" readonly required value="{{old('securitydeposit')}}" id="securitydeposit"/>            
+                            <input class="form-control" type="hidden" name="miscellanousfee" readonly required value="{{old('miscellanousfee')}}" id="miscellanousfee"/>            
                             <div class="row">
                                 <div class="col-sm-12 text-center">
                                     <button name="add_student" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-save"></i> Proceed</button>

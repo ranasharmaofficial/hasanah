@@ -256,6 +256,9 @@ class SchoolAdminController extends Controller
         $admissionfee->course_id = $request->coursename;
         $admissionfee->admission_fee = $request->admissionfee;
         $admissionfee->tution_fee = $request->tutionfee;
+        $admissionfee->security_deposit = $request->securitydeposit;
+        $admissionfee->annual_fee = $request->annualfee;
+        $admissionfee->miscellanous_fee = $request->miscellanousfee;
         $admissionfee->save();
         if ($admissionfee) {
             return redirect()->back()->with(session()->flash('alert-info', 'Admission Fee Successfully Uploaded'));
