@@ -112,6 +112,12 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::post('uploadBatchTime', [SchoolAdminController::class, 'uploadBatchTime'])->name('uploadBatchTime');
     Route::get('schooladmin/fix-admission-fee', [SchoolAdminController::class, 'fixAdmissionFee'])->name('schooladmin.fix-admission-fee');
     Route::post('uploadAdmissionFee', [SchoolAdminController::class, 'uploadAdmissionFee'])->name('uploadAdmissionFee');
+    Route::get('schooladmin/add-employee', [SchoolAdminController::class, 'addEmployee'])->name('schooladmin.add-employee');
+    Route::post('uploadEmployeeData', [SchoolAdminController::class, 'uploadEmployeeData'])->name('uploadEmployeeData');
+    Route::post('uploadTeacherData', [SchoolAdminController::class, 'uploadTeacherData'])->name('uploadTeacherData');
+    Route::get('schooladmin/teacher-category', [SchoolAdminController::class, 'teacherCategory'])->name('schooladmin.teacher-category');
+    Route::post('uploadTeacherCategory', [SchoolAdminController::class, 'uploadTeacherCategory'])->name('uploadTeacherCategory');
+    Route::get('schooladmin/add-teacher', [SchoolAdminController::class, 'addTeacher'])->name('schooladmin.add-teacher');
     
 });
 

@@ -10,9 +10,12 @@ use App\Models\Academicyear;
 use App\Models\Admission_fee;
 use App\Models\Batchtime;
 use App\Models\Course;
+use App\Models\Employee;
+use App\Models\Employee_user;
 use App\Models\Entrance_exam_form;
 use App\Models\Exam_schedule;
 use App\Models\School;
+use App\Models\Teacher_category;
 use Illuminate\Http\Request;
 
 class SchoolAdminController extends Controller
@@ -265,6 +268,251 @@ class SchoolAdminController extends Controller
         } else {
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
         }
+    }
+
+    public function addEmployee(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        return view('schooladmin/add-employee', $data);
+    }
+
+    public function uploadEmployeeData(Request $request){
+        $request->validate([
+            'joining_date' => 'required',
+            'qualification' => 'required|max:150',
+            'experience' => 'required|max:10',
+            'fullname' => 'required',
+            'dob' => 'required',
+            'gender' => 'required|string',
+            'aadharnumber' => 'required',
+            'panno' => 'required',
+            'mobileno' => 'required',
+            'email' => 'required|email|max:150',
+            'passportimage' => 'required|max:500|image|mimes:jpg,jpeg,png',
+            'addressone' => 'required|max:150',
+            'city' => 'required|max:90',
+            'state' => 'required|max:90',
+            'country' => 'required|max:90',
+            'pincode' => 'required|min:6|max:10',
+            'currentaddressone' => 'required|max:150',
+            'currentcity' => 'required|max:90',
+            'currentstate' => 'required|max:90',
+            'currentcountry' => 'required|max:90',
+            'currentpincode' => 'required|min:6|max:10'
+        ]);
+
+        // $lastregistrationNumber = Employee::orderBy('id', 'desc')->first();
+        $employeeid = Employee::orderBy('id', 'desc')->first();
+        $teacherIDGene = Employee::orderBy('id', 'desc')->first();
+        $teacherdata = new Employee;
+        // Registration Number Generate Start
+        if (isset($employeeid)) {
+            // Sum 1 + last id
+            $registrationnumber = 'HET-' . ($employeeid->employeeID + 1) . '22'.'-' . date('Y');
+        } else {
+            $registrationnumber = 'HET-'.date('d').'-' . date('Y');
+        }
+        // Registration Number Generate End
+
+        // Employee ID Generate Start
+        if (isset($employeeid)) {
+            // Sum 1 + last id
+            $employeeidgen = $employeeid->employeeID + 1;
+        } else {
+            // $employeeidgen = date('d') . '22101';
+            $employeeidgen = date('d') . '22';
+        }
+        // Employee ID Generate End
+
+        // Teacher ID Generate Start
+        if (isset($teacherIDGene)) {
+            // Sum 1 + last id
+            $teacherid = $teacherIDGene->user_id + 1;
+        } else {
+            // $teacherid = date('md') . '22101';
+            $teacherid = date('d') . '02';
+        }
+        // Teacher ID Generate End
+        
+        $teacherdata->user_id = $teacherid;
+        $teacherdata->employeeID = $employeeidgen;
+        $teacherdata->registrationNumber = $registrationnumber;
+        $teacherdata->employeeName = $request->fullname;
+        $teacherdata->dob = $request->dob;
+        $teacherdata->gender = $request->gender;
+        $teacherdata->aadharNumber = $request->aadharnumber;
+        $teacherdata->panNumber = $request->panno;
+        $teacherdata->qualification = $request->qualification;
+        $teacherdata->experience = $request->experience;
+        $teacherdata->addressOne = $request->addressone;
+        $teacherdata->addressTwo = $request->addresstwo;
+        $teacherdata->city = $request->city;
+        $teacherdata->state = $request->state;
+        $teacherdata->country = $request->country;
+        $teacherdata->pinCode = $request->pincode;
+        $teacherdata->presentAddressOne = $request->currentaddressone;
+        $teacherdata->presentAddressTwo = $request->currentaddresstwo;
+        $teacherdata->presentCity = $request->currentcity;
+        $teacherdata->presentState = $request->currentstate;
+        $teacherdata->presentCountry = $request->currentcountry;
+        $teacherdata->presentPinCode = $request->currentpincode;
+        $teacherdata->altMobile = $request->altmobile;
+        if ($request->hasfile('passportimage')) {
+            $file = $request->file('passportimage');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'employee-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/employees'), $filename);
+        }
+        $teacherdata->passportPhoto = $filename;
+        $teacherdata->joiningDate = $request->joining_date;
+
+        $teacherdata->save();
+
+        $teacherregister = new Employee_user;
+        $teacherregister->user_id = $teacherid;
+        $teacherregister->password = $request->mobileno;
+        $teacherregister->name = $request->fullname;
+        $teacherregister->email = $request->email;
+        $teacherregister->mobile = $request->mobileno;
+        $teacherregister->role = 1;
+        $teacherregister->save();
+
+        if ($teacherdata && $teacherregister) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Employee Data Successfully Uploaded'));
+        } 
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+
+    public function teacherCategory()
+    {
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        return view('schooladmin/teacher-category', $data);
+    }
+    public function uploadTeacherCategory(Request $request){
+        $request->validate([
+            'teacher_category' => 'required|max:150',
+        ]);
+        $teachercategory = new Teacher_category;
+        $teachercategory->category = $request->teacher_category;
+        $teachercategory->save();
+        if ($teachercategory) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Teacher Category Successfully Uploaded'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+    public function addTeacher(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];        
+        $teachercategory = Teacher_category::all();
+        return view('schooladmin/add-teacher', $data, compact('teachercategory'));
+    }
+
+    public function uploadTeacherData(Request $request){
+        $request->validate([
+            'teachercategory' => 'required',
+            'joining_date' => 'required',
+            'qualification' => 'required|max:150',
+            'experience' => 'required|max:10',
+            'fullname' => 'required',
+            'dob' => 'required',
+            'gender' => 'required|string',
+            'aadharnumber' => 'required',
+            'panno' => 'required',
+            'mobileno' => 'required',
+            'email' => 'required|email|max:150',
+            'passportimage' => 'required|max:500|image|mimes:jpg,jpeg,png',
+            'addressone' => 'required|max:150',
+            'city' => 'required|max:90',
+            'state' => 'required|max:90',
+            'country' => 'required|max:90',
+            'pincode' => 'required|min:6|max:10',
+            'currentaddressone' => 'required|max:150',
+            'currentcity' => 'required|max:90',
+            'currentstate' => 'required|max:90',
+            'currentcountry' => 'required|max:90',
+            'currentpincode' => 'required|min:6|max:10'
+        ]);
+
+        // $lastregistrationNumber = Employee::orderBy('id', 'desc')->first();
+        $employeeid = Employee::orderBy('id', 'desc')->first();
+        $teacherIDGene = Employee::orderBy('id', 'desc')->first();
+        $teacherdata = new Employee;
+        // Registration Number Generate Start
+        if (isset($employeeid)) {
+            // Sum 1 + last id
+            $registrationnumber = 'HET-' . ($employeeid->employeeID + 1) . '-' . date('Y');
+        } else {
+            $registrationnumber = 'HET-'.date('d') . '22'.'-'. date('Y');
+        }
+        // Registration Number Generate End
+
+        // Employee ID Generate Start
+        if (isset($employeeid)) {
+            // Sum 1 + last id
+            $employeeidgen = $employeeid->employeeID + 1;
+        } else {
+            // $employeeidgen = date('d') . '22101';
+            $employeeidgen = date('d') . '22';
+        }
+        // Employee ID Generate End
+
+        // Teacher ID Generate Start
+        if (isset($teacherIDGene)) {
+            // Sum 1 + last id
+            $teacherid = $teacherIDGene->user_id + 1;
+        } else {
+            // $teacherid = date('md') . '22101';
+            $teacherid = date('d') . '02';
+        }
+        // Teacher ID Generate End
+        
+        $teacherdata->user_id = $teacherid;
+        $teacherdata->employeeID = $employeeidgen;
+        $teacherdata->registrationNumber = $registrationnumber;
+        $teacherdata->employeeName = $request->fullname;
+        $teacherdata->dob = $request->dob;
+        $teacherdata->gender = $request->gender;
+        $teacherdata->aadharNumber = $request->aadharnumber;
+        $teacherdata->panNumber = $request->panno;
+        $teacherdata->qualification = $request->qualification;
+        $teacherdata->experience = $request->experience;
+        $teacherdata->addressOne = $request->addressone;
+        $teacherdata->addressTwo = $request->addresstwo;
+        $teacherdata->city = $request->city;
+        $teacherdata->state = $request->state;
+        $teacherdata->country = $request->country;
+        $teacherdata->pinCode = $request->pincode;
+        $teacherdata->presentAddressOne = $request->currentaddressone;
+        $teacherdata->presentAddressTwo = $request->currentaddresstwo;
+        $teacherdata->presentCity = $request->currentcity;
+        $teacherdata->presentState = $request->currentstate;
+        $teacherdata->presentCountry = $request->currentcountry;
+        $teacherdata->presentPinCode = $request->currentpincode;
+        $teacherdata->altMobile = $request->altmobile;
+        $teacherdata->teacherCategory = $request->teachercategory;
+        if ($request->hasfile('passportimage')) {
+            $file = $request->file('passportimage');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'teacher-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/employees'), $filename);
+        }
+        $teacherdata->passportPhoto = $filename;
+        $teacherdata->joiningDate = $request->joining_date;
+
+        $teacherdata->save();
+
+        $teacherregister = new Employee_user;
+        $teacherregister->user_id = $teacherid;
+        $teacherregister->password = $request->mobileno;
+        $teacherregister->name = $request->fullname;
+        $teacherregister->email = $request->email;
+        $teacherregister->mobile = $request->mobileno;
+        $teacherregister->role = 2;
+        $teacherregister->save();
+
+        if ($teacherdata && $teacherregister) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Teacher Data Successfully Uploaded'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        
     }
    
 }

@@ -75,6 +75,27 @@
                         <li><a href="{{url('schooladmin/school-list')}}">School List</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-building-fill"></i>
+                        <span>Employee </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/add-employee')}}">Add Employee</a></li>
+                        <li><a href="#">Employee List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-building-fill"></i>
+                        <span>Teacher </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/teacher-category')}}">Add Teacher Category</a></li>
+                        <li><a href="{{url('schooladmin/add-teacher')}}">Add Teacher</a></li>
+                        <li><a href="#">Teacher List</a></li>
+                    </ul>
+                </li>
                 
             </ul>
         </div>
