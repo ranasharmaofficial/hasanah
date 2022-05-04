@@ -17,6 +17,7 @@ use App\Models\Exam_schedule;
 use App\Models\School;
 use App\Models\Teacher_category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SchoolAdminController extends Controller
 {
@@ -513,6 +514,35 @@ class SchoolAdminController extends Controller
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
         
+    }
+
+    public function entranceResult(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $classlists = A_class::get();
+        $fetchstudentscheck = false;
+        return view('schooladmin/entrance-result', $data, compact('classlists', 'fetchstudentscheck'));
+    }
+
+    public function entranceExamResult(Request $request){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $classlists = A_class::get();
+        $fetchstudents = Entrance_exam_form::where('class_id', $request->class)->get();
+        // dd($fetchstudents); die;
+        $subject = $request->subject;
+        $fetchstudentscheck = true;
+        return view('schooladmin/entrance-result', $data, compact('classlists', 'fetchstudents', 'subject', 'fetchstudentscheck'));
+    }
+
+    public function saveEnteranceResult(Request $request){
+        for($i = 0; $i < $request->length; $i++){
+            $rows[] = array('student_id' => $request->student_id[$i], 'name' => $request->name[$i], 'subject' => $request->subject[$i], 'total_mark' => $request->total_mark[$i], 'obtain_mark' => $request->obtain_mark[$i], 'ap' => $request->ap[$i]);
+        }   
+
+        $entranceresults = DB::table('entrance_results')->insert($rows);
+        if ($entranceresults) {
+            return redirect('schooladmin/entrance-result')->with(session()->flash('alert-success', 'Results successfully inserted.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again.'));
     }
    
 }

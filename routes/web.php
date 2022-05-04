@@ -9,6 +9,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolAdminController;
+use App\Http\Controllers\SchoolEmployeeAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -118,10 +119,35 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/teacher-category', [SchoolAdminController::class, 'teacherCategory'])->name('schooladmin.teacher-category');
     Route::post('uploadTeacherCategory', [SchoolAdminController::class, 'uploadTeacherCategory'])->name('uploadTeacherCategory');
     Route::get('schooladmin/add-teacher', [SchoolAdminController::class, 'addTeacher'])->name('schooladmin.add-teacher');
+    Route::get('schooladmin/entrance-result', [SchoolAdminController::class, 'entranceResult'])->name('schooladmin.entrance-result');
+    Route::get('schooladmin/entranceExamResult', [SchoolAdminController::class, 'entranceExamResult'])->name('schooladmin.entranceExamResult');
+    Route::post('schooladmin/saveEnteranceResult', [SchoolAdminController::class, 'saveEnteranceResult'])->name('schooladmin.saveEnteranceResult');
     
 });
 
 //School Admin Modules End
+
+//School Employee Modules Start
+Route::get('schoolemployee/login', [SchoolEmployeeAdmin::class, 'schoolEmployeeLogin'])->name('schoolemployee.login')->middleware('AlreadySchoolEmployeeLogged');;
+Route::get('schoolemployee/logout', [SchoolEmployeeAdmin::class, 'schoolEmployeeLogout'])->name('schoolemployee.logout');
+Route::post('schoolemployeeLogin', [SchoolEmployeeAdmin::class, 'schoolEmployeeLoginSection'])->name('schoolemployeeLogin')->middleware('AlreadySchoolEmployeeLogged');;
+Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
+    Route::get('schoolemployee/home', [SchoolEmployeeAdmin::class, 'schoolEmployeeHome'])->name('schoolemployee.home');
+    Route::get('schoolemployee/student-view', [SchoolEmployeeAdmin::class, 'studentView'])->name('schoolemployee.student-view');
+    Route::get('schoolemployee/add-teacher', [SchoolEmployeeAdmin::class, 'addTeacher'])->name('schoolemployee.add-teacher');
+    Route::post('schoolemployee/uploadTeacherData', [SchoolEmployeeAdmin::class, 'uploadTeacherData'])->name('schoolemployee.uploadTeacherData');
+    Route::get('schoolemployee/teacher-list', [SchoolEmployeeAdmin::class, 'teacherList'])->name('schoolemployee.teacher-list');
+    Route::get('schoolemployee/view-profile', [SchoolEmployeeAdmin::class, 'viewProfile'])->name('schoolemployee.view-profile');
+    Route::get('schoolemployee/manage-room', [SchoolEmployeeAdmin::class, 'manageRoom'])->name('schoolemployee.manage-room');
+    Route::post('schoolemployee.manageRoomBed', [SchoolEmployeeAdmin::class, 'manageRoomBed'])->name('schoolemployee.manageRoomBed');
+    Route::get('schoolemployee/admit-student', [SchoolEmployeeAdmin::class, 'admitStudent'])->name('schoolemployee.admit-student');
+    Route::get('schoolemployee/view-student-details', [SchoolEmployeeAdmin::class, 'viewStudentDetails'])->name('schoolemployee.view-student-details');
+    Route::post('schoolemployee/admitInHostel', [SchoolEmployeeAdmin::class, 'admitInHostel'])->name('schoolemployee.admitInHostel');
+    Route::get('schoolemployee/receive-hostel-fee', [SchoolEmployeeAdmin::class, 'receiveHostelFee'])->name('schoolemployee.receive-hostel-fee');
+    Route::get('schoolemployee/getPaymentDetails', [SchoolEmployeeAdmin::class, 'getPaymentDetails'])->name('schoolemployee.getPaymentDetails');
+    Route::post('schoolemployee/receiveHostelPayment', [SchoolEmployeeAdmin::class, 'receiveHostelPayment'])->name('schoolemployee.receiveHostelPayment');
+});
+//School Employee Modules End
 
 // Employee Modules Start
 Route::get('employee/login',[EmployeeController::class,'login'])->name('employee.login')->middleware('AlreadyLoggedEmployee');
