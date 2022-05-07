@@ -44,12 +44,12 @@
                                 <li><a href="{{url('teacher')}}">Team</a></li>
                             </ul>
                         </li>
-                        <li><a href="javascript:void(0)">Blog</a>
-                           
-                        </li>
-                        <li> <a href="{{url('contact')}}">Contact</a></li>
+                        <li><a href="javascript:void(0)">Blog</a></li>
+                        <li><a href="{{url('contact')}}">Contact</a></li>
+                        <li><a href="{{url('register')}}">Register</a></li>
+                        <li><a href="{{url('login')}}">Login</a></li>
                     </ul>
-                    <a href="{{url('register')}}" class="default-btn">Register Now</a>
+                    {{-- <a href="{{url('register')}}" class="default-btn">Register Now</a> --}}
                 </div>
             </div>
         </div>

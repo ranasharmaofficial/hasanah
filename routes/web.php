@@ -146,6 +146,24 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/receive-hostel-fee', [SchoolEmployeeAdmin::class, 'receiveHostelFee'])->name('schoolemployee.receive-hostel-fee');
     Route::get('schoolemployee/getPaymentDetails', [SchoolEmployeeAdmin::class, 'getPaymentDetails'])->name('schoolemployee.getPaymentDetails');
     Route::post('schoolemployee/receiveHostelPayment', [SchoolEmployeeAdmin::class, 'receiveHostelPayment'])->name('schoolemployee.receiveHostelPayment');
+
+    Route::get('schoolemployee/add-course', [SchoolEmployeeAdmin::class, 'addCourse'])->name('schoolemployee.add-course');
+    Route::get('schoolemployee/course-list', [SchoolEmployeeAdmin::class, 'courseList'])->name('schoolemployee.course-list');
+    Route::post('uploadCourseDetails', [SchoolEmployeeAdmin::class, 'uploadCourseDetails'])->name('uploadCourseDetails');
+    Route::get('schoolemployee/add-event', [SchoolEmployeeAdmin::class, 'addEvent'])->name('schoolemployee.add-event');
+    Route::get('schoolemployee/event-list', [SchoolEmployeeAdmin::class, 'eventList'])->name('schoolemployee.event-list');
+    Route::post('deleteEvent', [SchoolEmployeeAdmin::class, 'deleteEvent'])->name('deleteEvent');
+
+    Route::get('schoolemployee/add-gallery', [SchoolEmployeeAdmin::class, 'addGallery'])->name('schoolemployee.add-gallery');
+    Route::get('schoolemployee/gallery-list', [SchoolEmployeeAdmin::class, 'galleryList'])->name('schoolemployee.gallery-list');
+    Route::post('deleteGalleryImage', [SchoolEmployeeAdmin::class, 'deleteGalleryImage'])->name('deleteGalleryImage');
+
+    Route::get('schoolemployee/add-notice', [SchoolEmployeeAdmin::class, 'addNotice'])->name('schoolemployee.add-notice');
+    Route::get('schoolemployee/notice-list', [SchoolEmployeeAdmin::class, 'noticeList'])->name('schoolemployee.notice-list');
+
+    Route::get('schoolemployee/enquiry-list', [SchoolEmployeeAdmin::class, 'enquiryList'])->name('schoolemployee.enquiry-list');
+    Route::get('schoolemployee/emailsubscription-list', [SchoolEmployeeAdmin::class, 'emailsubscriptionList'])->name('schoolemployee.emailsubscription-list');
+
 });
 //School Employee Modules End
 

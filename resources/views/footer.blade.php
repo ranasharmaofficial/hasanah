@@ -50,7 +50,19 @@
                             </ul>
                         </div>
                     </div>
+                    
                     <div class="col-md-3 xs-padding">
+                        <div class="widget-content">
+                            <h3>Other Links</h3>
+                            <ul class="widget-link">
+                                <li><a href="{{url('login')}}">Student Login</a></li>
+                                <li><a href="{{url('schoolemployee/home')}}">Faculty Login</a></li>
+                                <li><a href="{{url('schooladmin/home')}}">Admin Login</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-3 xs-padding">
                         <div class="widget-content">
                             <h3>Get In Touch</h3>
                             <div class="subscribe-wrap">
@@ -65,7 +77,7 @@
                                 </form>
                             </div><!-- /.subscribe_wrap -->
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section><!-- ./Widget Section -->
