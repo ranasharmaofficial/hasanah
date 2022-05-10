@@ -20,6 +20,8 @@ use App\Models\Course;
 use App\Models\Logo;
 use App\Models\Teacher_category;
 use App\Models\User;
+use App\Models\Mess_stock;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class SchoolEmployeeAdmin extends Controller
@@ -212,6 +214,9 @@ class SchoolEmployeeAdmin extends Controller
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
     }
 
+    
+    
+
     public function admitStudent(){        
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         return view('schoolemployee/admit-student', $data);
@@ -320,17 +325,17 @@ class SchoolEmployeeAdmin extends Controller
     public function courseList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         $courselists = Course::paginate(10);
-        return view('admin/courselist', $data, compact('courselists'));
+        return view('schoolemployee/courselist', $data, compact('courselists'));
     }
     public function addEvent(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/addevent', $data);
+        return view('schoolemployee/addevent', $data);
     }
     public function eventList()
     {
-        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedUser'))->first()];
+        $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         $eventlists = Event::paginate(10);
-        return view('admin/event-list', $data, compact('eventlists'));
+        return view('schoolemployee/eventlist', $data, compact('eventlists'));
     }
     public function deleteEvent(Request $request){
         $request->validate([
@@ -345,29 +350,91 @@ class SchoolEmployeeAdmin extends Controller
     }
     public function addNotice(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/addnotice', $data);
+        return view('schoolemployee/addnotice', $data);
     }
     public function noticeList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/noticelist', $data);
+        $noticelists = Notice::paginate(10);
+        return view('schoolemployee/noticelist', $data, compact('noticelists'));
+    }
+    public function deleteNotice(Request $request){
+        $request->validate([
+            'noticeid' => 'required',
+        ]);
+        $noticedelete = Notice::where('noticeID',$request->noticeid)->delete();
+        if ($noticedelete) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Notice Successfully Deleted'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
     public function enquiryList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/enquirylist', $data);
+        $enquirylists = Contact::paginate(10);
+        return view('schoolemployee/enquirylist', $data, compact('enquirylists'));
     }
     public function emailsubscriptionList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/emailsubscribelist', $data);
+        return view('schoolemployee/emailsubscribelist', $data);
     }
     public function addGallery(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/addgallery', $data);
+        return view('schoolemployee/addgallery', $data);
+    }
+    public function uploadGalleryImage(Request $request)
+    {
+        $request->validate([
+            'galleryTitle' => 'required',
+            'galleryImage' => 'required',
+            'galleryImage.*' => 'image|mimes:jpg,jpeg,png',
+        ]);
+
+        // $addgalleryimage = new Gallery;
+        $files = array();
+        if($request->hasfile('galleryImage')){
+            foreach($request->file('galleryImage') as $file){
+                $extenstion = $file->getClientOriginalExtension();
+                $filename = 'gallery-image-' . time() . rand(100,9999) . '.' . $extenstion;
+                $file->move(public_path('uploads/gallery'), $filename);
+                
+                // $name = time().rand(1,100).'.'.$file->extension();
+                // $file->move(public_path('files'), $name);  
+                $files[] = $filename;  
+            }
+         }
+        // if ($request->hasfile('galleryImage')) {
+        //     foreach($request->file('galleryImage') as $key => $file)
+        //     {
+        //         $extenstion = $file->getClientOriginalExtension();
+        //         // $name = $file->getClientOriginalName();
+        //         $filename = 'gallery-image-' . time() . '.' . $extenstion;
+        //         $file->move(public_path('uploads/gallery'), $filename);
+        //         $fileset[] = $filename; 
+        //     }
+
+            // $file = $request->file('galleryImage');
+            // $extenstion = $file->getClientOriginalExtension();
+            // $filename = 'gallery-image-' . time() . '.' . $extenstion;
+            // $file->move(public_path('uploads/gallery'), $filename);
+        // }
+        $addgalleryimage = Gallery::insert([
+            'galleryTitle' =>$request->galleryTitle,
+            'galleryImage' =>  json_encode($files),
+        ]);
+        // $addgalleryimage->galleryTitle = $request->galleryTitle;
+        // $addgalleryimage->galleryImage = json_encode($files);
+        // $addgalleryimage->save();
+        if ($addgalleryimage) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Gallery Image Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
     public function galleryList()
     {
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         $gallerylists = Gallery::paginate(10);
-        return view('admin/gallerylist', $data, compact('gallerylists'));
+        return view('schoolemployee/gallerylist', $data, compact('gallerylists'));
     }
     public function deleteGalleryImage(Request $request){
         $request->validate([
@@ -382,21 +449,21 @@ class SchoolEmployeeAdmin extends Controller
     }
     public function addSlider(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/addSlider', $data);
+        return view('schoolemployee/addSlider', $data);
     }
     public function sliderList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/sliderlist', $data);
+        return view('schoolemployee/sliderlist', $data);
     }
     public function updateLogo(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        return view('admin/updatelogo', $data);
+        return view('schoolemployee/updatelogo', $data);
     }
     
     public function socialMediaLinks(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         $sociallink = Social_link::first();
-        return view('admin/updatesocialmedia', $data, compact('sociallink'));
+        return view('schoolemployee/updatesocialmedia', $data, compact('sociallink'));
     }
     public function uploadHeaderLogo(Request $request){
         $request->validate([
@@ -678,28 +745,28 @@ class SchoolEmployeeAdmin extends Controller
         } 
     }
 
-    public function uploadGalleryImage(Request $request){
-        $request->validate([
-            'galleryTitle' => 'required',
-            'galleryImage' => 'required|max:300|image|mimes:jpg,jpeg,png,svg'
-        ]);
+    // public function uploadGalleryImage(Request $request){
+    //     $request->validate([
+    //         'galleryTitle' => 'required',
+    //         'galleryImage' => 'required|max:300|image|mimes:jpg,jpeg,png,svg'
+    //     ]);
 
-        $addgalleryimage = new Gallery;
-        if ($request->hasfile('galleryImage')) {
-            $file = $request->file('galleryImage');
-            $extenstion = $file->getClientOriginalExtension();
-            $filename = 'gallery-image-'.time().'.'.$extenstion;
-            $file->move(public_path('uploads/gallery'), $filename);
-        }
-        $addgalleryimage->galleryTitle = $request->galleryTitle;
-        $addgalleryimage->galleryImage = $filename;
-        $addgalleryimage->save();
-        if ($addgalleryimage) {
-            return redirect()->back()->with(session()->flash('alert-info', 'Gallery Image Successfully Uploaded'));
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
-        } 
-    }
+    //     $addgalleryimage = new Gallery;
+    //     if ($request->hasfile('galleryImage')) {
+    //         $file = $request->file('galleryImage');
+    //         $extenstion = $file->getClientOriginalExtension();
+    //         $filename = 'gallery-image-'.time().'.'.$extenstion;
+    //         $file->move(public_path('uploads/gallery'), $filename);
+    //     }
+    //     $addgalleryimage->galleryTitle = $request->galleryTitle;
+    //     $addgalleryimage->galleryImage = $filename;
+    //     $addgalleryimage->save();
+    //     if ($addgalleryimage) {
+    //         return redirect()->back()->with(session()->flash('alert-info', 'Gallery Image Successfully Uploaded'));
+    //     } else {
+    //         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+    //     } 
+    // }
 
     public function uploadNotice(Request $request){
         $request->validate([

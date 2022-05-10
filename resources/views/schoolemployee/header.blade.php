@@ -4,20 +4,20 @@
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 <a href="{{url('schooladmin/home')}}" class="logo logo-dark">
-                    <span class="logo-sm">
-                        <img src="{{asset('assets_admin/images/logo.png')}}" alt="logo-sm-dark" style="max-height:52;">
+                    <span class="logo-sm text-white font-weight-bold">
+                       HGS
                     </span>
-                    <span class="logo-lg">
-                        <img src="{{asset('assets_admin/images/logo.png')}}" alt="logo-dark" height="50">
+                    <span class="logo-lg text-white font-weight-bold">
+                       Hasanah Girls College
                     </span>
                 </a>
 
                 <a href="{{url('schooladmin/home')}}" class="logo logo-light">
-                    <span class="logo-sm">
-                        <img src="{{asset('assets_admin/images/logo-sm-light.png')}}" alt="logo-sm-light" height="22">
+                    <span class="logo-sm text-white font-weight-bold">
+                        HGS
                     </span>
-                    <span class="logo-lg">
-                        <img src="{{asset('assets_admin/images/logo-light.png')}}" alt="logo-light" height="20">
+                    <span class="logo-lg text-white font-weight-bold">
+                        Hasanah Girls College
                     </span>
                 </a>
             </div>

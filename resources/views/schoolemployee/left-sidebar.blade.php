@@ -56,6 +56,7 @@
                         <li><a href="{{url('schoolemployee/mess/create-manage-mess-menu')}}">Manage Mess Menu</a></li>
                         <li><a href="{{url('schoolemployee/mess/assign-mess-menu')}}">Assign Mess Menu To Calendar</a></li>
                         <li><a href="{{url('schoolemployee/mess/add-stock')}}">Add Stock</a></li>
+                        <li><a href="{{url('schoolemployee/mess/stock-list')}}">Stock List</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Expense Stock</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Meal Report</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Bills And Balance Payment</a></li>
@@ -69,6 +70,59 @@
                         <span>View Profile</span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Course </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schoolemployee/add-course')}}">Add Course</a></li>
+                        <li><a href="{{url('schoolemployee/course-list')}}">Course List</a></li>
+                     </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-calendar-event-fill"></i>
+                        <span>Event</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schoolemployee/add-event')}}">Add Event</a></li>
+                        <li><a href="{{url('schoolemployee/event-list')}}">Event List</a>
+                        </li>
+                    </ul>
+                 </li>
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-gallery-line"></i>
+                        <span>Gallery</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schoolemployee/add-gallery')}}">Add Gallery</a></li>
+                        <li><a href="{{url('schoolemployee/gallery-list')}}">Gallery List</a>
+                        </li>
+                    </ul>
+                 </li>
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-notification-2-fill"></i>
+                        <span>Notice</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schoolemployee/add-notice')}}">Add Notice</a></li>
+                        <li><a href="{{url('schoolemployee/notice-list')}}">Notice List</a>
+                        </li>
+                    </ul>
+                 </li>
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-notification-2-fill"></i>
+                        <span>Enquiry</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schoolemployee/enquiry-list')}}">Enquiry List</a></li>
+                       
+                    </ul>
+                 </li>
             </ul>
         </div>
         <!-- Sidebar -->

@@ -8,6 +8,7 @@ use App\Models\Admit_mess;
 use App\Models\assign_mess_menu;
 use App\Models\Dish;
 use App\Models\Employee_user;
+use App\Models\Mess_stock;
 use Illuminate\Http\Request;
 
 class MessController extends Controller
@@ -103,5 +104,34 @@ class MessController extends Controller
     public function messAddStock(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         return view('schoolemployee/mess/add-stock', $data);
+    }
+    public function insertMessStock(Request $request){
+        $request->validate([
+            'item_name' => 'required',
+            'quantity' => 'required',
+            'unit' => 'required',
+            'amount' => 'required',
+            'purchaser_name' => 'required',
+            'purchased_date' => 'required',
+        ]);
+
+        $insertstock = new Mess_stock;
+        $insertstock->item_name = $request->item_name;
+        $insertstock->quantity = $request->quantity;
+        $insertstock->unit = $request->unit;
+        $insertstock->amount = $request->amount;
+        $insertstock->purchaser_name = $request->purchaser_name;
+        $insertstock->purchased_date = $request->purchased_date;
+        $insertstock->total_amount = $request->quantity * $request->amount;
+        $insertstock->save();
+        if ($insertstock) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Stock Added successfully.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+    public function stockList(){
+        $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $stocklist = Mess_stock::paginate(5);
+        return view('schoolemployee/mess/stock-list', $data, compact('stocklist'));
     }
 }

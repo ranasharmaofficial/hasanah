@@ -1,5 +1,5 @@
 @extends('schoolemployee.layouts.master')
-@section('title','Add Course')
+@section('title','Add Notice')
 @section('content')
     
 <div class="page-content">
@@ -39,33 +39,41 @@
                                         @endif
                                     @endforeach
                                 </div> 
-                                <form action="{{route('schoolemployee/uploadCourseDetails')}}" method="post" class="row" enctype="multipart/form-data">
+                                <form action="{{route('schoolemployee.uploadNotice')}}" method="post" class="row" enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-sm-6">
-                                        <label for="CourseName" class="col-form-label">Course Name <star>*</star></label>
-                                        <input class="form-control" type="text" name="coursename" required placeholder="Course Name" id="CourseName" value="{{old('coursename')}}">
-                                        <small class="text-danger form-text">@error('coursename') {{$message}} @enderror</small>
+                                        <label for="NoticeName" class="col-form-label">Notice Name <star>*</star></label>
+                                        <input class="form-control" type="text" name="notice_name" required placeholder="Enter Notice Name" id="NoticeName" value="{{old('notice_name')}}">
+                                        <small class="form-text text-danger">@error('notice_name')
+                                            {{$message}}
+                                        @enderror</small>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="CourseTitle" class="col-form-label">Course Title <star>*</star></label>
-                                        <input class="form-control" type="text" name="coursetitle" required placeholder="Course Title" id="CourseTitle" value="{{old('coursetitle')}}">
-                                        <small class="text-danger form-text">@error('coursetitle') {{$message}} @enderror</small>
+                                        <label for="NoticeTitle" class="col-form-label">Notice Title <star>*</star></label>
+                                        <input class="form-control" type="text" name="notice_title" required placeholder="Enter Notice Title" id="NoticeTitle" value="{{old('notice_title')}}">
+                                        <small class="form-text text-danger">@error('notice_title')
+                                            {{$message}}
+                                        @enderror</small>
                                     </div>
                                     <div class="col-sm-12">
-                                        <label for="coursedetails" class="col-form-label">Course Details <star>*</star></label>
-                                        <textarea id="elm1" name="coursedetails">{{old('coursedetails')}}</textarea>
-                                        <small class="text-danger form-text">@error('coursedetails') {{$message}} @enderror</small>
+                                        <label for="NoticeDetails" class="col-form-label">Notice Details <star>*</star></label>
+                                        <textarea id="elm1" name="details">{{old('details')}}</textarea>
+                                        <small class="form-text text-danger">@error('details')
+                                            {{$message}}
+                                        @enderror</small>
                                     </div>
                                     <div class="col-sm-12">
-                                        <label class="col-form-label">Course Picture <star>*</star></label>
-                                        <input type="file" name="courseimage" class="form-control" required>
-                                        <small class="text-danger form-text">@error('courseimage') {{$message}} @enderror</small>
+                                        <label for="JoiningDate" class="col-form-label">Notice Picture <star>*</star></label>
+                                        <input type="file" name="noticeImage" required class="form-control">
+                                        <small class="form-text text-danger">@error('noticeImage')
+                                            {{$message}}
+                                        @enderror</small>
                                     </div>
                                     <div class="col-sm-12 mt-3 text-center">
-                                        <button name="add_course" type="submit" class="btn btn-info">Submit Course Details</button>
+                                        <button name="add_notice" type="submit" class="btn btn-info"><i class="fa fa-paper-plane"></i> Upload Notice</button>
                                     </div>
                                 </form>
-                            </div>                                
+                            </div>
                         </div>
                     </div>
                 </div>

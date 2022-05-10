@@ -150,17 +150,20 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
 
     Route::get('schoolemployee/add-course', [SchoolEmployeeAdmin::class, 'addCourse'])->name('schoolemployee.add-course');
     Route::get('schoolemployee/course-list', [SchoolEmployeeAdmin::class, 'courseList'])->name('schoolemployee.course-list');
-    Route::post('uploadCourseDetails', [SchoolEmployeeAdmin::class, 'uploadCourseDetails'])->name('uploadCourseDetails');
+    Route::post('schoolemployee/uploadCourseDetails', [SchoolEmployeeAdmin::class, 'uploadCourseDetails'])->name('schoolemployee/uploadCourseDetails');
+    
     Route::get('schoolemployee/add-event', [SchoolEmployeeAdmin::class, 'addEvent'])->name('schoolemployee.add-event');
     Route::get('schoolemployee/event-list', [SchoolEmployeeAdmin::class, 'eventList'])->name('schoolemployee.event-list');
-    Route::post('deleteEvent', [SchoolEmployeeAdmin::class, 'deleteEvent'])->name('deleteEvent');
-
+    Route::post('schoolemployee/deleteEvent', [SchoolEmployeeAdmin::class, 'deleteEvent'])->name('schoolemployee/deleteEvent');
+    Route::post('schoolemployee/uploadEvent', [AdminController::class, 'uploadEvent'])->name('schoolemployee/uploadEvent');
     Route::get('schoolemployee/add-gallery', [SchoolEmployeeAdmin::class, 'addGallery'])->name('schoolemployee.add-gallery');
     Route::get('schoolemployee/gallery-list', [SchoolEmployeeAdmin::class, 'galleryList'])->name('schoolemployee.gallery-list');
-    Route::post('deleteGalleryImage', [SchoolEmployeeAdmin::class, 'deleteGalleryImage'])->name('deleteGalleryImage');
-
+    Route::post('schoolemployee/deleteGalleryImage', [SchoolEmployeeAdmin::class, 'deleteGalleryImage'])->name('schoolemployee.deleteGalleryImage');
+    Route::post('schoolemployee/uploadGalleryImage', [SchoolEmployeeAdmin::class, 'uploadGalleryImage'])->name('schoolemployee.uploadGalleryImage');
     Route::get('schoolemployee/add-notice', [SchoolEmployeeAdmin::class, 'addNotice'])->name('schoolemployee.add-notice');
     Route::get('schoolemployee/notice-list', [SchoolEmployeeAdmin::class, 'noticeList'])->name('schoolemployee.notice-list');
+    Route::post('schoolemployee/uploadNotice', [SchoolEmployeeAdmin::class, 'uploadNotice'])->name('schoolemployee.uploadNotice');
+    Route::post('schoolemployee/deleteNotice', [SchoolEmployeeAdmin::class, 'deleteNotice'])->name('schoolemployee.deleteNotice');
 
     Route::get('schoolemployee/enquiry-list', [SchoolEmployeeAdmin::class, 'enquiryList'])->name('schoolemployee.enquiry-list');
     Route::get('schoolemployee/emailsubscription-list', [SchoolEmployeeAdmin::class, 'emailsubscriptionList'])->name('schoolemployee.emailsubscription-list');
@@ -174,6 +177,8 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/mess/assign-mess-menu', [MessController::class, 'messAssignMessMenu'])->name('schoolemployee.mess.assign-mess-menu');
     Route::post('schoolemployee/mess/assignMessMenu', [MessController::class, 'assignMessMenu'])->name('schoolemployee.mess.assignMessMenu');
     Route::get('schoolemployee/mess/add-stock', [MessController::class, 'messAddStock'])->name('schoolemployee.mess.add-stock');
+    Route::post('schoolemployee/mess/insertMessStock', [MessController::class, 'insertMessStock'])->name('schoolemployee.mess.insertMessStock');
+    Route::get('schoolemployee/mess/stock-list', [MessController::class, 'stockList'])->name('schoolemployee.mess.stock-list');
     Route::get('schoolemployee/mess/expense-stock', [MessController::class, 'messExpenseStock'])->name('schoolemployee.mess.expense-stock');
     Route::get('schoolemployee/mess/meal-report', [MessController::class, 'messMealReport'])->name('schoolemployee.mess.meal-report');
     Route::get('schoolemployee/mess/daily-meal', [MessController::class, 'messDailyMeal'])->name('schoolemployee.mess.daily-meal');
