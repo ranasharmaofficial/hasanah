@@ -16,7 +16,10 @@ use App\Models\Event;
 use App\Models\Slider;
 use App\Models\Social_link;
 use App\Models\Contact_detail;
+use App\Models\Course;
 use App\Models\Logo;
+use App\Models\Teacher_category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SchoolEmployeeAdmin extends Controller

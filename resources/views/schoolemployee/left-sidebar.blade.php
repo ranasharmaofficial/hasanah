@@ -45,7 +45,24 @@
                         <li><a href="{{url('schoolemployee/admit-student')}}">Admit Student</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Receive Hostel Fee</a></li>
                     </ul>
-                </li>  
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Mess Management </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schoolemployee/mess/admit-student')}}">Admit Student</a></li>
+                        <li><a href="{{url('schoolemployee/mess/create-manage-mess-menu')}}">Manage Mess Menu</a></li>
+                        <li><a href="{{url('schoolemployee/mess/assign-mess-menu')}}">Assign Mess Menu To Calendar</a></li>
+                        <li><a href="{{url('schoolemployee/mess/add-stock')}}">Add Stock</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Expense Stock</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Meal Report</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Bills And Balance Payment</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Fee Management</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Attendance</a></li>
+                    </ul>
+                </li>    
                 <li>
                     <a href="{{url('schoolemployee/view-profile')}}" class="waves-effect">
                         <i class="ri-dashboard-line"></i>

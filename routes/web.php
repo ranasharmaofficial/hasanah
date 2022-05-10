@@ -7,6 +7,7 @@ use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MessController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolAdminController;
 use App\Http\Controllers\SchoolEmployeeAdmin;
@@ -163,6 +164,23 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
 
     Route::get('schoolemployee/enquiry-list', [SchoolEmployeeAdmin::class, 'enquiryList'])->name('schoolemployee.enquiry-list');
     Route::get('schoolemployee/emailsubscription-list', [SchoolEmployeeAdmin::class, 'emailsubscriptionList'])->name('schoolemployee.emailsubscription-list');
+
+    // Mess Management Start
+    Route::get('schoolemployee/mess/admit-student', [MessController::class, 'messAdmitStudent'])->name('schoolemployee.mess.admit-student');
+    Route::get('schoolemployee/mess/view-student-details', [MessController::class, 'messViewStudentDetails'])->name('schoolemployee.mess.view-student-details');
+    Route::post('schoolemployee/mess/admitInMess', [MessController::class, 'admitInMess'])->name('schoolemployee.mess.admitInMess');
+    Route::get('schoolemployee/mess/create-manage-mess-menu', [MessController::class, 'messCreateManageMessMenu'])->name('schoolemployee.mess.create-menage-mess-menu');
+    Route::post('schoolemployee/mess/insertDish', [MessController::class, 'insertDish'])->name('schoolemployee.mess.insertDish');
+    Route::get('schoolemployee/mess/assign-mess-menu', [MessController::class, 'messAssignMessMenu'])->name('schoolemployee.mess.assign-mess-menu');
+    Route::post('schoolemployee/mess/assignMessMenu', [MessController::class, 'assignMessMenu'])->name('schoolemployee.mess.assignMessMenu');
+    Route::get('schoolemployee/mess/add-stock', [MessController::class, 'messAddStock'])->name('schoolemployee.mess.add-stock');
+    Route::get('schoolemployee/mess/expense-stock', [MessController::class, 'messExpenseStock'])->name('schoolemployee.mess.expense-stock');
+    Route::get('schoolemployee/mess/meal-report', [MessController::class, 'messMealReport'])->name('schoolemployee.mess.meal-report');
+    Route::get('schoolemployee/mess/daily-meal', [MessController::class, 'messDailyMeal'])->name('schoolemployee.mess.daily-meal');
+    Route::get('schoolemployee/mess/mess-bills', [MessController::class, 'messBills'])->name('schoolemployee.mess.mess-bills');
+    Route::get('schoolemployee/mess/mess-fee', [MessController::class, 'messFee'])->name('schoolemployee.mess.mess-fee');
+    Route::get('schoolemployee/mess/mess-attendance', [MessController::class, 'messAttendance'])->name('schoolemployee.mess.mess-attendance');
+    // Mess Management End
 
 });
 //School Employee Modules End
