@@ -53,15 +53,17 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('schoolemployee/mess/admit-student')}}">Admit Student</a></li>
+                        <li><a href="{{url('schoolemployee/mess/mess-student-list')}}">Mess Student List</a></li>
                         <li><a href="{{url('schoolemployee/mess/create-manage-mess-menu')}}">Manage Mess Menu</a></li>
                         <li><a href="{{url('schoolemployee/mess/assign-mess-menu')}}">Assign Mess Menu To Calendar</a></li>
                         <li><a href="{{url('schoolemployee/mess/add-stock')}}">Add Stock</a></li>
                         <li><a href="{{url('schoolemployee/mess/stock-list')}}">Stock List</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Expense Stock</a></li>
-                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Meal Report</a></li>
-                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Bills And Balance Payment</a></li>
-                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Fee Management</a></li>
-                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Attendance</a></li>
+                        {{-- <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Meal Report</a></li>
+                        <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Mess Bills And Balance Payment</a></li> --}}
+                        <li><a href="{{url('schoolemployee/mess/mess-fee')}}">Mess Fee Management</a></li>
+                        <li><a href="{{url('schoolemployee/mess/mess-fee-details')}}">Mess Fee Details</a></li>
+                        <li><a href="{{url('schoolemployee/mess/mess-attendance')}}">Mess Attendance</a></li>
                     </ul>
                 </li>    
                 <li>

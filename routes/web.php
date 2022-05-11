@@ -170,6 +170,7 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
 
     // Mess Management Start
     Route::get('schoolemployee/mess/admit-student', [MessController::class, 'messAdmitStudent'])->name('schoolemployee.mess.admit-student');
+    Route::get('schoolemployee/mess/mess-student-list', [MessController::class, 'messStudentList'])->name('schoolemployee.mess.mess-student-list');
     Route::get('schoolemployee/mess/view-student-details', [MessController::class, 'messViewStudentDetails'])->name('schoolemployee.mess.view-student-details');
     Route::post('schoolemployee/mess/admitInMess', [MessController::class, 'admitInMess'])->name('schoolemployee.mess.admitInMess');
     Route::get('schoolemployee/mess/create-manage-mess-menu', [MessController::class, 'messCreateManageMessMenu'])->name('schoolemployee.mess.create-menage-mess-menu');
@@ -184,7 +185,13 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/mess/daily-meal', [MessController::class, 'messDailyMeal'])->name('schoolemployee.mess.daily-meal');
     Route::get('schoolemployee/mess/mess-bills', [MessController::class, 'messBills'])->name('schoolemployee.mess.mess-bills');
     Route::get('schoolemployee/mess/mess-fee', [MessController::class, 'messFee'])->name('schoolemployee.mess.mess-fee');
+    Route::get('schoolemployee/mess/messFeeSearch', [MessController::class, 'messFeeSearch'])->name('schoolemployee.mess.messFeeSearch');
+    Route::post('schoolemployee/mess/receiveMessPayment', [MessController::class, 'receiveMessPayment'])->name('schoolemployee.mess.receiveMessPayment');
+    Route::get('schoolemployee/mess/mess-fee-details', [MessController::class, 'messFeeDetails'])->name('schoolemployee.mess.mess-fee-details');
+    Route::get('schoolemployee/mess/messFeeDetails', [MessController::class, 'messFeeDetailsGet'])->name('schoolemployee.mess.messFeeDetails');
     Route::get('schoolemployee/mess/mess-attendance', [MessController::class, 'messAttendance'])->name('schoolemployee.mess.mess-attendance');
+    Route::get('schoolemployee/mess/messAttendanceShow', [MessController::class, 'messAttendanceShow'])->name('schoolemployee.mess.messAttendanceShow');
+    Route::post('schoolemployee/mess/makeAttendance', [MessController::class, 'makeAttendance'])->name('schoolemployee.mess.makeAttendance');
     // Mess Management End
 
 });

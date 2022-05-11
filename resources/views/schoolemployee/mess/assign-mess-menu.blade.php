@@ -22,7 +22,7 @@
         <!-- end page title -->
         
         <div class="row justify-content-center">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h3 class="card-title text-white">@yield('title')</h3>
@@ -42,14 +42,30 @@
                             @csrf
                             <div class="form-group col-xs-12 mb-2">
                                 <label for="dish">Select Dish <star>*</star></label>
-                                <select name="dish" id="dish" class="form-select">
+                                <p class="form-text m-0 text-danger p-0">Press ctrl button and select dish for multiple slection.</p>
+                                <select name="dish[]" id="dish" class="form-control" multiple data-live-search="true">
                                     <option value="" selected disabled>--Select Dish--</option>
                                     @foreach ($dishes as $dish)
-                                        <option value="{{$dish->id}}">{{$dish->dish}}</option>
+                                        <option value="{{$dish->dish}}">{{$dish->dish}}</option>
                                     @endforeach
                                 </select>
                                 <span class="form-text text-danger">
                                     @error('dish')
+                                        {{$message}}
+                                    @enderror
+                                </span>
+                            </div>
+                            <div class="form-group col-xs-12 mb-2">
+                                <label for="day_time">Select Time <star>*</star></label>
+                                <select name="day_time" id="day_time" class="form-select">
+                                    <option value="" selected disabled>--Select Time--</option>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Snack">Snack</option>
+                                    <option value="Dinner">Dinner</option>
+                                </select>
+                                <span class="form-text text-danger">
+                                    @error('day_time')
                                         {{$message}}
                                     @enderror
                                 </span>
