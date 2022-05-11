@@ -113,6 +113,7 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/add-batch-time', [SchoolAdminController::class, 'addBatch'])->name('schooladmin.add-batch-time');
     Route::post('uploadBatchTime', [SchoolAdminController::class, 'uploadBatchTime'])->name('uploadBatchTime');
     Route::get('schooladmin/fix-admission-fee', [SchoolAdminController::class, 'fixAdmissionFee'])->name('schooladmin.fix-admission-fee');
+	Route::get('schooladmin/admission-fee-list', [SchoolAdminController::class, 'admissionsFeeList'])->name('schooladmin.admission-fee-list');
     Route::post('uploadAdmissionFee', [SchoolAdminController::class, 'uploadAdmissionFee'])->name('uploadAdmissionFee');
     Route::get('schooladmin/add-employee', [SchoolAdminController::class, 'addEmployee'])->name('schooladmin.add-employee');
     Route::post('uploadEmployeeData', [SchoolAdminController::class, 'uploadEmployeeData'])->name('uploadEmployeeData');
@@ -155,7 +156,7 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/add-event', [SchoolEmployeeAdmin::class, 'addEvent'])->name('schoolemployee.add-event');
     Route::get('schoolemployee/event-list', [SchoolEmployeeAdmin::class, 'eventList'])->name('schoolemployee.event-list');
     Route::post('schoolemployee/deleteEvent', [SchoolEmployeeAdmin::class, 'deleteEvent'])->name('schoolemployee/deleteEvent');
-    Route::post('schoolemployee/uploadEvent', [AdminController::class, 'uploadEvent'])->name('schoolemployee/uploadEvent');
+    Route::post('schoolemployee/uploadEvent', [SchoolEmployeeAdmin::class, 'uploadEvent'])->name('schoolemployee/uploadEvent');
     Route::get('schoolemployee/add-gallery', [SchoolEmployeeAdmin::class, 'addGallery'])->name('schoolemployee.add-gallery');
     Route::get('schoolemployee/gallery-list', [SchoolEmployeeAdmin::class, 'galleryList'])->name('schoolemployee.gallery-list');
     Route::post('schoolemployee/deleteGalleryImage', [SchoolEmployeeAdmin::class, 'deleteGalleryImage'])->name('schoolemployee.deleteGalleryImage');
@@ -164,10 +165,21 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/notice-list', [SchoolEmployeeAdmin::class, 'noticeList'])->name('schoolemployee.notice-list');
     Route::post('schoolemployee/uploadNotice', [SchoolEmployeeAdmin::class, 'uploadNotice'])->name('schoolemployee.uploadNotice');
     Route::post('schoolemployee/deleteNotice', [SchoolEmployeeAdmin::class, 'deleteNotice'])->name('schoolemployee.deleteNotice');
-
+    
     Route::get('schoolemployee/enquiry-list', [SchoolEmployeeAdmin::class, 'enquiryList'])->name('schoolemployee.enquiry-list');
     Route::get('schoolemployee/emailsubscription-list', [SchoolEmployeeAdmin::class, 'emailsubscriptionList'])->name('schoolemployee.emailsubscription-list');
+    Route::get('schoolemployee/addclass', [SchoolEmployeeAdmin::class, 'addClass'])->name('schoolemployee/addclass');
+    Route::post('schoolemployee/uploadClass', [SchoolEmployeeAdmin::class, 'uploadClass'])->name('schoolemployee.uploadClass');
+    Route::get('schoolemployee/class-list', [SchoolEmployeeAdmin::class, 'classList'])->name('schoolemployee/class-list');
 
+    Route::get('schoolemployee/schedulelist', [SchoolEmployeeAdmin::class, 'scheduleList'])->name('schoolemployee.schedulelist');
+    Route::get('schoolemployee/addschool', [SchoolEmployeeAdmin::class, 'addSchool'])->name('schoolemployee/addschool');
+    Route::post('schoolemployee/uploadSchool', [SchoolEmployeeAdmin::class, 'uploadSchool'])->name('schoolemployee.uploadSchool');
+    Route::get('schoolemployee/school-list', [SchoolEmployeeAdmin::class, 'schoolList'])->name('schoolemployee/school-list');
+    Route::get('schoolemployee/add-academic-year', [SchoolEmployeeAdmin::class, 'addAcademicYear'])->name('schoolemployee/add-academic-year');
+    Route::get('schoolemployee/fix-admission-fee', [SchoolEmployeeAdmin::class, 'fixAdmissionFee'])->name('schoolemployee.fix-admission-fee');
+    Route::get('schoolemployee/admission-fee-list', [SchoolEmployeeAdmin::class, 'admissionFeeList'])->name('schoolemployee.fix-admission-fee-list');
+    Route::post('schoolemployee/uploadAdmissionFee', [SchoolEmployeeAdmin::class, 'uploadAdmissionFee'])->name('schoolemployee.uploadAdmissionFee');
     // Mess Management Start
     Route::get('schoolemployee/mess/admit-student', [MessController::class, 'messAdmitStudent'])->name('schoolemployee.mess.admit-student');
     Route::get('schoolemployee/mess/mess-student-list', [MessController::class, 'messStudentList'])->name('schoolemployee.mess.mess-student-list');

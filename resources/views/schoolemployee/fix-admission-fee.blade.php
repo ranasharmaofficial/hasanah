@@ -1,4 +1,4 @@
-@extends('schooladmin.layouts.master')
+@extends('schoolemployee.layouts.master')
 @section('title','Fix Admission Fee')
 @section('content')
 <div class="page-content">

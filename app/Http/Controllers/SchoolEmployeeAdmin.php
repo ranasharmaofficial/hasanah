@@ -22,6 +22,9 @@ use App\Models\Teacher_category;
 use App\Models\User;
 use App\Models\Mess_stock;
 use App\Models\Contact;
+use App\Models\A_class;
+use App\Models\School;
+use App\Models\Admission_fee;
 use Illuminate\Http\Request;
 
 class SchoolEmployeeAdmin extends Controller
@@ -795,6 +798,152 @@ class SchoolEmployeeAdmin extends Controller
         } else {
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
         } 
+    }
+
+    public function addClass(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $schools  = School::get(); 
+        return view('schoolemployee/addclass', $data, compact('schools'));
+    }
+    public function classList(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $classlist = A_class::paginate(10);
+        return view('schoolemployee/classlist',$data, compact('classlist'));
+    }
+    public function uploadClass(Request $request){
+        $request->validate([
+            'classname' => 'required',
+            'classamount' => 'required',
+            'schoolid' => 'required',
+        ]);
+        $classdetails = new A_class;
+        $classdetails->class_name = $request->classname;
+        $classdetails->amount = $request->classamount;
+        $classdetails->school_id = $request->schoolid;
+        $classdetails-> save();
+        if($classdetails){
+            return redirect()->back()->with(session()->flash('alert-success', 'Class Added Successfully!'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+
+    }
+    public function setSchedule(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $classlist = A_class::get();
+        return view('schoolemployee/setschedule', $data, compact('classlist'));
+    }
+
+    public function scheduleList(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $schedulelist = Exam_schedule::paginate(5);
+        return view('schoolemployee/schedulelist', $data, compact('schedulelist'));
+    }
+
+    public function Exam_schedules(Request $request){
+        $request->validate([
+            'class' => 'required',
+            'examdate' => 'required',
+            'examtimefrom' => 'required',
+            'examtimeto' => 'required',
+            'examcenter' => 'required',
+        ]);
+
+        $examschedule = Exam_schedule::create([
+            "exam_name" => "Entrance Exam",
+            "class" => "$request->class",
+            "exam_date" => "$request->examdate",
+            "exam_time_from" => "$request->examtimefrom",
+            "exam_time_to" => "$request->examtimeto",
+            "exam_center" => "$request->examcenter",
+        ]);
+        if ($examschedule) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Entrance exam schedule successfully created.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+    public function addSchool(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        return view('schoolemployee/addschool', $data);
+    }
+    public function uploadSchool(Request $request){
+        $request->validate([
+            'schoolname' => 'required',
+        ]);
+        $schooldetails = new School;
+        $schooldetails->school_name = $request->schoolname;
+        $schooldetails-> save();
+        if($schooldetails){
+            return redirect()->back()->with(session()->flash('alert-success', 'Class Added Successfully!'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    public function schoolList(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $schoollist = School::paginate(5);
+        return view('schoolemployee/schoollist', $data, compact('schoollist'));
+    }
+    public function addAcademicYear()
+    {
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        return view('schoolemployee/add-academic-year', $data);
+    }
+
+    public function uploadAcademicYear(Request $request)
+    {
+        $request->validate([
+            'datefrom' => 'required',
+            'dateto' => 'required',
+        ]);
+
+        $academicyear = new Academicyear;
+        $academicyear->academicYear = $request->datefrom . '-' . $request->dateto;
+        $academicyear->save();
+        if ($academicyear) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Academic Year Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
+    }
+    public function fixAdmissionFee(){
+       $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        $courses = A_class::get();
+        return view('schoolemployee/fix-admission-fee', $data, compact('courses'));
+    }
+    public function admissionFeeList(){
+        $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
+        //  $admissionfeelist = Admission_fee::paginate(5);
+         
+         $admissionfeelist = Admission_fee::join('a_classes', 'admission_fees.course_id', '=', 'a_classes.id')
+                                //    ->join('project_categories', 'project_categories.project_cat_id', '=', 'project_requests.category')
+                                //    ->join('users', 'users.user_id', '=', 'project_requests.user_id')
+                                   ->select(['admission_fees.*', 'a_classes.class_name as className'])
+                                   ->paginate(10);
+
+         return view('schoolemployee/admission-fee-list', $data, compact('admissionfeelist'));
+     }
+
+    public function uploadAdmissionFee(Request $request){
+        $request->validate([
+            'coursename' => 'required|string',
+            'admissionfee' => 'required',
+            'tutionfee' => 'required',
+        ]);
+
+        $admissionfee = new Admission_fee;
+        $admissionfee->course_id = $request->coursename;
+        $admissionfee->admission_fee = $request->admissionfee;
+        $admissionfee->tution_fee = $request->tutionfee;
+        $admissionfee->security_deposit = $request->securitydeposit;
+        $admissionfee->annual_fee = $request->annualfee;
+        $admissionfee->miscellanous_fee = $request->miscellanousfee;
+        $admissionfee->save();
+        if ($admissionfee) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Admission Fee Successfully Uploaded'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
     }
 
 }

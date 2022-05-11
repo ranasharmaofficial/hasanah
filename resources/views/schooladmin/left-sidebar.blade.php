@@ -64,6 +64,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a href="{{url('schooladmin/fix-admission-fee')}}">Fix Admission Fee</a></li>
+                        <li><a href="{{url('schooladmin/admission-fee-list')}}">Admission Fee List</a></li>
                     </ul>
                 </li>
                 <li>

@@ -17,6 +17,36 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-building-fill"></i>
+                        <span>School </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schoolemployee/addschool')}}">Add School</a></li>
+                        <li><a href="{{url('schoolemployee/school-list')}}">School List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-slideshow-fill"></i>
+                        <span>Class </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schoolemployee/addclass')}}">Add Class</a></li>
+                        <li><a href="{{url('schoolemployee/class-list')}}">Class List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i>FP</i>
+                        <span>Fix Payment</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('schoolemployee/fix-admission-fee')}}">Fix Admission Fee</a></li>
+                        <li><a href="{{url('schoolemployee/admission-fee-list')}}">Admission Fee List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Student </span>
                     </a>

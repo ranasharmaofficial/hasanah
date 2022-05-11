@@ -321,7 +321,11 @@ class StudentController extends Controller
     public function studentEntranceFinalReceipt($form_id){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
         $studendetails = Entrance_exam_form::where('form_id', $form_id)->first();
-        return view('student/entrance-form-receiept', $data, compact('studendetails'));
+        $class_name = A_class::where('id', $studendetails->class_id)->first();
+                                //    ->join('a_classes', 'a_classes.id', '=', 'entrance_exam_forms.class_id')
+                                //    ->select(['entrance_exam_forms.*', 'a_classes.id as className'])
+                                //    ->get();
+        return view('student/entrance-form-receiept', $data, compact('studendetails', 'class_name'));
     }
 
     public function editStudentDetails($token_no){

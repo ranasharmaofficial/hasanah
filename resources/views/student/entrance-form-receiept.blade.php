@@ -71,11 +71,16 @@ table tr td, table tr td b{
                             <div class="admit-card">
                                 <div class="border- padding"> 
                                     <div class="row">
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"> 
-                                            <img class="rounded" style="max-height: 90px" src="{{asset('assets_admin/images/logo-light.png')}}" alt="Hasanah Girls College">
-                                            <h5>Hasanh Girls College</h5>
+                                        <div class="col-xs-2 m-0 text-center"> 
+                                            <img class="rounded" style="max-height: 70px" src="{{asset('assets_admin/images/logo-light.png')}}" alt="Hasanah Girls College" />
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center p-0">
+                                        <div class="col-xs-8 m-0 text-center"> 
+                                            <h6 class="m-0"><b>Hasanah Educational Trust</b></h6>
+                                            <h5 class="receipt-address">AT- Tilko Bari, P.O- Farkia, District- Araria, Bihar, India(854304)</h5>
+                                            <p style="margin: 0; font-weight: bold;font-size: 12px;">Contact No: +91 993 148 1362 Email: hasanah.india@gmail.com</p>
+                                            <p style="margin: 0; font-weight: bold;font-size: 12px;">Website: www.hasanah.in Regd. No. 24/2019</p>
+                                        </div>
+                                        <div class="col-xs-2 text-center p-0 m-0">
                                             <img src="{{asset('uploads/student-documents').'/'.$studendetails->passport_photo}}" class="img-thumbnail" style="max-height:140px;" />
                                         </div>  
                                      </div>
@@ -87,7 +92,7 @@ table tr td, table tr td b{
                                               <tbody>
                                                 <tr>
                                                     <td><b>Name : {{$studendetails->name}}</b></td>
-                                                    <td><b>Class : {{$studendetails->class_id}}</b></td>
+                                                    <td><b>Class : {{$class_name->class_name}}</b></td>
                                                 </tr>
                                                  <tr>
                                                     <td><b>Mobile : {{$studendetails->mobile}}</b></td>

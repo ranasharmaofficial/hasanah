@@ -245,9 +245,21 @@ class SchoolAdminController extends Controller
 
     public function fixAdmissionFee(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
-        $courses = Course::get();
+        $courses = A_class::get();
         return view('schooladmin/fix-admission-fee', $data, compact('courses'));
     }
+    public function admissionsFeeList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        //  $admissionfeelist = Admission_fee::paginate(5);
+         
+         $admissionfeelist = Admission_fee::join('a_classes', 'admission_fees.course_id', '=', 'a_classes.id')
+                                //    ->join('project_categories', 'project_categories.project_cat_id', '=', 'project_requests.category')
+                                //    ->join('users', 'users.user_id', '=', 'project_requests.user_id')
+                                   ->select(['admission_fees.*', 'a_classes.class_name as className'])
+                                   ->paginate(10);
+
+         return view('schooladmin/admission-fee-list', $data, compact('admissionfeelist'));
+     }
 
     public function uploadAdmissionFee(Request $request){
         $request->validate([
