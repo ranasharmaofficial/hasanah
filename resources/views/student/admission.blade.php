@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <h4>Admission Form</h4>
                             @if ($admissionstatus == null)
-                            <p>Status: <span class="text-danger">Now Applied</span></p>
+                            <p>Status: <span class="text-danger">Not Applied</span></p>
                             <a href="{{url('student/admission-form')}}" class="btn btn-primary">Apply Now</a>
                             @elseif ($admissionstatus->status == '2')                                
                             <p>Status: <span class="text-warning">Admission fee not paid</span></p>
@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <h4>Admission Fee</h4>
                             @if ($admissionstatus == null)
-                            <p>Status: <span class="text-danger">Now Applied</span></p>
+                            <p>Status: <span class="text-danger">Not Applied</span></p>
                             <a href="{{url('student/admission-form')}}" class="btn btn-primary">Apply Now</a>
                             @elseif ($admissionstatus->status == '2')                                
                             <p>Status: <span class="text-warning">Admission fee not paid</span></p>

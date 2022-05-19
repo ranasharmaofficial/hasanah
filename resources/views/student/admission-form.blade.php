@@ -41,7 +41,7 @@
                             <h4 class="card-title font-weight-bold text-uppercase">Official Details:-</h4><hr>
                             <div class="container">
                                 <div class="row mb-3">
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <label for="academic-year" class="col-form-label">Select Academic Year <star>*</star></label>
                                         <select id="academic-year" name="academic_year" required class="form-select" aria-label="Default select example">
                                             <option selected="" disabled>Select Academic Year</option>
@@ -50,21 +50,41 @@
                                             @endforeach
                                         </select>
                                         <small class="form-text text-danger">@error('academic_year') {{$message}} @enderror</small>
-                                    </div>
+                                    </div> --}}
                                     {{-- <div class="col-sm-4">
                                         <label for="JoiningDate" class="col-form-label">Joining Date <star>*</star></label>
                                         <input class="form-control" type="date" name="joining_date" placeholder="Joining Date" required value="{{old('joining_date')}}" id="JoiningDate">
                                         <small class="form-text text-danger">@error('joining_date') {{$message}} @enderror</small>
                                     </div> --}}
                                     <div class="col-sm-4">
-                                        <label for="selectcourse" class="col-form-label">Select Course <star>*</star></label>
-                                        <select id="selectcourse" name="selectcourse" class="form-select" required aria-label="selectcourse">
+                                        <label for="academic_year" class="col-form-label">Academic Year <star>*</star></label>
+                                        <input type="text" name="academicyear" id="academic_year" readonly required value="{{$entrancedata->academicYearGet}}" class="form-control">
+                                        <input type="hidden" name="academic_year" readonly required value="{{$entrancedata->academic_year}}" class="form-control">
+                                        <small class="form-text text-danger">@error('academic_year') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="schoolname" class="col-form-label">Applied for School <star>*</star></label>
+                                        <input type="text" name="school_name" id="schoolname" readonly required value="{{$entrancedata->schoolname}}" class="form-control">
+                                        <input type="hidden" name="schoolid" id="schoolid" readonly required value="{{$entrancedata->schoolid}}" class="form-control">
+                                        {{-- <select id="selectcourse" name="selectcourse" class="form-select" required aria-label="selectcourse">
                                             <option selected="" disabled>Select Course</option>
                                             @foreach ($courses as $course)
                                             <option value="{{$course->course_id}}">{{$course->courseName}}</option>
                                             @endforeach
-                                        </select>
-                                        <small class="form-text text-danger">@error('selectcourse') {{$message}} @enderror</small>
+                                        </select> --}}
+                                        <small class="form-text text-danger">@error('school_name') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="coursename" class="col-form-label">Applied for Class <star>*</star></label>
+                                        <input type="text" name="course_name" id="coursename" readonly required value="{{$entrancedata->classname}}" class="form-control">
+                                        <input type="hidden" name="courseid" id="courseid" readonly required value="{{$entrancedata->classid}}" class="form-control">
+                                        {{-- <select id="selectcourse" name="selectcourse" class="form-select" required aria-label="selectcourse">
+                                            <option selected="" disabled>Select Course</option>
+                                            @foreach ($courses as $course)
+                                            <option value="{{$course->course_id}}">{{$course->courseName}}</option>
+                                            @endforeach
+                                        </select> --}}
+                                        <small class="form-text text-danger">@error('course_name') {{$message}} @enderror</small>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +95,7 @@
                                 <div class="row mb-3">
                                     <div class="col-sm-4">
                                         <label for="fullname" class="col-form-label">Enter Student's Full Name <star>*</star></label>
-                                        <input class="form-control" type="text" name="fullname" placeholder="Full Name" value="{{old('fullname')}}" id="fullname" required>
+                                        <input class="form-control" type="text" name="fullname" readonly placeholder="Full Name" value="{{$entrancedata->name}}" id="fullname" required>
                                         <small class="form-text text-danger">@error('fullname') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
@@ -127,6 +147,7 @@
                                         <select id="nationality" name="nationality" class="form-select" aria-label="Select Nationality">
                                             <option disabled selected value="">Select Nationality</option>
                                             <option value="India">India</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
@@ -152,12 +173,12 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="mobilenumber" class="col-form-label">Mobile Number <star>*</star></label>
-                                        <input class="form-control" type="tel" name="mobilenumber" min="0" placeholder="Enter Mobile Number" value="{{old('mobilenumber')}}" required id="mobilenumber">
+                                        <input class="form-control" type="tel" name="mobilenumber" readonly min="0" placeholder="Enter Mobile Number" value="{{$entrancedata->mobile}}" required id="mobilenumber">
                                         <small class="form-text text-danger">@error('mobilenumber') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="emailid" class="col-form-label">E-mail ID</label>
-                                        <input class="form-control" type="email" name="emailid" placeholder="Enter E-mail ID" value="{{old('emailid')}}" id="emailid">
+                                        <input class="form-control" type="email" name="emailid" readonly placeholder="Enter E-mail ID" value="{{$entrancedata->email}}" id="emailid">
                                         <small class="form-text text-danger">@error('emailid') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
@@ -183,22 +204,22 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="city" class="col-form-label">City <star>*</star></label>
-                                        <input class="form-control" type="text" required name="city" placeholder="Enter city Name" id="city" />
+                                        <input class="form-control" type="text" required name="city" readonly value="{{$entrancedata->city}}" placeholder="Enter city Name" id="city" />
                                         <small class="form-text text-danger">@error('city') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="LastName" class="col-form-label">State <star>*</star></label>
-                                        <input class="form-control" type="text" name="state" placeholder="Enter state name" id="state" />
+                                        <input class="form-control" type="text" name="state" readonly value="{{$entrancedata->state}}" placeholder="Enter state name" id="state" />
                                         <small class="form-text text-danger">@error('state') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="country" class="col-form-label">Country <star>*</star></label>
-                                        <input class="form-control" type="text" name="country" placeholder="Enter country name" id="country" />
+                                        <input class="form-control" type="text" name="country" readonly value="{{$entrancedata->country}}" placeholder="Enter country name" id="country" />
                                         <small class="form-text text-danger">@error('country') {{$message}} @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="pincode" class="col-form-label">Pin Code <star>*</star></label>
-                                        <input class="form-control" type="number" min="0" maxlength="10" name="pincode" placeholder="Enter Pincode" value="{{old('pincode')}}" id="pincode">
+                                        <input class="form-control" type="number" min="0" maxlength="10" name="pincode" placeholder="Enter Pincode" readonly value="{{$entrancedata->pincode}}" id="pincode">
                                         <small class="form-text text-danger">@error('pincode') {{$message}} @enderror</small>
                                     </div>                               
                                 </div>
@@ -287,12 +308,12 @@
                                         <small class="form-text text-danger">@error('guardianpincode') {{$message}} @enderror</small>
                                     </div>                                                                
                                 </div>
-                            </div>       
-                            <input class="form-control" type="hidden" required name="admissionfee" value="{{old('admissionfee')}}" readonly id="admissionfee"/> 
-                            <input class="form-control" type="hidden" name="tutionfee" readonly required value="{{old('tutionfee')}}" id="tutionfee"/>            
-                            <input class="form-control" type="hidden" name="annualfee" readonly required value="{{old('annualfee')}}" id="annualfee"/>            
-                            <input class="form-control" type="hidden" name="securitydeposit" readonly required value="{{old('securitydeposit')}}" id="securitydeposit"/>            
-                            <input class="form-control" type="hidden" name="miscellanousfee" readonly required value="{{old('miscellanousfee')}}" id="miscellanousfee"/>            
+                            </div> 
+                            <input class="form-control" type="hidden" required name="admissionfee" value="{{$admissionfees->admission_fee}}" readonly id="admissionfee"/> 
+                            <input class="form-control" type="hidden" name="tutionfee" readonly required value="{{$admissionfees->tution_fee}}" id="tutionfee"/>            
+                            <input class="form-control" type="hidden" name="annualfee" readonly required value="{{$admissionfees->annual_fee}}" id="annualfee"/>            
+                            <input class="form-control" type="hidden" name="securitydeposit" readonly required value="{{$admissionfees->security_deposit}}" id="securitydeposit"/>            
+                            <input class="form-control" type="hidden" name="miscellanousfee" readonly required value="{{$admissionfees->miscellanous_fee}}" id="miscellanousfee"/>            
                             <div class="row">
                                 <div class="col-sm-12 text-center">
                                     <button name="add_student" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-save"></i> Proceed</button>
@@ -307,9 +328,9 @@
      </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
+{{-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
+{{-- <script>
     jQuery(document).ready(function(){
         jQuery('#selectcourse').change(function(){
             let courseid=jQuery(this).val();
@@ -344,5 +365,5 @@
 
         });
     });
-</script>
+</script> --}}
 @endsection

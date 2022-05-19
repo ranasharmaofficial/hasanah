@@ -41,8 +41,9 @@ class StudentController extends Controller
         // dd($data); die;
         $classes = A_class::get();
         $school = School::get();
+        $academicyears = Academicyear::get();
         $getformappliedornot = Entrance_exam_form::where('student_id', $data['LoggedStudentInfo']->student_id)->first();
-        return view('student/applyforexam', $data, compact('classes', 'school', 'getformappliedornot'));
+        return view('student/applyforexam', $data, compact('classes', 'school', 'getformappliedornot', 'academicyears'));
     }
 
     public function studentGetOTP(Request $request){
@@ -181,7 +182,9 @@ class StudentController extends Controller
 
     //Entrance Exam Form Process Start
     public function studentEntranceExam(Request $request){
+        // dd($request->all()); die;
         $request->validate([
+            'academic_year' => 'required',
             'school_id' => 'required',
             'class_id' => 'required',
             'name' => 'required|string',
@@ -232,6 +235,7 @@ class StudentController extends Controller
             "student_id" => "$studentid->student_id",
             "school_id" => "$request->school_id",
             "class_id" => "$request->class_id",
+            "academic_year" => "$request->academic_year",
             "name" => "$request->name",
             "email" => "$request->email",
             "mobile" => "$request->mobile",
@@ -257,10 +261,13 @@ class StudentController extends Controller
     //Entrance Exam Form Preview Start
     public function studentEntranceExamPreview($tokenno){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        $getdetails = Entrance_exam_process::where('token_no',$tokenno)->first();
-        $classname = A_class::where('id', $getdetails->class_id)->first();
+        $getdetails = Entrance_exam_process::where('token_no',$tokenno)
+                                            ->join('academicyears', 'academicyears.id', '=', 'entrance_exam_processes.academic_year')
+                                            ->join('a_classes', 'a_classes.id', '=', 'entrance_exam_processes.class_id')
+                                            ->select('entrance_exam_processes.*', 'academicyears.academicYear AS academicyear', 'a_classes.class_name AS className')->first();
+        // $classname = A_class::where('id', $getdetails->class_id)->first();
         // dd($getdetails); die;
-        return view('student/entrance-exam-preview', $data, compact('getdetails', 'classname'));
+        return view('student/entrance-exam-preview', $data, compact('getdetails'));
     }
     //Entrance Exam Form Preview End
 
@@ -286,6 +293,7 @@ class StudentController extends Controller
             $formfilled->student_id = $studentid->student_id;
             $formfilled->form_id = $form_id;
             $formfilled->class_id = $request->class_id;
+            $formfilled->academic_year = $request->academic_year;
             $formfilled->school_id = $request->school_id;
             $formfilled->name = $request->name;
             $formfilled->mobile = $request->mobile;
@@ -630,11 +638,17 @@ class StudentController extends Controller
 
         $studentid = Student::where('id','=', session('LoggedStudent'))->first();
         $studentdetails = Entrance_exam_form::where('student_id','=', $studentid->student_id)->first();
-        $examschedules = Exam_schedule::where('class', '=', $studentdetails->class_id)->first();
+        $examschedules = Exam_schedule::where('class', '=', $studentdetails->class_id)->where('school_id', '=', $studentdetails->school_id)->first();
         //   dd($examschedules); die;
         // $pdf = PDF::loadView('student/myAdmitCard', compact('studentdetails'));    
         // return $pdf->download($request->exam_type.'-'.$studentdetails['form_id'].'.pdf');
-        return view('student/myAdmitCard', $data, compact('studentdetails', 'examschedules'));
+        if($examschedules && $studentdetails){
+            $trytodo = true;
+            return view('student/myAdmitCard', $data, compact('studentdetails', 'examschedules', 'trytodo'));
+        } else{
+            $trytodo = false;
+            return view('student/myAdmitCard', $data, compact('trytodo'));
+        }
     }
 
     public function getClassNames(Request $request){
@@ -645,10 +659,17 @@ class StudentController extends Controller
 
     public function studentAdmissionForm(){
         $data = ['LoggedStudentInfo'=>Student::where('id','=', session('LoggedStudent'))->first()];
-        $courses = Course::get();
-        $academicyears = Academicyear::get();
-        $batchtimes = Batchtime::get();
-        return view('student/admission-form', $data, compact('courses', 'academicyears', 'batchtimes'));
+        // $courses = Course::get();
+        // $academicyears = Academicyear::get();
+        // $batchtimes = Batchtime::get();
+        $entrancedata = Entrance_exam_form::where('student_id', '=', $data['LoggedStudentInfo']->student_id)
+                                            ->join('schools', 'schools.id', '=', 'entrance_exam_forms.school_id')
+                                            ->join('a_classes', 'a_classes.id', '=', 'entrance_exam_forms.class_id')
+                                            ->join('academicyears', 'academicyears.id', '=', 'entrance_exam_forms.academic_year')
+                                            ->select('entrance_exam_forms.*','schools.id AS schoolid', 'schools.school_name AS schoolname', 'a_classes.id AS classid', 'a_classes.class_name AS classname', 'academicyears.academicYear AS academicYearGet')->first();
+        // dd($entrancedata); die;
+        $admissionfees = Admission_fee::where('school_id', '=', $entrancedata->school_id)->where('course_id', '=', $entrancedata->class_id)->first();
+        return view('student/admission-form', $data, compact('entrancedata', 'admissionfees'));
     }
     public function getBatchTime(Request $request)
     {
@@ -672,7 +693,8 @@ class StudentController extends Controller
         $request->validate([
             'studentid' => 'required',
             'academic_year' => 'required',
-            'selectcourse' => 'required',
+            'school_name' => 'required',
+            'course_name' => 'required',
             'fullname' => 'required',
             'dob' => 'required',
             'gender' => 'required',
@@ -732,7 +754,8 @@ class StudentController extends Controller
         $student = new Student_admission;
         $student->student_id = $request->studentid;
         $student->session = $request->academic_year;
-        $student->courseID = $request->selectcourse;
+        $student->school_id = $request->schoolid;
+        $student->courseID = $request->courseid;
         $student->save();
         
         $admission->student_id = $request->studentid;
@@ -770,7 +793,7 @@ class StudentController extends Controller
         // $admission->tutionFee = $request->tutionfee;
         $admission->joiningDate = now();
         $admission->save();
-        $feedetails = Admission_fee::where('course_id', $request->selectcourse)->first();
+        $feedetails = Admission_fee::where('course_id', $request->courseid)->first();
         $paymentfee = new Fee;
         $paymentfee->student_id = $request->studentid;
         $paymentfee->rollNumber = $rollnumber;
@@ -853,7 +876,7 @@ class StudentController extends Controller
         $getdetails = Student::where('student_id', $studentid)->first();
         $getadmissiondetails = Admission::where('student_id', $studentid)->first();
         $getcdetails = Student_admission::where('student_id', $studentid)->first();
-        $getcourse = Course::where('course_id', $getcdetails->courseID)->first();
+        $getcourse = A_class::where('id', $getcdetails->courseID)->first();
         $getsession = Academicyear::where('id', $getcdetails->session)->first();
         // dd($getdetails); die;
         return view('student/admission-receiept', $data, compact('getfeedetails', 'getdetails', 'getadmissiondetails', 'getcourse', 'getsession'));
@@ -865,7 +888,7 @@ class StudentController extends Controller
         $getdetails = Student::where('student_id', $studentid)->first();
         $getadmissiondetails = Admission::where('student_id', $studentid)->first();
         $getcdetails = Student_admission::where('student_id', $studentid)->first();
-        $getcourse = Course::where('course_id', $getcdetails->courseID)->first();
+        $getcourse = A_class::where('id', $getcdetails->courseID)->first();
         $getsession = Academicyear::where('id', $getcdetails->session)->first();
         // dd($getdetails); die;
         return view('student/admission-payment-receipt', $data, compact('getfeedetails', 'getdetails', 'getadmissiondetails', 'getcourse', 'getsession'));

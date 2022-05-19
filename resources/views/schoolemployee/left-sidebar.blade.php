@@ -86,6 +86,7 @@
                         <li><a href="{{url('schoolemployee/mess/mess-student-list')}}">Mess Student List</a></li>
                         <li><a href="{{url('schoolemployee/mess/create-manage-mess-menu')}}">Manage Mess Menu</a></li>
                         <li><a href="{{url('schoolemployee/mess/assign-mess-menu')}}">Assign Mess Menu To Calendar</a></li>
+                        {{-- <li><a href="{{url('schoolemployee/mess/assign-mess-menu')}}">Menu List</a></li> --}}
                         <li><a href="{{url('schoolemployee/mess/add-stock')}}">Add Stock</a></li>
                         <li><a href="{{url('schoolemployee/mess/stock-list')}}">Stock List</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Expense Stock</a></li>

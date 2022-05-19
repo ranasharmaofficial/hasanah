@@ -98,7 +98,7 @@ table tr td, table tr td b{
                                                 </tr>
                                                 <tr>
                                                     <td><b>Academic Year : {{$getsession->academicYear}}</b></td>
-                                                    <td><b>Class : {{$getcourse->courseName}}</b></td>
+                                                    <td><b>Class : {{$getcourse->class_name}}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <th colspan="2"><span style="font-size: 1.2rem;color:rgb(138, 137, 137);">Personal Information</span></th>

@@ -134,8 +134,13 @@ class SchoolAdminController extends Controller
 
     public function setSchedule(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
-        $classlist = A_class::get();
-        return view('schooladmin/setschedule', $data, compact('classlist'));
+        $schoollists = School::get();
+        return view('schooladmin/setschedule', $data, compact('schoollists'));
+    }
+    public function getClassNames(Request $request){
+        $schoolid = $request->post('school');
+        $schooldetails = A_class::where('school_id', $schoolid)->get();
+        return $schooldetails;
     }
 
     public function scheduleList(){
@@ -146,6 +151,7 @@ class SchoolAdminController extends Controller
 
     public function Exam_schedules(Request $request){
         $request->validate([
+            'school' => 'required',
             'class' => 'required',
             'examdate' => 'required',
             'examtimefrom' => 'required',
@@ -155,6 +161,7 @@ class SchoolAdminController extends Controller
 
         $examschedule = Exam_schedule::create([
             "exam_name" => "Entrance Exam",
+            "school_id" => "$request->school",
             "class" => "$request->class",
             "exam_date" => "$request->examdate",
             "exam_time_from" => "$request->examtimefrom",
@@ -246,7 +253,17 @@ class SchoolAdminController extends Controller
     public function fixAdmissionFee(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
         $courses = A_class::get();
-        return view('schooladmin/fix-admission-fee', $data, compact('courses'));
+        $schoollists = School::where('status', '0')->get();
+        return view('schooladmin/fix-admission-fee', $data, compact('courses', 'schoollists'));
+    }
+
+    public function getSchoolClassName(Request $request){
+        $classes = A_class::where('school_id', '=', $request->school_name)->get();
+        $class = '<option value="" selected disabled>--Select Class--</option>';
+        foreach ($classes as $key => $value) {
+            $class.= '<option value="'.$value->id.'">'.$value->class_name.'</option>';
+        }
+        echo $class;
     }
     public function admissionsFeeList(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
@@ -263,12 +280,14 @@ class SchoolAdminController extends Controller
 
     public function uploadAdmissionFee(Request $request){
         $request->validate([
-            'coursename' => 'required|string',
+            'schoolname' => 'required',
+            'coursename' => 'required',
             'admissionfee' => 'required',
             'tutionfee' => 'required',
         ]);
 
         $admissionfee = new Admission_fee;
+        $admissionfee->school_id = $request->schoolname;
         $admissionfee->course_id = $request->coursename;
         $admissionfee->admission_fee = $request->admissionfee;
         $admissionfee->tution_fee = $request->tutionfee;

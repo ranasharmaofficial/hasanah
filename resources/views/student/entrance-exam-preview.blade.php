@@ -40,8 +40,12 @@
                         <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
+                                    <td>Academic Year</td>
+                                    <td class="text-right">{{$getdetails->academicyear}}</td>
+                                </tr>
+                                <tr>
                                     <td>Class</td>
-                                    <td class="text-right">{{$classname->class_name}}</td>
+                                    <td class="text-right">{{$getdetails->className}}</td>
                                 </tr>
                                 <tr>
                                     <td>Name</td>
@@ -86,6 +90,7 @@
                                     @csrf
                                     <input type="hidden" name="tokenno" required value="{{$getdetails->token_no}}" />
                                     <input type="hidden" name="class_id" required value="{{$getdetails->class_id}}" />
+                                    <input type="hidden" name="academic_year" required value="{{$getdetails->academic_year}}" />
                                     <input type="hidden" name="school_id" required value="{{$getdetails->school_id}}" />
                                     <input type="hidden" name="name" required value="{{$getdetails->name}}" />
                                     <input type="hidden" name="email" required value="{{$getdetails->email}}" />

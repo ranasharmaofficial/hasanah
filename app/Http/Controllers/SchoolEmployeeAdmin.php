@@ -25,6 +25,7 @@ use App\Models\Contact;
 use App\Models\A_class;
 use App\Models\School;
 use App\Models\Admission_fee;
+use App\Models\Exam_schedule;
 use Illuminate\Http\Request;
 
 class SchoolEmployeeAdmin extends Controller

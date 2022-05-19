@@ -49,6 +49,16 @@
                                 <div class="row">
                                     <h5 class="text-primary">Personal Details</h5><hr>
                                     <div class="col-sm-4">
+                                        <label for="academicyear" class="col-form-label">Select Academic Year <star>*</star></label>
+                                        <select class="form-select" required type="text" name="academic_year" id="academicyear">
+                                            <option selected disabled>---Select Academic Year----</option>
+                                            @foreach ($academicyears as $academicyear)
+                                                <option value="{{$academicyear->id}}">{{$academicyear->academicYear}}</option>                                            
+                                            @endforeach
+                                        </select>
+                                        <small class="form-text text-danger">@error('academic_year') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-4">
                                         <label for="school_id" class="col-form-label">Select School <star>*</star></label>
                                         <select class="form-select" required type="text" name="school_id" id="school_id">
                                             <option selected disabled>---Select School----</option>

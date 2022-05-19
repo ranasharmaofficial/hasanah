@@ -128,7 +128,7 @@ table tr td, table tr td b{
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"><b>Name of Student : {{$getdetails->name}}</b></td>
-                                                    <td colspan="3"><b>Class & Section : {{$getcourse->courseName}}</b></td>
+                                                    <td colspan="3"><b>Class & Section : {{$getcourse->class_name}}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"><b>Admission Number : {{$getadmissiondetails->admissionNumber}}</b></td>
@@ -264,7 +264,7 @@ table tr td, table tr td b{
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"><b>Name of Student : {{$getdetails->name}}</b></td>
-                                                    <td colspan="3"><b>Class & Section : {{$getcourse->courseName}}</b></td>
+                                                    <td colspan="3"><b>Class & Section : {{$getcourse->class_name}}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3"><b>Admission Number : {{$getadmissiondetails->admissionNumber}}</b></td>

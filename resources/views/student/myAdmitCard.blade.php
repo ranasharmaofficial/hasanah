@@ -2,6 +2,9 @@
 @section('title','Entrance Exam Admit Card')
 @section('content')
 <style>
+    body {
+    background-color: #fff !important;
+}
 .txt-center {
     text-align: center;
 }
@@ -38,6 +41,11 @@ table img {
 table tr td, table tr td b{
     color: rgb(0, 0, 0);
 }
+.receipt-address{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.7rem;
+    margin: 0;
+}
 </style>
 <div class="page-content">
     <div class="container-fluid">
@@ -59,7 +67,8 @@ table tr td, table tr td b{
             </div>
         </div>
         <!-- end page title -->
-        
+
+        @if ($trytodo)
         <div class="row">
             <div class="col-sm-12">
                 <div class="card" id="content">
@@ -70,7 +79,7 @@ table tr td, table tr td b{
                         <div class="container">
                             <div class="admit-card">
                                 <div class="border- padding"> 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"> 
                                             <img class="rounded" style="max-height: 90px" src="{{asset('assets_admin/images/logo-light.png')}}" alt="Hasanah Girls College">
                                             <h5>Hasanh Girls College</h5>
@@ -78,43 +87,78 @@ table tr td, table tr td b{
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center p-0">
                                             <img src="{{asset('uploads/student-documents').'/'.$studentdetails->passport_photo}}" class="img-thumbnail" style="max-height:140px;" />
                                         </div>  
+                                     </div> --}}
+                                     <div class="row">
+                                        <div class="col-xs-2 m-0 text-center"> 
+                                            <img class="rounded" style="max-height: 70px" src="{{asset('assets_admin/images/logo-light.png')}}" alt="Hasanah Girls College" />
+                                        </div>
+                                        <div class="col-xs-8 m-0 text-center"> 
+                                            <h6 class="m-0"><b>Hasanah Educational Trust</b></h6>
+                                            <h5 class="receipt-address">AT- Tilko Bari, P.O- Farkia, District- Araria, Bihar, India(854304)</h5>
+                                            <p style="margin: 0; font-weight: bold;font-size: 12px;">Contact No: +91 993 148 1362 Email: hasanah.india@gmail.com</p>
+                                            <p style="margin: 0; font-weight: bold;font-size: 12px;">Website: www.hasanah.in Regd. No. 24/2019</p>
+                                        </div>
+                                        <div class="col-xs-2 text-center p-0 m-0">
+                                            <p style="font-weight: 600;">Student Copy</p>
+                                        </div>  
                                      </div>
                                 </div>
                                 <div class="BoxD">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-xs-8">
                                             <table class="table table-bordered">
-                                              <tbody>
-                                                <tr>
-                                                    <td><b>Name : {{$studentdetails->name}}</b></td>
-                                                    <td><b>Class : {{$studentdetails->class_id}}</b></td>
-                                                </tr>
-                                                 <tr>
-                                                    <td><b>Mobile : {{$studentdetails->mobile}}</b></td>
-                                                    <td><b>Email: </b> {{$studentdetails->email}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Country : {{$studentdetails->country}}</b></td>
-                                                    <td><b>State: </b>{{$studentdetails->state}}</td>
+                                                <tbody>
+                                                  <tr>
+                                                      <td><b>Name : {{$studentdetails->name}}</b></td>
+                                                      <td><b>Class : {{$studentdetails->class_id}}</b></td>
                                                   </tr>
-                                                <tr>
-                                                  <td><b>City : </b>{{$studentdetails->city}}</td>
-                                                  <td><b>Pin Code: </b>{{$studentdetails->pincode}}</td>
-                                                </tr>
-                                                
-                                               </tbody>
-                                            </table>
+                                                   <tr>
+                                                      <td><b>Mobile : {{$studentdetails->mobile}}</b></td>
+                                                      <td><b>Email: </b> {{$studentdetails->email}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td><b>Country : {{$studentdetails->country}}</b></td>
+                                                      <td><b>State: </b>{{$studentdetails->state}}</td>
+                                                    </tr>
+                                                  <tr>
+                                                    <td><b>City : </b>{{$studentdetails->city}}</td>
+                                                    <td><b>Pin Code: </b>{{$studentdetails->pincode}}</td>
+                                                  </tr>
+                                                  
+                                                 </tbody>
+                                              </table>
                                         </div>
-                                       
+                                        <div class="col-xs-4 text-center">
+                                            
+                                            <table class="table" style="margin:0; border-right: 0.8px solid gray;">
+                                                <tbody>
+                                                  <tr>
+                                                      <td>
+                                                          <img src="{{asset('uploads/student-documents').'/'.$studentdetails->passport_photo}}" class="img-thumbnail" style="height: 175px;width: 175px;" alt="{{$studentdetails->name}}'s Photo">
+                                                      </td>
+                                                  </tr>
+                                                 </tbody>
+                                              </table>
+                                        </div>                                       
                                     </div>
                                 </div>                                
                                 <div class="BoxE border- padding mar-bot txt-center">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <h5>EXAMINATION VENUE</h5>
-                                            <p><b>Date of Exam:</b> {{date('d-M-Y',strtotime($examschedules->exam_date))}}</p>
-                                            <p><b>Examination Time:</b> {{$examschedules->exam_center}}</p>
-                                            <p><b>Examination Time:</b> {{date("g:i a", strtotime($examschedules->exam_time_from)).'-'.date("g:i a", strtotime($examschedules->exam_time_to))}}</p>
+                                            <table class="table table-bordered table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Examination Venue:</th>
+                                                        <td colspan="3" style="text-align: left;">{{ucfirst($examschedules->exam_center)}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Exam Date:</th>
+                                                        <td>{{date('d-M-Y',strtotime($examschedules->exam_date))}}</td>
+                                                        <th>Duration of Exam:</th>
+                                                        <td>{{date("g:i a", strtotime($examschedules->exam_time_from)).'-'.date("g:i a", strtotime($examschedules->exam_time_to))}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +186,7 @@ table tr td, table tr td b{
                                     </div>
                                 </div> --}}
                                 <footer class="txt-center">
-                                    <h5 class="font-weight-bold">अभ्यर्थियों  के लिए सामान्य निर्देश |</h5>
+                                    <h5 style="text-decoration: underline; font-weight: 600;">अभ्यर्थियों  के लिए सामान्य निर्देश</h5>
                                     </br>
                                     <ul>
                     <li style="text-align: justify;">अभ्यर्थियों को सलाह दी जाती है कि वे प्रवेश पत्र में दिए गए रिपोर्टिंग / प्रवेश-समय में निर्धारित समय स्लॉट&nbsp; अनुसार केंद्र पर पहुचें |</li>
@@ -163,6 +207,17 @@ table tr td, table tr td b{
             </div> <!-- end col -->
         </div>
         <!-- end row -->
+        @else
+            <div class="row justify-content-center">
+                <div class="card col-sm-6">
+                    <div class="card-body">
+                        <h5 class="text-danger text-center">Your admit card not availabel.</h5>
+                    </div>
+                </div>
+            </div>
+        @endif
+        
+        
      </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->

@@ -13,7 +13,7 @@ use App\Models\User_project;
 use App\Models\Project_request;
 use App\Models\User_login_history;
 use App\Models\User_upload_images;
-
+use Exception;
 
 class UserController extends Controller
 {
@@ -294,6 +294,115 @@ class UserController extends Controller
         } 
         return view('user/updateprofile',$data, compact('userData', 'contractorData','companydata','lastLoginTime'));
     }
+
+    public function userProfileUpdate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'mobile' => 'required',
+            'email' => 'required',
+            'landmark' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'pincode' => 'required',
+        ]);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $userdataup = User::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                            ->update([
+                                'name' => $request->name,
+                            ]);
+        $usercontractupdate = Contractor::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                                        ->update([
+                                            'landmark' => $request->landmark,
+                                            'city' => $request->city,
+                                            'state' => $request->state,
+                                            'country' => $request->country,
+                                            'pincode' => $request->pincode,
+                                        ]);
+        if ($userdataup && $usercontractupdate) {
+            return redirect()->back()->with(session()->flash('alert-success', 'You have successfully updated your profile.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+
+    public function bankDetails()
+    {
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
+        return view('user/bank-details',$data, compact('contractdata', 'companydata', 'lastLoginTime'));
+    }
+
+    public function fetchBankDetails(Request $request)
+    {
+        $request->validate([
+            'ifsc_code' => 'required',
+        ]);
+
+        $ifscurl = 'https://ifsc.razorpay.com'.'/'.$request->ifsc_code;
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
+        try {
+            $bankdetails = file_get_contents($ifscurl);
+            $bank = json_decode($bankdetails);
+            $rsultpass = true;
+            return view('user/bank-details',$data, compact('contractdata', 'companydata','lastLoginTime', 'bank', 'rsultpass'));
+          } catch (Exception $e) {
+            $errormsg = $e->getMessage();
+            return redirect()->back()->with(session()->flash('alert-warning', 'Ooohooo! Please enter correct IFSC Code.'));
+          }
+        // dd($bankdetails); die;
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
+    public function updateBankDetails(Request $req)
+    {
+        $req->validate([
+            'bank_name' => 'required',
+            'account_holder_name' => 'required',
+            'branch' => 'required',
+            'ifsc_code' => 'required',
+            'account_number' => 'required',
+            'confirm_account_number' => 'required',
+        ]);
+
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        if ($req->account_number === $req->confirm_account_number) {
+            $bankupdate = Contractor::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                                ->update([
+                                    'bank_name' => $req->bank_name,
+                                    'account_holder_name' => $req->account_holder_name,
+                                    'ifsc_code' => $req->ifsc_code,
+                                    'branch' => $req->branch,
+                                    'account_number' => $req->account_number,
+                                ]);
+            if ($bankupdate) {
+                return redirect()->back()->with(session()->flash('alert-danger', 'Congratulations! Bank Details Successfully Updated.'));
+            }
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        } else{
+            return redirect()->back()->with(session()->flash('alert-warning', 'Account number and confirm account number not matched.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+        
+    }
+
     public function changePassword(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();

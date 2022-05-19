@@ -68,6 +68,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{url('user/bank-details')}}" class="waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Bank Details</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{url('user/change-password')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Change Password</span>

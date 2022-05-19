@@ -12,8 +12,10 @@ class Entrance_exam_process extends Model
     protected $table = 'entrance_exam_processes';
     protected $fillable = [
         'token_no',
+        'student_id',
         'school_id',
         'class_id',
+        'academic_year',
         'name',
         'email',
         'mobile',

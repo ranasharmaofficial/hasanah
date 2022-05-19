@@ -43,13 +43,19 @@
                                 </div> 
                                 <form action="{{route('schoolemployee.uploadAdmissionFee')}}" method="post" class="row" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="col-sm-12">
-                                        <label for="CourseName" class="col-form-label">Select Class <star>*</star></label>
-                                        <select name="coursename" id="coursename" class="form-select">
-                                           <option selected disabled>---Select Class---</option>
-                                            @foreach ($courses as $course)
-                                            <option value="{{$course->id}}">{{$course->class_name}}</option>
+                                    <div class="col-sm-6">
+                                        <label for="school" class="col-form-label">Select School <star>*</star></label>
+                                        <select name="schoolname" id="schoolname" class="form-select">
+                                            <option value="" selected disabled>--Select School--</option>
+                                            @foreach ($schoollists as $schoolname)
+                                                <option value="{{$schoolname->id}}">{{$schoolname->school_name}}</option>
                                             @endforeach
+                                        </select>
+                                        <small class="text-danger form-text">@error('schoolname') {{$message}} @enderror</small>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="CourseName" class="col-form-label">Select Course <star>*</star></label>
+                                        <select name="coursename" id="coursename" class="form-select">
                                         </select>
                                         <small class="text-danger form-text">@error('coursename') {{$message}} @enderror</small>
                                     </div>
@@ -92,4 +98,25 @@
      </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
+
+<script>
+    $(document).ready(function(){
+        $("#schoolname").change(function(){
+            let school_name=jQuery(this).val();
+            $('#coursename').empty();
+            $('#coursename').append(`<option value="0" disabled selected>Processing...</option>`);
+            jQuery.ajax({
+                url:'{{url('getSchoolClassName')}}',
+                type:'post',
+                async: true,
+                cache: false,
+                data:'school_name='+school_name+'&_token={{csrf_token()}}',
+                success:function(result){
+                    jQuery('#coursename').html(result)
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

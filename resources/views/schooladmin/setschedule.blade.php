@@ -56,12 +56,22 @@ table.border-modal > tbody > tr > td{
                     <form action="{{route('schooladmin.exam_schedules')}}" method="post" class="row">
                         @csrf
                         <div class="form-group col-sm-6 mb-2">
+                            <label for="school">Select School <star>*</star></label>
+                            <select name="school" id="school" class="form-select">
+                                <option value="" selected disabled>--Select School--</option>
+                                @foreach ($schoollists as $item)
+                                    <option value="{{$item->id}}">{{$item->school_name}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger form-text">@error('class'){{$message}}@enderror</span>
+                        </div>
+                        <div class="form-group col-sm-6 mb-2">
                             <label for="class">Select Class <star>*</star></label>
                             <select name="class" id="class" class="form-select">
                                 <option value="" selected disabled>--Select Class--</option>
-                                @foreach ($classlist as $item)
+                                {{-- @foreach ($classlist as $item)
                                     <option value="{{$item->id}}">{{$item->class_name}}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             <span class="text-danger form-text">@error('class'){{$message}}@enderror</span>
                         </div>
@@ -95,5 +105,36 @@ table.border-modal > tbody > tr > td{
      </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
+<script>
+  
+    jQuery(document).ready(function(){
 
+        jQuery('#school').change(function(){
+        let school=jQuery(this).val();
+        let datas = "";
+        console.log(school)
+        $('#class').empty();
+        $('#class').append(`<option value="" disabled selected>Processing...</option>`);
+        jQuery.ajax({
+            url:'{{url('getClassNames')}}',
+            type:'post',
+            data:'school='+school+'&_token={{csrf_token()}}',
+            success:function(result){
+                // jQuery('#project_id').val(''+result+'')
+                if (result == '') {
+                    datas += '<option>Not Found.</option>';
+                } else{
+                    // console.log(result);
+                    datas +='<option value="" selected disabled>---Select Class---</option>';
+                    $.each(result, function (i) {
+                        datas += '<option value="'+result[i].id+'">'+result[i].class_name+'</option>';
+                        // console.log(datas);
+                    });                    
+                }
+                jQuery('#class').html(datas);
+            }
+        });
+    });
+    });
+</script>
 @endsection

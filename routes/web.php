@@ -124,7 +124,7 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/entrance-result', [SchoolAdminController::class, 'entranceResult'])->name('schooladmin.entrance-result');
     Route::get('schooladmin/entranceExamResult', [SchoolAdminController::class, 'entranceExamResult'])->name('schooladmin.entranceExamResult');
     Route::post('schooladmin/saveEnteranceResult', [SchoolAdminController::class, 'saveEnteranceResult'])->name('schooladmin.saveEnteranceResult');
-    
+    Route::post('getSchoolClassName', [SchoolAdminController::class, 'getSchoolClassName'])->name('getSchoolClassName');
 });
 
 //School Admin Modules End
@@ -274,11 +274,15 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/view-profile',[UserController::class,'viewProfile']);
     Route::post('user/update-profile', [UserController::class, 'updateProfileData'])->name('user.update-profile');
     Route::get('user/update-profile',[UserController::class,'updateProfile']);
+    Route::post('user/user-profile-update', [UserController::class, 'userProfileUpdate'])->name('user.user-profile-update');
     Route::get('user/change-password',[UserController::class,'changePassword']);
     Route::get('user/logout', [UserController::class, 'userLogout'])->name('user/logout');
     Route::post('user/postrequest', [UserController::class, 'userPostRequest'])->name('user.postrequest');
     Route::post('uploadUserImage',[UserController::class, 'uploadUserImage'])->name('uploadUserImage');
     Route::get('user/viewProjectDetails',[UserController::class, 'viewProjectDetails'])->name('user/viewProjectDetails');
+    Route::get('user/bank-details',[UserController::class,'bankDetails']);
+    Route::get('user/fetch-bank-details',[UserController::class,'fetchBankDetails'])->name('user.fetch-bank-details');
+    Route::post('user/update-bank-details',[UserController::class,'updateBankDetails'])->name('user.update-bank-details');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);

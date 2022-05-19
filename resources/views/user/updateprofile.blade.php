@@ -40,8 +40,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+							<div class="flash-message">
+                                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                                    @if (Session::has('alert-' . $msg))
+                                        <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+                                            {{ Session::get('alert-' . $msg) }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
 							<h4 class="card-title">@yield('title')</h4>
-                            <form action="" method="POST" class="row">
+                            <form action="{{route('user.user-profile-update')}}" method="POST" class="row">
                                 @csrf
                                 <div class="col-sm-6">
                                     <label for="Project" class="col-form-label">Name <star>*</star></label>
@@ -50,23 +60,38 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="Mobile" class="col-form-label">Mobile <star>*</star></label>
-                                    <input type="text" class="form-control" name="mobile" id="Mobile" required>
+                                    <input type="text" class="form-control" name="mobile" id="Mobile" value="{{$userData->mobile}}" readonly required>
                                     <small class="form-text text-danger">@error('mobile') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="Email" class="col-form-label">Email <star>*</star></label>
-                                    <input type="text" class="form-control" name="email" id="Email" required>
+                                    <input type="text" class="form-control" name="email" id="Email" value="{{$userData->email}}" readonly required>
                                     <small class="form-text text-danger">@error('email') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="Address" class="col-form-label">Address <star>*</star></label>
-                                    <input type="text" value="{{$userData->name}}" class="form-control" name="address" id="Address" required>
-                                    <small class="form-text text-danger">@error('address') {{ $message }} @enderror</small>
+                                    <label for="landmark" class="col-form-label">Landmark <star>*</star></label>
+                                    <input type="text" value="{{$contractorData->landmark}}" class="form-control" name="landmark" id="landmark" required>
+                                    <small class="form-text text-danger">@error('landmark') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="Aadhar" class="col-form-label">Aadhar Number<star>*</star></label>
-                                    <input type="text" value="{{$userData->name}}" class="form-control" name="aadhar" id="Aadhar" required>
-                                    <small class="form-text text-danger">@error('aadhar') {{ $message }} @enderror</small>
+                                    <label for="city" class="col-form-label">City <star>*</star></label>
+                                    <input type="text" value="{{$contractorData->city}}" class="form-control" name="city" id="city" required>
+                                    <small class="form-text text-danger">@error('city') {{ $message }} @enderror</small>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="state" class="col-form-label">State <star>*</star></label>
+                                    <input type="text" value="{{$contractorData->state}}" class="form-control" name="state" id="state" required>
+                                    <small class="form-text text-danger">@error('state') {{ $message }} @enderror</small>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="country" class="col-form-label">Country <star>*</star></label>
+                                    <input type="text" value="{{$contractorData->country}}" class="form-control" name="country" id="country" required>
+                                    <small class="form-text text-danger">@error('country') {{ $message }} @enderror</small>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="pincode" class="col-form-label">Pin Code <star>*</star></label>
+                                    <input type="text" value="{{$contractorData->pincode}}" class="form-control" name="pincode" id="pincode" required>
+                                    <small class="form-text text-danger">@error('pincode') {{ $message }} @enderror</small>
                                 </div>
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="submit" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Update</button>
