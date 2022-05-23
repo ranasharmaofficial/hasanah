@@ -55,19 +55,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('user/view-profile')}}" class="waves-effect">
+                    <a href="{{url('employee/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>View Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('user/update-profile')}}" class="waves-effect">
+                    <a href="{{url('employee/update-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Update Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('user/change-password')}}" class="waves-effect">
+                    <a href="{{url('employee/change-password')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Change Password</span>
                     </a>

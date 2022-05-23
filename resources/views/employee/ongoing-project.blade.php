@@ -91,7 +91,7 @@
                                     </td>
                                     
                                     <td>
-                                        <form action="{{route('employee/view-project-details')}}" method="post" enctype="multipart/form-data">
+                                        <form action="{{route('employee/view-project-details')}}" method="get" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" value="{{$data->project_id}}" name="project_id" required>
                                             <input type="hidden" value="{{$data->user_id}}" name="user_id" required>

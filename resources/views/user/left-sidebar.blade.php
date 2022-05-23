@@ -25,12 +25,12 @@
                         <li><a href="{{url('user/completed-project')}}">Completed Project</a></li>
                      </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{url('user/my-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>My Project</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li>
                     <a href="{{url('user/work-list')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
@@ -49,12 +49,12 @@
                         <span>Applied Project</span>
                     </a>
                 </li>--}}
-                <li>
+                {{-- <li>
                     <a href="{{url('distributor/view-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>View Project</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{url('user/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>

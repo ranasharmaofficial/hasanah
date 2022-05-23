@@ -60,6 +60,8 @@ class UserController extends Controller
         $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
         $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $totaluserproject = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)->count();
+        $totaluserreproject = Project_request::where('user_id', '=', $data['LoggedContractInfo']->user_id)->count();
         $historycount = count($userloginhistory);
         if ($historycount == 1) {
             $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
@@ -67,7 +69,7 @@ class UserController extends Controller
             $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         }        
         // $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
-        return view('user/home', $data, compact('contractdata', 'userprojectcategory','companydata','lastLoginTime'));
+        return view('user/home', $data, compact('contractdata', 'userprojectcategory','companydata','lastLoginTime', 'totaluserproject', 'totaluserreproject'));
     }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
@@ -368,6 +370,35 @@ class UserController extends Controller
             return redirect()->back()->with(session()->flash('alert-warning', 'Ooohooo! Please enter correct IFSC Code.'));
           }
         // dd($bankdetails); die;
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
+    public function userPasswordChange(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required',
+        ]);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        if ($request->new_password === $request->confirm_password) {
+            $oldpass = User::where('user_id', '=', $data['LoggedContractInfo']->user_id)->first();
+            if ($oldpass->password === $request->old_password) {
+                $uppassdata = User::where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                                    ->update([
+                                        'password' => $request->new_password,
+                                    ]);
+                if ($uppassdata) {
+                    return redirect()->back()->with(session()->flash('alert-success', 'Congratulations! You have successfully changed your password.'));
+                } else{
+                    return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+                }
+            } else {
+                return redirect()->back()->with(session()->flash('alert-warning', 'Please! enter correct old password.'));
+            }
+            
+        } else{
+            return redirect()->back()->with(session()->flash('alert-warning', 'New Password and Confirm Password not matched.'));
+        }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
     }
 

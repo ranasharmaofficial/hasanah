@@ -70,7 +70,7 @@
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Status</td>
-														<td class="text-right">Ongoinf</td>
+														<td class="text-right">Ongoing</td>
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Amount</td>
@@ -94,19 +94,13 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div>
-                                            <div class="row g-0">
+                                            <div class="row">
                                                 @foreach ($user_project_images as $item)
                                                 <div class="col-xl-4 col-sm-6">
-                                                    <div class="product-box">
-                                                        <div class="product-img">
-                                                            <div class="product-ribbon badge bg-warning">
-                                                                Trending
-                                                            </div>
-                                                            <img src="{{$item->image_url}}" alt="img-1" class="img-fluid mx-auto d-block">
-                                                        </div>
-                                                        
-                                                        <div class="text-center">
-                                                            <h5 class="mt-3 mb-0">{{$item->title}}</h5>
+                                                    <div class="card" style="background: rgba(245, 245, 246, 0.533);" onclick="window.location.href='{{url('employee/project-image-details').'/'.$item->project_id.'/'.$item->user_id.'/'.$item->id}}'">
+                                                        <img src="{{$item->image_url}}" alt="img-1" class="card-img-top" style="width: 100%; height: 18rem;">
+                                                        <div class="card-body text-center">
+                                                            <h5 class="card-title">{{$item->title}}</h5>
                                                         </div>
                                                     </div>
                                                 </div>

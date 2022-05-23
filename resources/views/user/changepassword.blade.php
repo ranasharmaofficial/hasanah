@@ -52,23 +52,23 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <form action="" method="POST" class="row">
+                            <form action="{{route('user.change-password')}}" method="POST" class="row">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label for="oldPassword" class="col-form-label">Current Password <star>*</star></label>
-                                        <input type="password" class="form-control" placeholder="Currenet Password" value="" name="oldpassword" id="oldPassword" required>
-                                        <small class="form-text text-danger">@error('oldpassword') {{ $message }} @enderror</small>
+                                        <input type="password" class="form-control" placeholder="Currenet Password" value="" name="old_password" id="oldPassword" required>
+                                        <small class="form-text text-danger">@error('old_password') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="newPassword" class="col-form-label">New Password <star>*</star></label>
-                                        <input type="password" class="form-control" placeholder="New Password" value="" name="newpassword" id="newPassword" required>
-                                        <small class="form-text text-danger">@error('newpassword') {{ $message }} @enderror</small>
+                                        <input type="password" class="form-control" placeholder="New Password" value="" name="new_password" id="newPassword" required>
+                                        <small class="form-text text-danger">@error('new_password') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="cp" class="col-form-label">Confirm Password <star>*</star></label>
-                                        <input type="password" class="form-control" placeholder="Confirm Password" value="" name="cpassword" id="cp" required>
-                                        <small class="form-text text-danger">@error('cpassword') {{ $message }} @enderror</small>
+                                        <input type="password" class="form-control" placeholder="Confirm Password" value="" name="confirm_password" id="cp" required>
+                                        <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                     </div>
                                     <div class="col-sm-12 mt-4">
                                         <button type="submit" name="update_pass" class="btn btn-sm btn-outline-primary">Change Password</button>

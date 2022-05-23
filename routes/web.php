@@ -217,7 +217,11 @@ Route::group(['middleware'=>['EmployeeAuthCheck']], function(){
     Route::get('employee/home', [EmployeeController::class, 'employeeHome'])->name('employee.home');
     Route::get('employee/logout', [EmployeeController::class, 'employeeLogout'])->name('employee/logout');
     Route::get('employee/ongoing-project', [EmployeeController::class, 'onGoingProject'])->name('employee/ongoing-project');
-    Route::post('employee/view-project-details', [EmployeeController::class, 'viewProjectDetailsOn'])->name('employee/view-project-details');
+    Route::get('employee/view-project-details', [EmployeeController::class, 'viewProjectDetailsOn'])->name('employee/view-project-details');
+    Route::get('employee/project-image-details/{projectid}/{userid}/{id}', [EmployeeController::class, 'projectImageDetails'])->name('employee/project-image-details/{projectid}/{userid}/{id}');
+    Route::post('employee/upload-comment', [EmployeeController::class, 'uploadComment'])->name('employee.upload-comment');
+    Route::get('employee/change-password',[EmployeeController::class,'changePassword'])->name('employee.change-password');
+    Route::post('employee.change-password', [EmployeeController::class, 'employeeChangePassword'])->name('employee.change-password');
 });
 // Employee Modules End
 
@@ -283,6 +287,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/bank-details',[UserController::class,'bankDetails']);
     Route::get('user/fetch-bank-details',[UserController::class,'fetchBankDetails'])->name('user.fetch-bank-details');
     Route::post('user/update-bank-details',[UserController::class,'updateBankDetails'])->name('user.update-bank-details');
+    Route::post('user/change-password', [UserController::class, 'userPasswordChange'])->name('user.change-password');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);

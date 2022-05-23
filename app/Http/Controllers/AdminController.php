@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Con_employee;
 use App\Models\User;
 use App\Models\Logo;
 use App\Models\Contact_detail;
@@ -725,7 +726,7 @@ class AdminController extends Controller
             'photo' => 'required|max:300|image|mimes:jpg,jpeg,png',
         ]);
 
-        $employeeadd = new Employee;
+        $employeeadd = new Con_employee;
         $lastUserId = User::orderBy('id', 'desc')->first();
         if (isset($lastUserId)) {
             // Sum 1 + last id
@@ -733,9 +734,9 @@ class AdminController extends Controller
         } else {
             $euserid = date('md').rand(111,999);
         }
-        $empid = time().rand(1111,9999);
-        $employeeadd->employee_id = $empid;
+        $empid = time().rand(1,9999);
         $employeeadd->user_id = $euserid;
+        $employeeadd->employee_id = $empid;
         $employeeadd->company_id = $request->company_id;
         $employeeadd->qualification = $request->qualification;
         $employeeadd->experience = $request->experience;
@@ -766,7 +767,7 @@ class AdminController extends Controller
         $employeeadd->city = $request->city;
         $employeeadd->state = $request->state;
         $employeeadd->country = $request->country;
-        $employeeadd->pincode = $request->pincode;
+        $employeeadd->pin_code = $request->pincode;
         $employeeadd->alt_mobile = $request->alt_mobile;
         if ($request->hasfile('photo')) {
             $file = $request->file('photo');

@@ -116,7 +116,7 @@
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">My Project</p>
-                                                  <h4 class="mb-0">0</h4>  
+                                                  <h4 class="mb-0">{{$totaluserproject}}</h4>  
                                             </div>
                                             <div class="text-primary ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
@@ -131,7 +131,7 @@
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Requested Project</p>
-                                                  <h4 class="mb-0">0</h4>  
+                                                  <h4 class="mb-0">{{$totaluserreproject}}</h4>  
                                             </div>
                                             <div class="text-primary ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
