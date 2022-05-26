@@ -61,7 +61,7 @@
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Status</td>
-														<td class="text-right">Ongoinf</td>
+														<td class="text-right">Ongoing</td>
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Amount</td>
@@ -77,23 +77,46 @@
 									</div>
 								</div> <!-- end col -->
                             <h4 class="card-title">@yield('title')</h4>
+                            @if ($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <form action="{{route('uploadUserImage')}}" enctype="multipart/form-data" method="POST" class="row">
                                 @csrf
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="Project" class="col-form-label">Project Title <star>*</star></label>
                                     <input type="text" class="form-control" placeholder="Enter Project Title" name="title" id="Project">
                                     <small class="form-text text-danger">@error('title') {{ $message }} @enderror</small>
-                                </div>
-                                    @if (isset($_POST['user_id']))
-                                    <input type="hidden" name="user_id" value="{{$_POST['user_id']}}" id="">
-                                    <input type="hidden" name="project_id" value="{{$_POST['project_id']}}" id="">
-                                    <input type="hidden" name="distributor_id" value="{{$_POST['distributor_id']}}" id="">
+                                </div> --}}
+                                    @if (isset($_GET['user_id']))
+                                    <input type="hidden" name="user_id" value="{{$_GET['user_id']}}" id="">
+                                    <input type="hidden" name="project_id" value="{{$_GET['project_id']}}" id="">
+                                    <input type="hidden" name="distributor_id" value="{{$_GET['distributor_id']}}" id="">
                                     @endif
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="Image" class="col-form-label">Project Image <star>*</star></label>
                                     <input type="file" class="form-control" name="file" id="Image">
                                     <small class="form-text text-danger">@error('file') {{ $message }} @enderror</small>
-                                </div>
+                                </div> --}}
+                                <table class="table table-bordered" id="dynamicAddRemove">
+                                    <tr>
+                                        <th>Sl. No.</th>
+                                        <th>Project Title <star>*</star></th>
+                                        <th>Project Image <star>*</star></th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr>
+                                        <td>0</td>
+                                        <td><input type="text" name="project[0][project_title]" placeholder="Enter Project Title" class="form-control"  /></td>
+                                        <td><input type="file" name="project[0][project_image]" placeholder="Choose Project Image" class="form-control"  /></td>
+                                        <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add More</button></td>
+                                    </tr>
+                                </table>
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="submit" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
                                 </div>
@@ -105,4 +128,21 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    var i = 0;
+    // let sl = 1;
+    $("#dynamic-ar").click(function () {
+        ++i;
+        // sl++;
+        $("#dynamicAddRemove").append('<tr><td>'+ i +'</td><td><input type="text" name="project[' + i +
+            '][project_title]" placeholder="Enter subject" class="form-control"  /></td><td><input type="file" name="project[' + i +
+            '][project_image]" placeholder="Choose Project Image" class="form-control"  /> </td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+            );
+    });
+    $(document).on('click', '.remove-input-field', function () {
+        $(this).parents('tr').remove();
+    });
+</script>
 @endsection

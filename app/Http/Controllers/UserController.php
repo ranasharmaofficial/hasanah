@@ -185,18 +185,32 @@ class UserController extends Controller
     }
     public function uploadUserImage(Request $request){
         $request->validate([
-            'title'=>'required',
             'user_id'=>'required',
             'project_id'=>'required',
             'distributor_id'=>'required',
-            'file'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
+            'project.*.project_title'=>'required',
+            'project.*.project_image'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
         ]);
-        
-         
-        $file = $request->file('file');
+        // dd($request->all());
+        foreach ($request->project as $key => $value) {
+            // dd(file($value['project_image']));
+            $file = $value['project_image'];
+            // $fileget = file($file);
+            $uploadedFileUrl = cloudinary()->upload($file->getRealPath())->getSecurePath();
+            User_upload_images::insert([
+                'title' => $value['project_title'],
+                'image_name' => $value['project_title'],
+                'image_url' => $uploadedFileUrl,
+                'user_id' => $request->user_id,
+                'project_id' => $request->project_id,
+                'distributor_id' => $request->distributor_id,
+            ]);
+        }
+        // die;
+        // $file = $request->file('file');
         // $distributorphoto = 'distributor-'.time().'.'.$extenstion;
         
-        $uploadedFileUrl = cloudinary()->upload($file->getRealPath())->getSecurePath();
+        // $uploadedFileUrl = cloudinary()->upload($file->getRealPath())->getSecurePath();
         
     // $image = $request->file('file');
     // $name = $request->file('file')->getClientOriginalName();
@@ -210,21 +224,21 @@ class UserController extends Controller
     // $image->move(public_path("uploads"), $name);
     // Save images
     // $uploadedFileUrl = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
-    $this->saveImages($request, $uploadedFileUrl);
+    // $this->saveImages($request, $uploadedFileUrl);
 
-     return redirect('user/my-project')->with(session()->flash('alert-success', 'Uploaded Successfully.'));
+     return redirect()->back()->with(session()->flash('alert-success', 'Image successfully uploaded.'));
     }
-    public function saveImages(Request $request, $uploadedFileUrl)
-   {
-       $image = new User_upload_images();
-       $image->image_name = $request->title;
-       $image->image_url = $uploadedFileUrl;
-       $image->title = $request->title;
-       $image->user_id = $request->user_id;
-       $image->project_id = $request->project_id;
-       $image->distributor_id = $request->distributor_id;
-       $image->save();
-   }
+//     public function saveImages(Request $request, $uploadedFileUrl)
+//    {
+//        $image = new User_upload_images();
+//        $image->image_name = $request->title;
+//        $image->image_url = $uploadedFileUrl;
+//        $image->title = $request->title;
+//        $image->user_id = $request->user_id;
+//        $image->project_id = $request->project_id;
+//        $image->distributor_id = $request->distributor_id;
+//        $image->save();
+//    }
    public function viewProjectDetails(Request $request){
     $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
     $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();

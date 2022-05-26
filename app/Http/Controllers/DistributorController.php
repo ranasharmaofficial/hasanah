@@ -9,9 +9,13 @@ use App\Models\Distributor;
 use App\Models\Project;
 use App\Models\Project_request;
 use App\Models\Company;
+use App\Models\Con_employee;
+use App\Models\Contractor;
 use App\Models\User_login_history;
 use App\Models\Project_category;
 use App\Models\User_project;
+use App\Models\User_upload_images;
+use App\Models\Wallet;
 
 class DistributorController extends Controller
 {
@@ -100,8 +104,74 @@ class DistributorController extends Controller
     public function ongoingProject(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
-        return view('distributor/ongoingproject', $data, compact('distributordata'));
+        $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $companydata = Company::where('company_id',$distributordetails->company_id)->first();
+        $ongoingProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '2')
+                        ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
+                        ->join('companies', 'companies.company_id', '=', 'projects.company_id')
+                        ->join('users', 'user_projects.user_id', '=', 'users.user_id')
+                        ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                        ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*', 'users.name AS contractor_name', 'users.user_id AS username'])
+                        ->paginate(10);
+        return view('distributor/ongoingproject', $data, compact('distributordata', 'distributordetails', 'companydata', 'ongoingProjects'));
     }
+    public function viewProjectDetails(Request $request){
+        $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
+        $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
+        $projectid = $request->get('project_id');
+        $userid = $request->get('user_id');
+        if ($projectid !== null) {
+            // $flag = true;  
+            $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
+            $companydata = Company::where('company_id', '=', $distributordetails->company_id)->first();
+            $ongoingProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '2')
+                        ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
+                        ->join('companies', 'companies.company_id', '=', 'projects.company_id')
+                        ->join('users', 'user_projects.user_id', '=', 'users.user_id')
+                        ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                        ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*', 'users.name AS contractor_name', 'users.user_id AS username'])
+                        ->first();
+
+            // $userData = User_project::where('user_id', '=', $data['LoggedDistributor']->user_id)->first();
+            // $projectData = Project::where('project_id', '=', $projectid)->first();
+            // $companyData = Company::where('company_id', '=', $projectData->company_id)->first();
+            // $projectCatData = Project_category::where('project_cat_id', '=', $projectData->project_cat)->first();
+            $user_project_images = User_upload_images::where('user_id', '=', $userid)
+                                                    ->where('project_id', '=', $projectid)
+                                                    ->get();
+            return view('distributor/view-project-details',$data, compact('distributordata', 'ongoingProjects','user_project_images', 'companydata'));
+        }
+    }
+
+    public function distributorProjectApprove(Request $request){
+        $request->validate([
+            'contractorid' => 'required',
+            'projectid' => 'required',
+            'companyid' => 'required',
+            'amount' => 'required',
+            'penalty_amount' => 'required',
+        ]);
+        $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
+
+        $projectapprove = Wallet::insert([
+            'contractor_id' => $request->contractorid,
+            'approved_by' => $data['LoggedDistributor']->user_id,
+            'project_id' => $request->projectid,
+            'company_id' => $request->companyid,
+            'amount' => $request->amount,
+            'penalty_amount' => $request->penalty_amount,
+            'cr_dr' => 'Credit',
+        ]);
+
+        $update_project_status = Project::where('project_id', '=', $request->projectid)->update(['project_status' => 3]);
+        $update_user_project_status = User_project::where('project_id', '=', $request->projectid)->update(['status' => 2]);
+
+        if ($projectapprove && $update_project_status && $update_user_project_status) {
+            return redirect('distributor/ongoing-project')->with(session()->flash('alert-success', 'Project successfully approved.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
+
     public function completedProject(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();

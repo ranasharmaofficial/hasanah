@@ -242,8 +242,10 @@ Route::group(['middleware'=>['DistributorAuthCheck']], function(){
     Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
     Route::post('getVideoDetails',[DistributorController::class, 'getVideoDetails'])->name('getVideoDetails');
     Route::get('distributor/ongoing-project', [DistributorController::class, 'ongoingProject'])->name('distributor.ongoing-project');
+    Route::get('distributor/view-project-details', [DistributorController::class, 'viewProjectDetails'])->name('distributor.view-project-details');
     Route::get('distributor/completed-project', [DistributorController::class, 'completedProject'])->name('distributor.completed-project');
     Route::get('distributor/logout', [DistributorController::class, 'distributorLogout'])->name('distributor/logout');
+    Route::post('distributor/project-approve', [DistributorController::class, 'distributorProjectApprove'])->name('distributor.project-approve');
     Route::get('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
     Route::post('distributor/project-request-details',[DistributorController::class, 'projectRequestDetails'])->name('distributor/project-request-details');
     Route::post('giveProjectAccess',[DistributorController::class, 'giveProjectAccess'])->name('giveProjectAccess');
@@ -272,8 +274,8 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/applied-project',[UserController::class,'appliedProject']);
     Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
-    Route::get('user/upload-image',[UserController::class,'uploadImage']);
-    Route::post('user/upload-image',[UserController::class,'uploadImage'])->name('user/upload-image');
+    // Route::get('user/upload-image',[UserController::class,'uploadImage']);
+    Route::get('user/upload-image',[UserController::class,'uploadImage'])->name('user/upload-image');
     Route::get('user/upload-video',[UserController::class,'uploadVideo']);
     Route::get('user/view-profile',[UserController::class,'viewProfile']);
     Route::post('user/update-profile', [UserController::class, 'updateProfileData'])->name('user.update-profile');

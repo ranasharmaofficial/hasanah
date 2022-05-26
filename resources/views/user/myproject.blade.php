@@ -87,7 +87,7 @@
                                     <td>{{$data->created_at->format('Y-m-d')}}</td>
                                     <td class="text-danger">{{$datediff}}</td>
                                     <td>
-                                        <form method="post" enctype="multipart/form-data" action="{{route('user/upload-image')}}">
+                                        <form method="get" enctype="multipart/form-data" action="{{route('user/upload-image')}}">
                                             @csrf
                                             <input type="hidden" value="{{$data->project_id}}" name="project_id">
                                             <input type="hidden" value="{{$data->user_id}}" name="user_id">
