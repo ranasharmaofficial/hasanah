@@ -125,6 +125,9 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/entranceExamResult', [SchoolAdminController::class, 'entranceExamResult'])->name('schooladmin.entranceExamResult');
     Route::post('schooladmin/saveEnteranceResult', [SchoolAdminController::class, 'saveEnteranceResult'])->name('schooladmin.saveEnteranceResult');
     Route::post('getSchoolClassName', [SchoolAdminController::class, 'getSchoolClassName'])->name('getSchoolClassName');
+    Route::get('schooladmin/schoolemployeelist', [SchoolAdminController::class, 'schoolemployeeList'])->name('schooladmin.schoolemployeeList');
+    Route::get('schooladmin/admission-list', [SchoolAdminController::class, 'admissionList'])->name('schooladmin.admission-list');
+    Route::get('schooladmin/admission-details/{$id}', [SchoolAdminController::class, 'studentAdmissionDetails'])->name('schooladmin/admission-details/{$id}');
 });
 
 //School Admin Modules End
@@ -148,7 +151,8 @@ Route::group(['middleware'=>['SchoolEmployeeAuthCheck']], function(){
     Route::get('schoolemployee/receive-hostel-fee', [SchoolEmployeeAdmin::class, 'receiveHostelFee'])->name('schoolemployee.receive-hostel-fee');
     Route::get('schoolemployee/getPaymentDetails', [SchoolEmployeeAdmin::class, 'getPaymentDetails'])->name('schoolemployee.getPaymentDetails');
     Route::post('schoolemployee/receiveHostelPayment', [SchoolEmployeeAdmin::class, 'receiveHostelPayment'])->name('schoolemployee.receiveHostelPayment');
-
+    //Rana routes
+    Route::get('schoolemployee/hostel-student-list', [SchoolEmployeeAdmin::class, 'hostelStudentLists'])->name('schoolemployee.hostel-student-list');
     Route::get('schoolemployee/add-course', [SchoolEmployeeAdmin::class, 'addCourse'])->name('schoolemployee.add-course');
     Route::get('schoolemployee/course-list', [SchoolEmployeeAdmin::class, 'courseList'])->name('schoolemployee.course-list');
     Route::post('schoolemployee/uploadCourseDetails', [SchoolEmployeeAdmin::class, 'uploadCourseDetails'])->name('schoolemployee/uploadCourseDetails');
@@ -274,6 +278,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/applied-project',[UserController::class,'appliedProject']);
     Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
+    Route::get('user/mywallet', [UserController::class, 'myWallet'])->name('user.myWallet');
     // Route::get('user/upload-image',[UserController::class,'uploadImage']);
     Route::get('user/upload-image',[UserController::class,'uploadImage'])->name('user/upload-image');
     Route::get('user/upload-video',[UserController::class,'uploadVideo']);

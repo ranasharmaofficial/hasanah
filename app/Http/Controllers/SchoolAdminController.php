@@ -16,6 +16,7 @@ use App\Models\Entrance_exam_form;
 use App\Models\Exam_schedule;
 use App\Models\School;
 use App\Models\Teacher_category;
+use App\Models\Admission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,13 +51,34 @@ class SchoolAdminController extends Controller
     }
     public function schoolAdminHome(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
-        
-        return view('schooladmin/home', $data);
+        $schoolCount = School::count();
+        $classCount = A_class::count();
+        $totalAdmission = Admission::count();
+        $totalStudent = Student::count();
+        $employeeCount = Employee_user::where('role', '=', '1')->count();
+        $teacherCount = Employee_user::where('role', '=', '2')->count();
+        return view('schooladmin/home', $data, compact('totalStudent','totalAdmission','schoolCount', 'classCount','employeeCount', 'teacherCount'));
     }
     public function studentList(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
         $studentlist = Student::paginate(10);
         return view('schooladmin/studentlist', $data, compact('studentlist'));
+    }
+    public function admissionList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $admissionlist = Admission::paginate(10);
+        return view('schooladmin/admissionlist', $data, compact('admissionlist'));
+    }
+    public function studentAdmissionDetails($id){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $admissiondetails = Admission::where('id', '=', $id)->first();
+        return view('schooladmin/studadmissiondetails', $data, compact('admissiondetails'));
+    }
+
+    public function schoolemployeeList(){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        $employeelists = Employee_user::paginate(10);
+        return view('schooladmin/schoolemployeelist', $data, compact('employeelists'));
     }
     public function addClass(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];

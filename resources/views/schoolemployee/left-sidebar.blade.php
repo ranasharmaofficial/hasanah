@@ -73,6 +73,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('schoolemployee/manage-room')}}">Manage Room</a></li>
                         <li><a href="{{url('schoolemployee/admit-student')}}">Admit Student</a></li>
+                        <li><a href="{{url('schoolemployee/hostel-student-list')}}">Hostel Students List</a></li>
                         <li><a href="{{url('schoolemployee/receive-hostel-fee')}}">Receive Hostel Fee</a></li>
                     </ul>
                 </li>

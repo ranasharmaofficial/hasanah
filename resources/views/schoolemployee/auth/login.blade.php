@@ -48,7 +48,7 @@
                                                 </div>
     
                                                 <h4 class="font-size-18 mt-4">Welcome Back !</h4>
-                                                <p class="text-muted">Sign in to continue to Hasanah Girls College Admin.</p>
+                                                <p class="text-muted">School Employee Login.</p>
                                             </div>
 
                                             <div class="p-2 mt-5">

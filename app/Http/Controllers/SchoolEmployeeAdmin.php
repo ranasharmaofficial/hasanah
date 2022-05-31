@@ -190,6 +190,11 @@ class SchoolEmployeeAdmin extends Controller
         $employeelists = Employee_user::paginate(10);
         return view('schoolemployee/teacher-list', $data, compact('employeelists'));
     }
+    public function hostelStudentLists(){
+        $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()]; 
+        $hostelstudentlists = Admit_hostel::paginate(10);
+        return view('schoolemployee/hostel_student_list', $data, compact('hostelstudentlists'));
+    }
 
     public function viewProfile(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
@@ -909,9 +914,10 @@ class SchoolEmployeeAdmin extends Controller
     }
     public function fixAdmissionFee(){
        $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
-        $courses = A_class::get();
-        return view('schoolemployee/fix-admission-fee', $data, compact('courses'));
+       $courses = A_class::get();
+       return view('schoolemployee/fix-admission-fee', $data, compact('courses'));
     }
+
     public function admissionFeeList(){
         $data = ['LoggedSchoolEmployeeInfo'=>Employee_user::where('id','=', session('LoggedSchoolEmployee'))->first()];
         //  $admissionfeelist = Admission_fee::paginate(5);

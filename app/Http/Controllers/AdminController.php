@@ -680,8 +680,8 @@ class AdminController extends Controller
     }
     public function employeeList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $employee = Employee::join('users', 'users.user_id', '=', 'employees.user_id')
-                ->get(['employees.*', 'users.*']);
+        $employee = Con_employee::join('users', 'users.user_id', '=', 'con_employees.user_id')
+                ->get(['con_employees.*', 'users.*']);
        return view('admin/employeelist',$data, compact('employee'));
     }
     public function viewEmployee(Request $request){

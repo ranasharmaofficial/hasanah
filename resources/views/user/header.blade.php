@@ -3,21 +3,21 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box usernavbar">
-                <a href="{{url('admin/home')}}" class="logo logo-dark">
+                <a href="{{url('user/home')}}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{asset('assets_admin/images/logo.png')}}" alt="logo-sm-dark" style="max-height:52;">
+                        <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{asset('assets_admin/images/logo.png')}}" alt="logo-dark" height="50">
+                        <img src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
                     </span>
                 </a>
 
-                <a href="{{url('admin/home')}}" class="logo logo-light">
-                    <span class="logo-sm text-white font-weight-bold">
-                        HET
+                <a href="{{url('user/home')}}" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img style="height:40px;" src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
                     </span>
-                    <span class="logo-lg text-white font-weight-bold">
-                        Hasanah Educational Trust
+                    <span class="logo-lg p-2">
+                        <img style="height:80px;" src="{{asset('uploads/company-logo/'.$companydata->logo)}}" alt="" class="img-thumbnail imagefix">
                     </span>
                 </a>
             </div>
@@ -26,7 +26,7 @@
                 id="vertical-menu-btn">
                 <i class="ri-menu-2-line align-middle"></i>
             </button>
-            <h5 class="text-primary font-weight-bold" style="margin-top:25px;">{{$companydata->company_name}}</h5>
+            {{-- <h5 class="text-primary font-weight-bold" style="margin-top:25px;">{{$companydata->company_name}}</h5> --}}
         </div>
 
         <div class="d-flex">

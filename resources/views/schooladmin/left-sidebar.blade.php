@@ -27,6 +27,15 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-file-user-fill"></i>
+                        <span>Admission </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('schooladmin/admission-list')}}">Admission List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-list-3-fill"></i>
                         <span>Entrance Exam </span>
                     </a>
@@ -84,7 +93,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('schooladmin/add-employee')}}">Add Employee</a></li>
-                        <li><a href="#">Employee List</a></li>
+                        <li><a href="{{url('schooladmin/schoolemployeelist')}}">Employee List</a></li>
                     </ul>
                 </li>
                 <li>

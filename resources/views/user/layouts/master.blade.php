@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title') - Hasanah Girls College User</title>
+    <title>@yield('title') - Contractor Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Themesdesign" name="Webfinic" />
     <!-- App favicon -->

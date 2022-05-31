@@ -2,7 +2,7 @@
 <html lang="en">
     <head>        
         <meta charset="utf-8" />
-        <title>Register | Hasanah Gilrs College</title>
+        <title>Register | Contractor Panel</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta content="Themesdesign" name="Webfinic" />
         <!-- App favicon -->
@@ -36,7 +36,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
+                                        <h1 class="register_heading">Welcome to <br>Hasanah Educational Trust</h1>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                                 <div class="mt-5">
                                                     <a href="{{url('')}}" class="logo"><img src="{{asset('assets_admin/images/logo-light.png')}}" style="max-height:100px;" alt="Hasanah Girls College"></a>
                                                 </div>
-                                                 <h4 class="font-size-18 mt-3">Register Now</h4>
+                                                 <h4 class="font-size-18 mt-3">Register Now | Contractor Panel</h4>
                                             </div>
 
                                             <div class="p-2 mt-2">
@@ -149,7 +149,7 @@
                                                 </form>
                                             </div>
                                             <div class="text-center">                                                
-                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Girls College. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
+                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Educational Trust. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
                                             </div>
                                         </div>
                                     </div>

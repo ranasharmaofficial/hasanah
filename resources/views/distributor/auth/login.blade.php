@@ -37,7 +37,7 @@
                                                 <div class="mt-5">
                                                     <a href="{{url('')}}" class="logo"><img src="{{asset('assets_admin/images/logo-light.png')}}" style="max-height:100px;" alt="Hasanah Girls College"></a>
                                                 </div>
-                                                 <h4 class="font-size-18 mt-4">Login !</h4>
+                                                 <h4 class="font-size-18 mt-4">Login to Distributor Panel !</h4>
                                             </div>
 
                                             <div class="p-2 mt-2">
@@ -79,20 +79,12 @@
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Login</button>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-9">
-                                                            <div class="mt-4 text-center">
-                                                                <p>Don't have an account ? <a href="{{url('user/registers')}}" class="fw-medium text-primary"> Register </a> </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    
+                                                   
                                                 </form>
                                             </div>
                                             <div class="mt-5 text-center">
                                                 
-                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Girls College. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
+                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Educational Trust. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +97,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
+                                        <h1 class="register_heading">Welcome to <br>Distributor Panel</h1>
                                     </div>
                                 </div>
                             </div>
