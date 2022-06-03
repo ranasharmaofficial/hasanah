@@ -88,6 +88,7 @@ class EmployeeController extends Controller
                         ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
                         ->join('users', 'users.user_id', '=', 'user_projects.user_id')
                         ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*','users.*'])
+                        ->where('user_projects.status', '1')
                         ->paginate(10);
         return view('employee/ongoing-project', $data, compact('employeedata','employeedetails','companydata', 'lastLoginTime', 'userProjects'));
     }

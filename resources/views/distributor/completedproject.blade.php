@@ -27,50 +27,87 @@
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h4 class="card-title text-white">@yield('title')</h4>
-                        {{-- <p class="p-0 m-0 text-white">Total Completed Project: <b>{{$projectrequest->total();}}</b>, Page No: <b>{{$projectrequest->currentPage();}}</b></p> --}}
+                        <p class="p-0 m-0 text-white">Total Completed Project: <b>{{$completedProjects->total();}}</b>, Page No: <b>{{$completedProjects->currentPage();}}</b></p>
                         
                     </div>
                     <div class="card-body">
-
-                        <h4 class="card-title">@yield('title')</h4>
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                            <tr>
-                                <th>Sl. No.</th>
-                                <th>Project</th>
-                                <th>Project Amount</th>
-                                 <th>Created At</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-
-
-                            <tbody>
-                                {{-- @foreach ($projectrequest as $key => $data)
+                        <div class="flash-message">
+                            @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                                @if (Session::has('alert-' . $msg))
+                                    <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+                                        {{ Session::get('alert-' . $msg) }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead class="table-dark">
                                 <tr>
-                                    <td>{{($projectrequest->currentpage()-1) * $projectrequest->perpage() + $key + 1}}</td>
-                                    <td>{{$data->project_name}}</td>
-                                    <td>Rs&nbsp;{{$data->amount}}</td>
-                                     
-                                    <td>{{$data->created_at}}</td>
-                                    <td>
-                                        <button class="btn btn-success btn-sm">View Details</button>
-                                        <button class="btn btn-danger btn-sm">Block</button>
-                                    </td>
+                                    <th>Sl.No.</th>
+                                    <th>Contractor&nbsp;ID</th>
+                                    <th>Contractor&nbsp;Name</th>
+                                    {{-- <th>Company</th> --}}
+                                    <th>Category</th>
+                                    <th>Project&nbsp;Name</th>
+                                    <th>Project&nbsp;Number</th>
+                                    <th>Project&nbsp;Status</th>
+                                    <th>Project&nbsp;Amount</th>
+                                    <th>Completed&nbsp;Date</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
-                                @endforeach
+                                </thead>
+                                <tbody>
+                                @forelse ($completedProjects as $key => $data)
+                                @php
+                                    $ldate = date('Y-m-d');
+                                    $datedays = strtotime($data->no_of_days)-strtotime($ldate);
+                                    $datediff = (round($datedays / 86400));
+                                @endphp
+                                <tr>
+                                    <td>{{($completedProjects->currentpage()-1) * $completedProjects->perpage() + $key + 1}}</td>
+                                    <td>{{$data->username}}</td>
+                                    <td>{{ucfirst($data->contractor_name)}}</td>
+                                    {{-- <td>{{$data->company_name}}</td> --}}
+                                    <td>{{$data->project_category}}</td>
+                                    <td>{{$data->project_name}}</td>
+                                    <td>{{$data->project_number}}</td>
+                                    <td>Completed</td>
+                                    <td class="text-primary">Rs:&nbsp;{{$data->project_amount}}/-</td>
+                                    <td class="text-danger">
+                                        @if ($data->completed_date !== null)                                            
+                                            {{$data->completed_date}}
+                                        @else
+                                            Not Availabel
+                                        @endif
+                                    </td>
+                                    {{-- <td> 
+                                        <form action="{{route('distributor.view-project-details')}}" method="get" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" value="{{$data->project_id}}" name="project_id" required>
+                                            <input type="hidden" value="{{$data->username}}" name="user_id" required>
+                                            <button type="submit" class="btn btn-danger btn-sm">View&nbsp;Details</button>
+                                        </form>
+                                    </td> --}}
+                                </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center text-danger">Project Not Available</td>
+                                    </tr>
+                                @endforelse
                                 <tr>
                                     <td colspan="7">
                                         <nav aria-label="...">
                                             <ul class="pagination justify-content-end mb-0">
-                                                {{$projectrequest->links();}}
+                                                {{$completedProjects->links();}}
                                             </ul>
                                         </nav>
                                     </td>
-                                </tr> --}}
-                            </tbody>
-                        </table>
-
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>                        
                     </div>
                 </div>
             </div> <!-- end col -->

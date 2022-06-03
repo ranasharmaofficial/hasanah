@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h4 class="card-title text-white">@yield('title')</h4>
-                        {{-- <p class="p-0 m-0 text-white">Total Ongoing Project: <b>{{$projectrequest->total();}}</b>, Page No: <b>{{$projectrequest->currentPage();}}</b></p> --}}
+                        <p class="p-0 m-0 text-white">Total Ongoing Project: <b>{{$ongoingProjects->total();}}</b>, Page No: <b>{{$ongoingProjects->currentPage();}}</b></p>
                         
                     </div>
                     <div class="card-body">
