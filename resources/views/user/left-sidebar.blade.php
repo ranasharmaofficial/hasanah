@@ -25,6 +25,16 @@
                         <li><a href="{{url('user/completed-project')}}">Completed Project</a></li>
                      </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-slideshow-fill"></i>
+                        <span>Wallet</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('user/mywallet')}}">My Wallet</a></li>
+                        <li><a href="{{url('user/wallet-history')}}">Wallet History</a></li>
+                    </ul>
+                </li>
                 {{-- <li>
                     <a href="{{url('user/my-project')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>

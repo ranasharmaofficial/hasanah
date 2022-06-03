@@ -279,6 +279,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
     Route::get('user/mywallet', [UserController::class, 'myWallet'])->name('user.myWallet');
+    Route::get('user/wallet-history', [UserController::class, 'walletHistory'])->name('user.wallet-history');
     // Route::get('user/upload-image',[UserController::class,'uploadImage']);
     Route::get('user/upload-image',[UserController::class,'uploadImage'])->name('user/upload-image');
     Route::get('user/upload-video',[UserController::class,'uploadVideo']);

@@ -95,6 +95,34 @@ class UserController extends Controller
         // $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         return view('user/mywallet', $data, compact('contractor_earned_amount','contractdata', 'userprojectcategory','companydata','lastLoginTime', 'totaluserproject', 'totaluserreproject'));
     }
+    public function walletHistory(){
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $totaluserproject = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)->count();
+        $totaluserreproject = Project_request::where('user_id', '=', $data['LoggedContractInfo']->user_id)->count();
+        // $walletHitory = Wallet::where('contractor_id', '=', $data['LoggedContractInfo']->user_id)->count();
+        $contractor_earned_amount = Wallet::where('contractor_id', '=', $data['LoggedContractInfo']->user_id)
+                                ->where('cr_dr', '=', 'Credit')
+                                ->sum('amount');
+        $walletHitory = Wallet::where('contractor_id', $data['LoggedContractInfo']->user_id)
+                    ->join('projects', 'projects.project_id', '=', 'wallets.project_id')
+                    ->join('users', 'users.user_id', '=', 'wallets.approved_by')
+                    ->select(['wallets.amount as getContAmount','wallets.approved_by as ApprovedDistributor','wallets.created_at as amountRecDate', 'users.*', 'projects.*'])
+                    ->paginate(10);
+                    // dd($walletHitory);
+                    // die;
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        }        
+        // $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        return view('user/wallethistory', $data, compact('contractor_earned_amount','contractdata', 'userprojectcategory','companydata','lastLoginTime', 'totaluserproject', 'totaluserreproject','walletHitory'));
+    }
     public function workList(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
         // $companydata = Company::where('company_id',$contractdata->company_id)->first();
