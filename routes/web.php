@@ -309,6 +309,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     // Route::get('distributor/view-project',[DistributorController::class,'viewProject'])->name('distributor.view-project');
 
     Route::get('admin/home', [AdminController::class, 'adminHome'])->name('admin.home');
+    Route::get('admin/projectreport', [AdminController::class, 'projectReport'])->name('admin.projectreport');
     Route::get('admin/add-student', [AdminController::class, 'addStudent'])->name('admin.add-student');
     Route::get('admin/view-student', [AdminController::class, 'viewStudent'])->name('admin.view-student');
     Route::get('admin/update-student', [AdminController::class, 'updateStudent'])->name('admin.update-student');

@@ -20,7 +20,7 @@ use App\Models\Notice;
 use App\Models\Project_category;
 use App\Models\Project;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\DB;
 
 // use Image;
 
@@ -58,8 +58,32 @@ class AdminController extends Controller
         $totaluser = User::where('role','4')->count();
         $totalcompany = Company::count();
         $totalproject = Project::count();
+        $onGoingProject = Project::where('project_status', '2')->count();
+        $completedProject = Project::where('project_status', '3')->count();
         $totalprojectcategory = Project_category::count();
-        return view('admin/home', $data, compact('distributor', 'totalcompany', 'totalemployee', 'totaluser', 'totalprojectcategory', 'totalproject'));
+
+        // $result = DB::select(DB::raw("Select count(*) as projectStatus,project_report from projects group by project_report"));
+        //     $chartData='';
+        //     foreach($result as $list){
+        //         $chartData.="['".$list->project_report."','".$list->projectStatus."'],";
+        //     }           
+        
+        //     $arr['chartData']=rtrim($chartData,",");
+        return view('admin/home', $data, compact('completedProject','onGoingProject','distributor', 'totalcompany', 'totalemployee', 'totaluser', 'totalprojectcategory', 'totalproject'));
+    }
+    public function projectReport(){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+       
+        $result = DB::select(DB::raw("Select count(*) as projectStatus,project_report from projects group by project_report"));
+            $chartData='';
+            foreach($result as $list){
+                $chartData.="['".$list->project_report."','".$list->projectStatus."'],";
+            }           
+        
+            $arr['chartData']=rtrim($chartData,",");
+            // dd($arr);
+            // die;
+        return view('admin/projectreport', $arr, $data);
     }
     public function updateContactDetails(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];

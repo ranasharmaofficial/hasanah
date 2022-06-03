@@ -30,137 +30,15 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Company</p>
-                                        <h4 class="mb-0">{{$totalcompany}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Distributor</p>
-                                        <h4 class="mb-0">{{$distributor}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Employee</p>
-                                        <h4 class="mb-0">{{$totalemployee}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total User</p>
-                                        <h4 class="mb-0">{{$totaluser}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Project Category</p>
-                                        <h4 class="mb-0">{{$totalprojectcategory}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Project</p>
-                                        <h4 class="mb-0">{{$totalproject}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Ongoing Project</p>
-                                        <h4 class="mb-0">{{$onGoingProject}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total Completed Project</p>
-                                        <h4 class="mb-0">{{$completedProject}}</h4>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
-
+                    
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
+                                 
+                                    
                                         <div id="piechart" style="width: 900px; height: 500px;"></div>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
+                                     
+                                    
                                 </div>
                             </div>
                         </div>
@@ -780,11 +658,12 @@
 
     var data = google.visualization.arrayToDataTable([
       ['Task', 'Hours per Day'],
-     
+      <?= $chartData; ?>
     ]);
 
     var options = {
-      title: 'Project Status Report'
+      title: 'Project Status Report',
+    //   is3D: true,
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));

@@ -60,6 +60,7 @@ table.border-modal > tbody > tr > td{
                             <tr>
                                 <th>Sl. No.</th>
                                 <th>User ID</th>
+                                <th>Password</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
@@ -72,6 +73,7 @@ table.border-modal > tbody > tr > td{
                             <tr>
                                 <td>{{($userdatas->currentpage()-1) * $userdatas->perpage() + $key + 1}}</td>
                                 <td>{{$data->user_id}}</td>
+                                <td>{{$data->password}}</td>
                                 <td>{{$data->name}}</td>
                                 <td>{{$data->mobile}}</td>
                                 <td>{{$data->email}}</td>

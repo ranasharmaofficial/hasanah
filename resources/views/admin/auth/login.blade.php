@@ -2,12 +2,11 @@
 <html lang="en">
     <head>        
         <meta charset="utf-8" />
-        <title>Login | Hasanah Gilrs College</title>
+        <title>Login | Hasanah Educational Trust</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta content="Themesdesign" name="Webfinic" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('assets_admin/images/favicon.ico')}}" />
-
         <!-- Bootstrap Css -->
         <link href="{{asset('assets_admin/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
@@ -40,8 +39,8 @@
                                                     <a href="{{url('admin/auth/login')}}" class="logo"><img src="{{asset('assets_admin/images/logo-light.png')}}" style="max-height:150px;" alt="logo"></a>
                                                 </div>
     
-                                                <h4 class="font-size-18 mt-4">Welcome Back !</h4>
-                                                <p class="text-muted">Sign in to continue to Hasanah Girls College.</p>
+                                                <h4 class="font-size-18 mt-4">Welcome Back to Hasanah Educational Trust!</h4>
+                                                <p class="text-muted">Sign in to continue to Admin Panel.</p>
                                             </div>
 
                                             <div class="p-2 mt-5">
@@ -79,26 +78,13 @@
                                                     <div class="mt-4 text-center">
                                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="mt-4 text-center">
-                                                                <a href="{{url('user/registers')}}" class="text-muted"><i class="ri-file-user-fill me-1"></i> Don't have an Account? Register</a>
-                                                            </div>
-                                                        </div>
-                                                         <div class="col-6">
-                                                            <div class="mt-4 text-center">
-                                                                <a href="#" class="text-muted"><i class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
                                                     
                                                 </form>
                                             </div>
 
                                             <div class="mt-5 text-center">
                                                 {{-- <p>Don't have an account ? <a href="#" class="fw-medium text-primary"> Register </a> </p> --}}
-                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Girls College. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
+                                                <p>© <script>document.write(new Date().getFullYear())</script> Hasanah Educational Trust. Crafted with <i class="mdi mdi-heart text-danger"></i> by Webfinic</p>
                                             </div>
                                         </div>
                                     </div>
