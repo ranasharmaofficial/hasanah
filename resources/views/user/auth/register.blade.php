@@ -36,7 +36,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Educational Trust</h1>
+                                        <h1 class="register_heading text-warning">Welcome to <br>Hasanah Educational Trust</h1>
                                     </div>
                                 </div>
                             </div>
@@ -130,11 +130,11 @@
                                                                 <small class="form-text text-danger">@error('confirm_password') {{ $message }} @enderror</small>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-12 d-none" id="selecategory">
+                                                        {{-- <div class="col-sm-12 d-none" id="selecategory">
                                                             <p class="p-0 m-0 processing d-none text-primary" id="processing">Processing...</p>
                                                             <label for="selectcategory">Select Category</label>
                                                             <div class="row" id="categorylist"></div>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </br>
                                                 </br>

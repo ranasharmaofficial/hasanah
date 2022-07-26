@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="distributorID" class="col-form-label">Select Distributor <star>*</star></label>
-                                        <select class="form-select" required name="distributor_id" id="distributorID">
+                                        {{-- <select class="form-select" required name="distributor_id" id="distributorID">
                                             <option selected disabled value="">---Select Distributor---</option>
                                             @foreach ($distributordata as $ditem)
                                             @php
@@ -80,7 +80,10 @@
                                             @endphp
                                                 <option value="{{$ditem->distributor_reg}}">{{$get_dist_name->name}}</option>                                            
                                             @endforeach
-                                        </select>
+                                        </select> --}}
+                                        <select class="form-select" required type="text" name="distributor_id" id="distributor_id" >
+                                            <option value="" selected disabled>--Select Distributor--</option>
+                                        </select> 
                                         <small class="form-text text-danger">@error('distributor_id') Project category name is required. @enderror</small>
                                     </div>
                                     <div class="col-sm-4">
@@ -152,7 +155,7 @@
         jQuery('#company_id').change(function(){
             let company=jQuery(this).val();
             let datas = "";
-            console.log(company)
+            // console.log(company)
     // $('#sub_category').empty();
     // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
             jQuery.ajax({
@@ -174,6 +177,33 @@
                 }
             });
         });
+
+        jQuery('#company_id').change(function(){
+            let company=jQuery(this).val();
+            let datas = "";
+            // console.log(company)
+    // $('#sub_category').empty();
+    // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+            jQuery.ajax({
+                url:'{{url('getDistributorNames')}}',
+                type:'post',
+                data:'company='+company+'&_token={{csrf_token()}}',
+                success:function(result){
+                    // jQuery('#project_id').val(''+result+'')
+                    if (result == '') {
+                        datas += '<option>Not Found.</option>';
+                    } else{
+                        // console.log(result);
+                        $.each(result, function (i) {
+                            datas += '<option value="'+result[i].distributor_reg+'">'+result[i].distName+'</option>';
+                            // console.log(datas);
+                        });                    
+                    }
+                    jQuery('#distributor_id').html(datas);
+                }
+            });
+        });
+
         
         jQuery('#project_id').change(function(){
             let cid=jQuery(this).val();

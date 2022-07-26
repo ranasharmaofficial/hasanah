@@ -1,5 +1,5 @@
 @extends('distributor.layouts.master')
-@section('title', 'OnGoing Project Details')
+@section('title', 'Project Details')
 @section('content')
 
     <div class="page-content">
@@ -87,6 +87,7 @@
                                                             <p class="bg-danger text-white p-1 rounded shadow"><strong>Days to left:</strong>&nbsp;{{$datediff}}</p>
                                                         </td>
 													</tr>
+                                                    @if($ongoingProjects->action=='3')
                                                     <form action="{{route('distributor.project-approve')}}" method="post" enctype="multipart/form-data"> 
                                                         @csrf
 
@@ -123,6 +124,7 @@
                                                               </svg> Approve Now</button></td>
                                                         </tr>
                                                     </form>
+                                                    @endif
 												</tbody>
 											</table>
 										</div>

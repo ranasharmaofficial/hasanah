@@ -55,7 +55,7 @@
                                     <th>Project&nbsp;Status</th>
                                     <th>Project&nbsp;Amount</th>
                                     <th>Completed&nbsp;Date</th>
-                                    {{-- <th>Action</th> --}}
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -82,14 +82,14 @@
                                             Not Availabel
                                         @endif
                                     </td>
-                                    {{-- <td> 
+                                    <td> 
                                         <form action="{{route('distributor.view-project-details')}}" method="get" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" value="{{$data->project_id}}" name="project_id" required>
                                             <input type="hidden" value="{{$data->username}}" name="user_id" required>
                                             <button type="submit" class="btn btn-danger btn-sm">View&nbsp;Details</button>
                                         </form>
-                                    </td> --}}
+                                    </td>
                                 </tr>
                                 @empty
                                     <tr>

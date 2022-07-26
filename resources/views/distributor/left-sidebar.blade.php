@@ -22,15 +22,15 @@
                         <li><a href="{{url('distributor/project-request')}}">Project Request</a></li>
                         <li><a href="{{url('distributor/ongoing-project')}}">Ongoing Project</a></li>
                         <li><a href="{{url('distributor/completed-project')}}">Completed Project</a></li>
-                        <li><a href="{{url('distributor/create-project')}}">Create Project</a></li>
-                        <li><a href="{{url('distributor/project-list')}}">Project List</a></li>
-                        <li><a href="{{url('distributor/project-category-list')}}">Project Category List</a></li>
+                        {{-- <li><a href="{{url('distributor/create-project')}}">Create Project</a></li> --}}
+                        {{-- <li><a href="{{url('distributor/project-list')}}">Project List</a></li>
+                        <li><a href="{{url('distributor/project-category-list')}}">Project Category List</a></li> --}}
                     </ul>
                 </li>
                  
                 
                 
-                <li>
+                {{-- <li>
                     <a href="{{url('user/work-list')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Work List</span>
@@ -53,7 +53,7 @@
                         <i class="ri-file-user-fill"></i>
                         <span>View Project</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{url('distributor/view-profile')}}" class="waves-effect">
                         <i class="ri-file-user-fill"></i>

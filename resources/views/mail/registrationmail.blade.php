@@ -165,7 +165,7 @@ a[x-apple-data-detectors='true'] {
         
 <div align="center">
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:arial,helvetica,sans-serif;"><tr><td style="font-family:arial,helvetica,sans-serif;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://127.0.0.1:8000/user/mailVerification/" style="height:37px; v-text-anchor:middle; width:112px;" arcsize="11%" stroke="f" fillcolor="#169179"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->
-    <a href="http://127.0.0.1:8000/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}" target="_blank" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #169179; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
+    <a href="http://hgc.hasanah.in/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}" target="_blank" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #169179; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
       <span style="display:block;padding:10px 20px;line-height:120%;"><strong><span style="font-size: 14px; line-height: 16.8px;">Verify Now</span></strong></span>
     </a>
   <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
@@ -196,7 +196,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 12px; line-height: 140%;"><span style="font-size: 12px; line-height: 19.6px;"><a rel="noopener" href="http://127.0.0.1:8000/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}" target="_blank">http://127.0.0.1:8000/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}</a></span></p>
+    <p style="font-size: 12px; line-height: 140%;"><span style="font-size: 12px; line-height: 19.6px;"><a rel="noopener" href="http://hgc.hasanah.in/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}" target="_blank">http://hgc.hasanah.in/user/mailVerification/{{$mail_data['verification_code']}}/{{$mail_data['userid']}}</a></span></p>
   </div>
 
       </td>

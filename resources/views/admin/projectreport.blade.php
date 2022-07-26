@@ -2,6 +2,28 @@
 @section('title','Home')
 
 @section('content')
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Hours per Day'],
+      <?= $chartData; ?>
+    ]);
+
+    var options = {
+      title: 'Project Status Report',
+    //   is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+  }
+</script>
 <!-- jquery.vectormap css -->
 <link href="{{asset('assets_admin/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
 <!-- DataTables -->
@@ -36,7 +58,7 @@
                             <div class="card-body">
                                  
                                     
-                                        <div id="piechart" style="width: 900px; height: 500px;"></div>
+                                        <div id="piechart" style="width: 1050px; height: 1000px;"></div>
                                      
                                     
                                 </div>
@@ -649,30 +671,9 @@
 
 </div>
 <!-- End Page-content -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
 
-  function drawChart() {
-
-    var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      <?= $chartData; ?>
-    ]);
-
-    var options = {
-      title: 'Project Status Report',
-    //   is3D: true,
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
-  }
-</script>
 <!-- apexcharts -->
-<script src="{{asset('assets_admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets_admin/libs/apexcharts/apexcharts.min.jssssss')}}"></script>
 <script src="{{asset('assets_admin/js/pages/dashboard.init.js')}}"></script>
 <!-- jquery.vectormap map -->
 <script src="{{asset('assets_admin/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>

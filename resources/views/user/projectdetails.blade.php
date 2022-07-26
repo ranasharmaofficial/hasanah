@@ -1,7 +1,11 @@
 @extends('user.layouts.master')
 @section('title', 'Project Details')
 @section('content')
-
+    <style>
+        star{
+            color:red;
+        }
+    </style>
     <div class="page-content">
         <div class="container-fluid">
 
@@ -108,44 +112,37 @@
                                                  
                                             </div>
 
-                                            {{-- <div class="row mt-4">
-                                                <div class="col-sm-6">
-                                                    <div>
-                                                        <p class="mb-sm-0 mt-2">Page <span class="fw-bold">2</span> Of <span class="fw-bold">113</span></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="float-sm-end">
-                                                        <ul class="pagination pagination-rounded mb-sm-0">
-                                                            <li class="page-item disabled">
-                                                                <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
-                                                            </li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link">1</a>
-                                                            </li>
-                                                            <li class="page-item active">
-                                                                <a href="#" class="page-link">2</a>
-                                                            </li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link">3</a>
-                                                            </li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link">4</a>
-                                                            </li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link">5</a>
-                                                            </li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link"><i class="mdi mdi-chevron-end"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div> --}}
+                                            
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div> <!-- end col -->
+                            @if($projectData->action=='2')
+                        {{-- Mark as completed section --}}
+                            <h4 class="text-primary text-center">Mark Project as completed</h4>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form method="post" action="{{route('user.markAsCompleted')}}" class="">
+                                            @csrf
+                                            <div class="row g-0">
+                                                <div class="col-xl-4 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="">Select Date<star>*</star></label>
+                                                        <input type="date" name="completed_date" class="form-control" required>
+                                                        <input type="hidden" name="user_id" value="{{$contractdata->user_id}}" class="form-control" required>
+                                                        <input type="hidden" name="project_id" value="{{$userData->project_id}}" class="form-control" required>
+                                                    </div>
+                                                    <button class="btn btn-primary my-3">SUBMIT</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                            @endif
                             </div>
                         </div>
                     </div>

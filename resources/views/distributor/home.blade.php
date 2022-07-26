@@ -46,13 +46,13 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body bg-primary text-white">
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">My Project</p>
-                                                  <h4 class="mb-0">00</h4>  
+                                                <p class="text-truncate font-size-14 mb-2">Project Request</p>
+                                                  <h4 class="mb-0 text-white">{{$projectrequestCount}}</h4>  
                                             </div>
-                                            <div class="text-primary ms-auto">
+                                            <div class="text-white ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
                                             </div>
                                         </div>
@@ -61,13 +61,13 @@
                             </div><!--End column--->
                             <div class="col-md-4">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body bg-warning text-white">
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Requested Project</p>
-                                                  <h4 class="mb-0">00</h4>  
+                                                  <h4 class="mb-0 text-white">00</h4>  
                                             </div>
-                                            <div class="text-primary ms-auto">
+                                            <div class="text-white ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
                                             </div>
                                         </div>
@@ -76,13 +76,28 @@
                             </div><!--End column--->
                             <div class="col-md-4">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body bg-success text-white">
                                         <div class="d-flex">
                                             <div class="flex-1 overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Total Earned</p>
-                                                  <h4 class="mb-0">00</h4>  
+                                                <p class="text-truncate font-size-14 mb-2">OnGoing Project</p>
+                                                  <h4 class="mb-0 text-white">00</h4>  
                                             </div>
-                                            <div class="text-primary ms-auto">
+                                            <div class="text-white ms-auto">
+                                                <i class="ri-stack-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                             <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body bg-secondary text-white">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Completed Project</p>
+                                                  <h4 class="mb-0 text-white">00</h4>  
+                                            </div>
+                                            <div class="text-white ms-auto">
                                                 <i class="ri-stack-line font-size-24"></i>
                                             </div>
                                         </div>

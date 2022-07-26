@@ -263,3 +263,12 @@ tr:first-child>td>.fc-day-grid-event {
         float: right;
     }
 }
+#search_icons{
+	position: relative;
+    z-index: 10;
+    font-size: 18px;
+    line-height: 38px;
+    left: 14px;
+    top: -37px;
+    color: #74788d;
+}

@@ -83,7 +83,7 @@
                        
                         <div class="row justify-content-center">
                             
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="card">
                                     <div style="background-color:#25b3c3;color:#fff;" class="card-header">My Wallet</div>
                                     <div class="card-body css-selector p-10">
@@ -98,7 +98,26 @@
                                         </div>
                                     </div>
                                     <div  class="card-footer">
-                                        <button style="float:right;" class="btn btn-success">Wallet History</button>
+                                        <a href="{{url('user/wallet-history')}}"><button style="float:right;" class="btn btn-success">Wallet History</button></a>
+                                    </div>
+                                </div>
+                            </div><!--End column--->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div style="background-color:#25b3c3;color:#fff;" class="card-header">Penalty Cut Off</div>
+                                    <div class="card-body bg-danger p-10">
+                                        <div class="d-flex">
+                                            <div class="flex-1 overflow-hidden">
+                                                <p class="text-white font-size-14 mb-2">Total Penalty Cut Off</p>
+                                                  <h4 class="mb-0 text-white">Rs&nbsp;{{$penaltyCutOff}}.00</h4>  
+                                            </div>
+                                            <div class="text-white ms-auto">
+                                                <i class="mdi mdi-currency-inr font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="card-footer">
+                                        <a href="{{url('user/wallet-history')}}"><button style="float:right;" class="btn btn-success">Wallet History</button></a>
                                     </div>
                                 </div>
                             </div><!--End column--->

@@ -54,12 +54,21 @@ table.border-modal > tbody > tr > td{
                         <h3 class="card-title text-white">@yield('title')</h3>
                         <p class="p-0 m-0 text-white">Total Students: <b>{{$studentlist->total();}}</b>, Page No: <b>{{$studentlist->currentPage();}}</b></p>
                     </div>
-                    <div class="card-body table-responsive">                        
+                    <div class="card-body table-responsive">  
+                        <form method="get" style="float: right;">
+                            <div class="app-search">
+                                <input name="search" value="{{$sort_search}}" type="text" class="form-control" placeholder="Search here...">
+                                <span id="search_icons" class="ri-search-line"></span>
+                            </div>
+                        </form>	                      
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
                                 <th>Sl. No.</th>
                                 <th>Student ID</th>
+                                <th>Roll No</th>
+                                <th>Admission No</th>
+                                <th>Photo</th>
                                 <th>Password</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
@@ -73,10 +82,13 @@ table.border-modal > tbody > tr > td{
                             <tr>
                                 <td>{{($studentlist->currentpage()-1) * $studentlist->perpage() + $key + 1}}</td>
                                 <td>{{$data->student_id}}</td>
-                                <td>{{$data->password}}</td>
-                                <td>{{$data->name}}</td>
-                                <td>{{$data->mobile}}</td>
-                                <td>{{$data->email}}</td>
+                                <td>{{$data->rollNumber}}</td>
+                                <td>{{$data->admissionNumber}}</td>
+                                <td><img style="height:100px;" src="{{asset('uploads/student-documents/'.$data->studentPhoto)}}" class="img-fluid"/></td>
+                                <td>{{$data->studentPass}}</td>
+                                <td>{{$data->studentName}}</td>
+                                <td>{{$data->studentMobile}}</td>
+                                <td>{{$data->studentEmail}}</td>
                                 <td>{{$data->created_at->format('d-m-Y')}}</td>
                                 {{-- <td class="text-center">
                                     @if ($data->status == 0)

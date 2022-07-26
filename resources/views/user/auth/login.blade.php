@@ -105,7 +105,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h1 class="register_heading">Welcome to <br>Hasanah Girls College</h1>
+                                        <h1 class="register_heading text-warning">Welcome to <br>Hasanah to Hasanah Educational Trust</h1>
                                     </div>
                                 </div>
                             </div>

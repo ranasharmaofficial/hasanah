@@ -93,6 +93,7 @@ Route::post('schooladminLogin', [SchoolAdminController::class, 'schooladminLogin
 Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/home', [SchoolAdminController::class, 'schoolAdminHome'])->name('schooladmin/home');
     Route::get('schooladmin/student-list', [SchoolAdminController::class, 'studentList'])->name('schooladmin/student-list');
+    Route::get('schooladmin/add-student', [SchoolAdminController::class, 'addStudent'])->name('schooladmin/add-student');
     Route::get('schooladmin/addclass', [SchoolAdminController::class, 'addClass'])->name('schooladmin/addclass');
     Route::post('uploadClass', [SchoolAdminController::class, 'uploadClass'])->name('uploadClass');
     Route::get('schooladmin/class-list', [SchoolAdminController::class, 'classList'])->name('schooladmin/class-list');
@@ -128,6 +129,8 @@ Route::group(['middleware'=>['SchoolAdminAuthCheck']], function(){
     Route::get('schooladmin/schoolemployeelist', [SchoolAdminController::class, 'schoolemployeeList'])->name('schooladmin.schoolemployeeList');
     Route::get('schooladmin/admission-list', [SchoolAdminController::class, 'admissionList'])->name('schooladmin.admission-list');
     Route::get('schooladmin/admission-details/{$id}', [SchoolAdminController::class, 'studentAdmissionDetails'])->name('schooladmin/admission-details/{$id}');
+    Route::post('getClassNames', [SchoolAdminController::class, 'getClassNames'])->name('getClassNames');
+    Route::post('AddStudetnAdmission', [SchoolAdminController::class, 'AddStudetnAdmission'])->name('AddStudetnAdmission');
 });
 
 //School Admin Modules End
@@ -296,6 +299,10 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/fetch-bank-details',[UserController::class,'fetchBankDetails'])->name('user.fetch-bank-details');
     Route::post('user/update-bank-details',[UserController::class,'updateBankDetails'])->name('user.update-bank-details');
     Route::post('user/change-password', [UserController::class, 'userPasswordChange'])->name('user.change-password');
+    Route::get('user/project-request', [UserController::class,'userProjectRequest'])->name('user.project-request');
+    Route::post('getImageDetails',[DistributorController::class, 'getImageDetails'])->name('getImageDetails');
+    Route::post('getVideoDetails',[DistributorController::class, 'getVideoDetails'])->name('getVideoDetails');
+    Route::post('user.markAsCompleted',[UserController::class, 'markAsCompleted'])->name('user.markAsCompleted');
 });
 
 // Route::get('distributor/login', [DistributorController::class, 'login']);
@@ -338,10 +345,13 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');
     Route::get('admin/project-list', [AdminController::class, 'projectList'])->name('admin.project-list');
     Route::get('admin/project-category-list', [AdminController::class, 'projectCategoryList'])->name('admin.project-category-list');
+    Route::get('admin/search-project-category', [AdminController::class,'searchProjectCategory'])->name('admin.search-project-category');
+    Route::get('admin/search-project-category-details', [AdminController::class,'searchProjectCategoryDetails'])->name('admin.search-project-category-details');
     Route::post('uploadProjectCategory', [AdminController::class, 'uploadProjectCategory'])->name('uploadProjectCategory');
     Route::post('uploadProjectData', [AdminController::class, 'uploadProjectData'])->name('uploadProjectData');
     Route::post('getamountofproject', [AdminController::class, 'getamountofproject'])->name('getamountofproject');
     Route::post('getProjectName', [AdminController::class, 'getProjectName'])->name('getProjectName');
+    Route::post('getDistributorNames', [AdminController::class, 'getDistributorNames'])->name('getDistributorNames');
 
     Route::get('admin/add-employee', [AdminController::class, 'addEmployee'])->name('admin.add-employee');
     Route::get('admin/view-employee', [AdminController::class, 'viewEmployee'])->name('admin.view-employee');

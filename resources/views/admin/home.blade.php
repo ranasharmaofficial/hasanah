@@ -2,6 +2,31 @@
 @section('title','Home')
 
 @section('content')
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Hours per Day'],
+      ['Work',     11],
+      ['Eat',      2],
+      ['Commute',  2],
+      ['Watch TV', 2],
+      ['Sleep',    7]
+    ]);
+
+    var options = {
+      title: 'My Daily Activities'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+  }
+</script>
 <!-- jquery.vectormap css -->
 <link href="{{asset('assets_admin/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
 <!-- DataTables -->
@@ -39,7 +64,7 @@
                                         <h4 class="mb-0">{{$totalcompany}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-building-4-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +79,7 @@
                                         <h4 class="mb-0">{{$distributor}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-map-pin-user-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +94,7 @@
                                         <h4 class="mb-0">{{$totalemployee}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-user-2-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +109,7 @@
                                         <h4 class="mb-0">{{$totaluser}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-file-user-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +124,7 @@
                                         <h4 class="mb-0">{{$totalprojectcategory}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-slideshow-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +139,7 @@
                                         <h4 class="mb-0">{{$totalproject}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-slideshow-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +154,7 @@
                                         <h4 class="mb-0">{{$onGoingProject}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-slideshow-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +169,7 @@
                                         <h4 class="mb-0">{{$completedProject}}</h4>
                                     </div>
                                     <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
+                                        <i class="ri-slideshow-fill font-size-24"></i>
                                     </div>
                                 </div>
                             </div>
@@ -771,27 +796,7 @@
 
 </div>
 <!-- End Page-content -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
 
-  function drawChart() {
-
-    var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-     
-    ]);
-
-    var options = {
-      title: 'Project Status Report'
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
-  }
-</script>
 <!-- apexcharts -->
 <script src="{{asset('assets_admin/libs/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{asset('assets_admin/js/pages/dashboard.init.js')}}"></script>

@@ -19,10 +19,10 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
-                        <span>Supervisor </span>
+                        <span>Contractor </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('admin/user-list')}}">Supervisor List</a></li>
+                        <li><a href="{{url('admin/user-list')}}">Contractor List</a></li>
                     </ul>
                 </li>
                 <li>
@@ -68,6 +68,7 @@
                         <li><a href="{{url('admin/create-project')}}">Create Project</a></li>
                         <li><a href="{{url('admin/project-list')}}">Project List</a></li>
                         <li><a href="{{url('admin/project-category-list')}}">Project Category List</a></li>
+                        <li><a href="{{url('admin/search-project-category')}}">Search Project Category </a></li>
                         <li><a href="{{url('admin/projectreport')}}">Project Report</a></li>
                     </ul>
                 </li>

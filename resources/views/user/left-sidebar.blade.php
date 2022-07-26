@@ -20,6 +20,7 @@
                         <span>Project</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('user/project-request')}}">Project Request</a></li>
                         <li><a href="{{url('user/my-project')}}">My Project</a></li>
                         <li><a href="{{url('user/ongoing-project')}}">Ongoing Project</a></li>
                         <li><a href="{{url('user/completed-project')}}">Completed Project</a></li>

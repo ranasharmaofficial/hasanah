@@ -86,6 +86,9 @@ class UserController extends Controller
         $contractor_earned_amount = Wallet::where('contractor_id', '=', $data['LoggedContractInfo']->user_id)
                                 ->where('cr_dr', '=', 'Credit')
                                 ->sum('amount');
+        $penaltyCutOff = Wallet::where('contractor_id', '=', $data['LoggedContractInfo']->user_id)
+                                ->where('cr_dr', '=', 'Credit')
+                                ->sum('penalty_amount');
         $historycount = count($userloginhistory);
         if ($historycount == 1) {
             $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
@@ -93,7 +96,7 @@ class UserController extends Controller
             $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
         }        
         // $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
-        return view('user/mywallet', $data, compact('contractor_earned_amount','contractdata', 'userprojectcategory','companydata','lastLoginTime', 'totaluserproject', 'totaluserreproject'));
+        return view('user/mywallet', $data, compact('penaltyCutOff','contractor_earned_amount','contractdata', 'userprojectcategory','companydata','lastLoginTime', 'totaluserproject', 'totaluserreproject'));
     }
     public function walletHistory(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
@@ -107,10 +110,11 @@ class UserController extends Controller
         $contractor_earned_amount = Wallet::where('contractor_id', '=', $data['LoggedContractInfo']->user_id)
                                 ->where('cr_dr', '=', 'Credit')
                                 ->sum('amount');
+        
         $walletHitory = Wallet::where('contractor_id', $data['LoggedContractInfo']->user_id)
                     ->join('projects', 'projects.project_id', '=', 'wallets.project_id')
                     ->join('users', 'users.user_id', '=', 'wallets.approved_by')
-                    ->select(['wallets.amount as getContAmount','wallets.approved_by as ApprovedDistributor','wallets.created_at as amountRecDate', 'users.*', 'projects.*'])
+                    ->select(['wallets.amount as getContAmount','wallets.approved_by as ApprovedDistributor','wallets.created_at as amountRecDate','wallets.penalty_amount as penaltyAmount', 'users.*', 'projects.*'])
                     ->paginate(10);
                     // dd($walletHitory);
                     // die;
@@ -258,39 +262,11 @@ class UserController extends Controller
                 'distributor_id' => $request->distributor_id,
             ]);
         }
-        // die;
-        // $file = $request->file('file');
-        // $distributorphoto = 'distributor-'.time().'.'.$extenstion;
         
-        // $uploadedFileUrl = cloudinary()->upload($file->getRealPath())->getSecurePath();
-        
-    // $image = $request->file('file');
-    // $name = $request->file('file')->getClientOriginalName();
-    // $image_name = $request->file('file')->getRealPath();
-    
-    // $uploadedFileUrl= cloudinary()->upload::upload($image_name, null);
-    // Cloudder::upload($image_name, null);
-    // list($width, $height) = getimagesize($image_name);
-    // $image_url= Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
-    // // save to uploads directory
-    // $image->move(public_path("uploads"), $name);
-    // Save images
-    // $uploadedFileUrl = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
-    // $this->saveImages($request, $uploadedFileUrl);
 
      return redirect()->back()->with(session()->flash('alert-success', 'Image successfully uploaded.'));
     }
-//     public function saveImages(Request $request, $uploadedFileUrl)
-//    {
-//        $image = new User_upload_images();
-//        $image->image_name = $request->title;
-//        $image->image_url = $uploadedFileUrl;
-//        $image->title = $request->title;
-//        $image->user_id = $request->user_id;
-//        $image->project_id = $request->project_id;
-//        $image->distributor_id = $request->distributor_id;
-//        $image->save();
-//    }
+
    public function viewProjectDetails(Request $request){
     $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
     $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
@@ -313,10 +289,10 @@ class UserController extends Controller
         $user_project_images = User_upload_images::where('user_id', '=', $data['LoggedContractInfo']->user_id)
                                                 ->where('project_id', '=', $projectid)
                                                 ->get();
-        return view('user/projectdetails',$data, compact('userData','flag','projectData','companyData','projectCatData','user_project_images','companydata','lastLoginTime'));
+        return view('user/projectdetails',$data, compact('contractdata','userData','flag','projectData','companyData','projectCatData','user_project_images','companydata','lastLoginTime'));
     }
     else{
-        return view('user/projectdetails',$data, compact('flag','companydata','lastLoginTime'));
+        return view('user/projectdetails',$data, compact('flag','companydata','lastLoginTime','contractdata'));
     }
    }
     public function uploadVideo(){
@@ -522,7 +498,7 @@ class UserController extends Controller
             'address' => 'required',
             'password' => 'required|string',
             'confirm_password' => 'required|string',
-            'categoryselect' => 'required|max:190',
+            // 'categoryselect' => 'required|max:190',
         ]);
 
         if ($request->password === $request->confirm_password) {
@@ -539,7 +515,8 @@ class UserController extends Controller
             $userdata->user_id = $euserid;
             $userdata->contractorID = date('md').time();
             $userdata->company_id = $request->company_id;
-            $userdata->category_id = $request->categoryselect;
+            // $userdata->category_id = $request->categoryselect;
+            $userdata->category_id = 0;
             $userdata->save();
 
             $usersdata->user_id = $euserid;
@@ -662,5 +639,55 @@ class UserController extends Controller
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again.'));
     }
-    
+    public function userProjectRequest(){
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
+        $projectrequest = Project_request::where('user_id', $data['LoggedContractInfo']->user_id)->paginate(15);
+        // dd($projectrequest);die;
+        return view('user/project-request', $data, compact('projectrequest','companydata','lastLoginTime'));
+    }
+    public function getImageDetails(Request $request){
+        $imagereqid = $request->post('imagereqid');
+        $data = Project_request::where('id',$imagereqid)->pluck('proposal_photo')->first();
+        return $data;        
+    }
+    public function getVideoDetails(Request $request){
+        $videoreqid = $request->post('videoreqid');
+        $data = Project_request::where('id',$videoreqid)->pluck('proposal_video')->first();
+        return $data;        
+    }
+    public function markAsCompleted(Request $request){
+        $request->validate([
+            'completed_date' => 'required',
+            'project_id' => 'required',
+            'user_id' => 'required',
+        ]);
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+
+        
+        $update_project_status = Project::where('project_id', '=', $request->project_id)
+                                        ->update([
+                                            'action' => 3,
+                                            'project_status' => 3,
+                                            'project_report' => 'COMPLETED',
+                                            'completed_date' => now(),
+                                        ]);
+        $update_user_project_status = User_project::where('project_id', '=', $request->project_id)->where('user_id', '=', $request->user_id)
+                                                    ->update([
+                                                        'status' => 2
+                                                    ]);
+
+        if ($update_project_status && $update_user_project_status) {
+            return redirect('user/completed-project')->with(session()->flash('alert-success', 'Project Marked as Completed.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
 }

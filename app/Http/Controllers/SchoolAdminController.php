@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\A_class;
 use App\Models\Academicyear;
 use App\Models\Admission_fee;
+use App\Models\Fee;
 use App\Models\Batchtime;
 use App\Models\Course;
 use App\Models\Employee;
@@ -17,6 +18,8 @@ use App\Models\Exam_schedule;
 use App\Models\School;
 use App\Models\Teacher_category;
 use App\Models\Admission;
+use App\Models\Student_admission;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -59,10 +62,152 @@ class SchoolAdminController extends Controller
         $teacherCount = Employee_user::where('role', '=', '2')->count();
         return view('schooladmin/home', $data, compact('totalStudent','totalAdmission','schoolCount', 'classCount','employeeCount', 'teacherCount'));
     }
-    public function studentList(){
+    public function addStudent(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
-        $studentlist = Student::paginate(10);
-        return view('schooladmin/studentlist', $data, compact('studentlist'));
+        $classes = A_class::get();
+        $school = School::get();
+        $academicyears = Academicyear::get();
+        return view('schooladmin/add-student', $data, compact('classes','school','academicyears'));
+    }
+    
+    public function AddStudetnAdmission(Request $request){
+        $request->validate([
+            'academic_year' => 'required',
+            'school_id' => 'required',
+            'class_id' => 'required',
+            'fullname' => 'required|max:100',
+            'email' => 'required|max:190',
+            // 'mobile' => 'required|max:10',
+            'mobile' => 'required|max:10|unique:students,mobile',
+            
+             
+        ]);
+        // dd($request);
+        // die;
+        $studentid = Student::orderBy('id', 'desc')->first();
+        if (isset($studentid)) {
+            // Sum 1 + last id
+            $reuserid = substr($studentid->student_id, 3);
+            $userid = $reuserid + 1;
+            $studentidgen = 'HET' . $userid . '';
+        } else {
+            $studentidgen = 'HET101';
+        }
+        Student::create([
+            "student_id" => "$studentidgen",
+            "name" => "$request->fullname",
+            "email" => "$request->email",
+            "mobile" => "$request->mobile",
+            "password" => "$request->mobile",
+        ]);
+        
+         $lastStdentId = Student::orderBy('id', 'desc')->first();
+        
+         $lastRollNumber = Admission::orderBy('id', 'desc')->first();
+        $userIDGene = Admission::orderBy('id', 'desc')->first();
+        
+         
+        $student = new Student_admission;
+        $student->student_id = $lastStdentId->student_id;
+        $student->session = $request->academic_year;
+        $student->school_id = $request->school_id;
+        $student->courseID = $request->class_id;
+        $student->save();
+        
+        $admission = new Admission;
+        // Admission Number Generate Start
+        if (isset($lastRollNumber)) {
+            // Sum 1 + last id
+            $admission->admissionNumber = 'HET-' . ($lastRollNumber->rollNumber + 1) . '-' . date('Y');
+        } else {
+            $admission->admissionNumber = 'HET-'.date('d') . '11'.'-' . date('Y');
+        }
+        // Admission Number Generate End
+
+        // Roll Number Generate Start
+        if (isset($lastRollNumber)) {
+            // Sum 1 + last id
+            $rollnumber = $lastRollNumber->rollNumber + 1;
+        } else {
+            // $rollnumber = date('d') . '10121';
+            $rollnumber = date('d') . '11';
+        }
+        // Roll Number Generate End
+        if ($request->hasfile('studentphoto')) {
+            $file = $request->file('studentphoto');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'student-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/student-documents'), $filename);
+        }
+        $admission->student_id = $lastStdentId->student_id;
+        $admission->rollNumber = $rollnumber;
+        $admission->bloodGroup = $request->bloodgroup;
+        $admission->birthPlace = $request->birthplace;
+        $admission->aadharNumber = $request->aadharnumber;
+        $admission->studentPhoto = $filename;
+        $admission->gurdianName = $request->guardianname;
+        $admission->guardianMobile = $request->guardianmobile;
+        $admission->guardianAadhar = $request->guardianaadhar;
+        $admission->relation = $request->relation;
+        $admission->gurdiandob = $request->guardiandob;
+        $admission->gurdianeducation = $request->education;
+        $admission->gurdianoccupation = $request->occupation;
+        $admission->gurdianincome = $request->income;
+        $admission->dob = $request->dob;
+        $admission->gender = $request->gender;
+        $admission->nationality = $request->nationality;
+        $admission->category = $request->category;
+        $admission->religion = $request->religion;
+        $admission->addresslineone = $request->addresslineone;
+        $admission->addresslinetwo = $request->addresslinetwo;
+        $admission->city = $request->city;
+        $admission->state = $request->state;
+        $admission->country = $request->country;
+        $admission->pincode = $request->pincode;
+        $admission->gurdianaddresslineone = $request->guardianaddresslineone;
+        $admission->gurdianaddresslinetwo = $request->guardianaddresslinetwo;
+        $admission->gurdiancity = $request->guardiancity;
+        $admission->gurdianstate = $request->guardianstate;
+        $admission->gurdiancountry = $request->guardiancountry;
+        $admission->gurdianpincode = $request->guardianpincode;
+        // $admission->admissionFee = $request->admissionfee;
+        // $admission->tutionFee = $request->tutionfee;
+        $admission->joiningDate = now();
+        $admission->save();
+        $feedetails = Admission_fee::where('course_id', $request->class_id)->first();
+        $paymentfee = new Fee;
+        $paymentfee->student_id = $lastStdentId->student_id;
+        $paymentfee->rollNumber = $rollnumber;
+        $paymentfee->session = $request->academic_year;
+        $paymentfee->admissionFee = $feedetails->admission_fee;
+        $paymentfee->tutionFee = $feedetails->tution_fee;
+        $paymentfee->security_deposit = $feedetails->security_deposit;
+        $paymentfee->annual_fee = $feedetails->annual_fee;
+        $paymentfee->miscellanous_fee = $feedetails->miscellanous_fee;
+        $paymentfee->status = 2;
+        // $paymentfee->discount = $request->discount;
+        $paymentfee->save();
+        if ($student && $admission && $paymentfee) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Student Added Successfully!.'));
+            // return redirect('admin/studentreceiving'.'/'.$request->studentid);
+        } else {
+            return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+        }
+    }
+    
+    public function studentList(Request $request){
+        $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];
+        // $studentlist = Student::paginate(10);
+        $sort_search = null;
+		$studentlist = Student::join('admissions', 'admissions.student_id', '=', 'students.student_id');
+        if ($request->search != null){
+            $studentlist = $studentlist->where('students.name', 'like', '%'.$request->search.'%')
+							->orWhere('admissions.student_id', "like", "%" . $request->search . "%");
+							$sort_search = $request->search;
+        }
+		$studentlist = $studentlist ->select('students.name as studentName','students.password as studentPass','students.mobile as studentMobile','students.email as studentEmail', 'admissions.*')
+                               ->paginate(35);
+        return view('schooladmin/studentlist', $data, compact('studentlist','sort_search'));
     }
     public function admissionList(){
         $data = ['LoggedSchoolAdminInfo'=>School_admin::where('id','=', session('LoggedSchoolAdmin'))->first()];

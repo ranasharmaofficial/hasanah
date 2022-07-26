@@ -63,7 +63,8 @@ class DistributorController extends Controller
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
         $lastLoginTime = User_login_history::where('user_id', $data['LoggedDistributor']->user_id)->orderBy('id', 'desc')->take(1)->first();;
-        return view('distributor/home', $data, compact('distributordata','distributordetails','companydata', 'lastLoginTime'));
+        $projectrequestCount = Project_request::where('project_requests.company_id', $distributordetails->company_id)->where('is_asigned',1)->count();
+        return view('distributor/home', $data, compact('distributordata','distributordetails','companydata', 'lastLoginTime', 'projectrequestCount'));
     }
     public function projectRequest(){
         $data = ['LoggedDistributor'=>User::where('id','=', session('LoggedDistributor'))->first()];
@@ -106,7 +107,7 @@ class DistributorController extends Controller
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
-        $ongoingProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '2')
+        $ongoingProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('action', '=', '2')
                         ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                         ->join('users', 'user_projects.user_id', '=', 'users.user_id')
@@ -124,7 +125,8 @@ class DistributorController extends Controller
             // $flag = true;  
             $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
             $companydata = Company::where('company_id', '=', $distributordetails->company_id)->first();
-            $ongoingProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '2')
+            // dd($distributordetails);die;
+            $ongoingProjects = Project::where('projects.project_id', '=', $projectid)
                         ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                         ->join('users', 'user_projects.user_id', '=', 'users.user_id')
@@ -165,13 +167,14 @@ class DistributorController extends Controller
 
         $update_project_status = Project::where('project_id', '=', $request->projectid)
                                         ->update([
-                                            'project_status' => 3,
+                                            'project_status' => 4,
+                                            'action' => 4,
                                             'project_report' => 'COMPLETED',
                                             'completed_date' => now(),
                                         ]);
         $update_user_project_status = User_project::where('project_id', '=', $request->projectid)
                                                     ->update([
-                                                        'status' => 2
+                                                        'status' => 3
                                                     ]);
 
         if ($projectapprove && $update_project_status && $update_user_project_status) {
@@ -185,7 +188,8 @@ class DistributorController extends Controller
         $distributordata = User::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
-        $completedProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '3')
+        // dd($distributordetails->distributor_reg);die;
+        $completedProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '4')
                         ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                         ->join('users', 'user_projects.user_id', '=', 'users.user_id')

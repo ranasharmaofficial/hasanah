@@ -62,7 +62,8 @@
                                     <th>Project Id</th>
                                     <th>Project&nbsp;Name</th>
                                     <th>Project&nbsp;Number</th>
-                                    <th>Project&nbsp;Status</th>
+                                    <th>Received Amount</th>
+                                    <th>Penalty Cut Off</th>
                                     <th>Received&nbsp;Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -84,6 +85,7 @@
                                     <td>{{$data->project_number}}</td>
                                    
                                     <td>Rs&nbsp;{{$data->getContAmount}}</td>
+                                    <td>Rs&nbsp;{{$data->penaltyAmount}}</td>
                                     <td>{{$data->amountRecDate}}</td>
                                     
                                     <td>

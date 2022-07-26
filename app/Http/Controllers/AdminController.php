@@ -74,10 +74,10 @@ class AdminController extends Controller
     public function projectReport(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
        
-        $result = DB::select(DB::raw("Select count(*) as projectStatus,project_report from projects group by project_report"));
+        $result = DB::select(DB::raw("Select count(project_status) as projectStatus,project_report from projects group by project_report"));
             $chartData='';
             foreach($result as $list){
-                $chartData.="['".$list->project_report."','".$list->projectStatus."'],";
+                $chartData.="['".$list->project_report."', '".$list->projectStatus."'],";
             }           
         
             $arr['chartData']=rtrim($chartData,",");
@@ -915,6 +915,30 @@ class AdminController extends Controller
         $projectcategory = Project_category::paginate(10);
         return view('admin/projectcategorylist', $data, compact('projectcategory'));
     }
+    public function searchProjectCategory(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $companylist = Company::all();
+        $companyid = $request->get('company_id');
+            return view('admin/search_project_category', $data, compact('companylist'));
+        }
+
+    public function searchProjectCategoryDetails(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $companylist = Company::all();
+        $companyid = $request->get('company_id');
+        if($companyid!== null)
+        {
+            $projectcategories = Project_category::where('company_id', $companyid)->paginate(100);
+            $cname = Company::where('company_id',$companyid)->first();
+            $company_name = $cname->company_name;
+            return view('admin/search_project_category_details', $data, compact('companylist','projectcategories','company_name'));
+        } else{
+        
+            return view('admin/search_project_category_details', $data, compact('companylist'));
+
+        }
+        
+    }
     
     //Distributor Data Upload Start
     public function uploadDistributorData(Request $request){
@@ -1196,6 +1220,16 @@ class AdminController extends Controller
         return $projectdetails;
     }
     //Get Project Name End
+    //Get Distributor Name Start
+    public function getDistributorNames(Request $request){
+        $companyid = $request->post('company');
+        $distributordetails = Distributor::where('company_id', $companyid)
+                            ->join('users', 'users.user_id', '=', 'distributors.user_id')
+                            ->select(['distributors.*', 'users.name as distName'])
+                            ->get();
+        return $distributordetails;
+    }
+    //Get Distributor Name End
 
     //Get Project Amount Start
     public function getamountofproject(Request $request){

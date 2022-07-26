@@ -23,6 +23,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('schooladmin/student-list')}}">Student List</a></li>
+                        <li><a href="{{url('schooladmin/add-student')}}">Add Student</a></li>
                     </ul>
                 </li>
                 <li>
