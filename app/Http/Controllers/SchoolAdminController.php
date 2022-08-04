@@ -174,6 +174,7 @@ class SchoolAdminController extends Controller
         // $admission->tutionFee = $request->tutionfee;
         $admission->joiningDate = now();
         $admission->save();
+		
         $feedetails = Admission_fee::where('course_id', $request->class_id)->first();
         $paymentfee = new Fee;
         $paymentfee->student_id = $lastStdentId->student_id;
@@ -706,7 +707,6 @@ class SchoolAdminController extends Controller
         $teacherregister->mobile = $request->mobileno;
         $teacherregister->role = 2;
         $teacherregister->save();
-
         if ($teacherdata && $teacherregister) {
             return redirect()->back()->with(session()->flash('alert-success', 'Teacher Data Successfully Uploaded'));
         }

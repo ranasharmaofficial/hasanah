@@ -208,14 +208,26 @@
         jQuery('#project_id').change(function(){
             let cid=jQuery(this).val();
             console.log(cid)
-    // $('#sub_category').empty();
-    // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
             jQuery.ajax({
                 url:'{{url('getamountofproject')}}',
                 type:'post',
                 data:'cid='+cid+'&_token={{csrf_token()}}',
                 success:function(result){
                     jQuery('#projectAmount').val(result)
+                    // console.log(result);
+                }
+            });
+        });
+        
+        jQuery('#project_id').change(function(){
+            let cid=jQuery(this).val();
+            console.log(cid)
+            jQuery.ajax({
+                url:'{{url('get_Distributor_Amount')}}',
+                type:'post',
+                data:'cid='+cid+'&_token={{csrf_token()}}',
+                success:function(result){
+                    jQuery('#distributeAmount').val(result)
                     // console.log(result);
                 }
             });

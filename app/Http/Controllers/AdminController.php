@@ -154,7 +154,7 @@ class AdminController extends Controller
     }
     public function createProjectCategory(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $companydata = Company::get();
+        $companydata = Company::all();
         return view('admin/createprojectcategory',$data, compact('companydata'));
     }
     
@@ -624,7 +624,7 @@ class AdminController extends Controller
         ]);
 
         $createcompany = new Company;
-        $createcompany->company_id = time().date('md');
+        $createcompany->company_id = rand(99999,111111).date('dmy');
         $createcompany->registration_number = time().date('Ymd');
         $createcompany->company_name = $request->company_name;
         $createcompany->owner_name = $request->owner_name;
@@ -904,11 +904,18 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/updatedistributor',$data, compact('distdata', 'distudata'));
     }
-    public function projectList(){
+    public function projectList(Request $request)
+    {
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $project = Project::join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
-                ->get(['project_categories.*', 'projects.*']);
-        return view('admin/projectlist', $data, compact('project'));
+        $sort_by =null;
+        $projects = Project::orderBy('created_at', 'desc');
+        if ($request->has('company_id')){
+            $sort_by = $request->company_id;
+            $projects = $projects->where('company_id', $sort_by);
+        }
+        $projects = $projects->paginate(35);
+        $companies = Company::all();
+        return view('admin/projectlist', $data, compact('projects','sort_by','companies'));
     }
     public function projectCategoryList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -1082,7 +1089,8 @@ class AdminController extends Controller
         $request->validate([
             'company_id' => 'required|max:150',
             'project_cat_name' => 'required|max:250',
-            'project_amount' => 'required'
+            'project_amount' => 'required',
+            'distribute_amount' => 'required'
         ]);
 
         $projectcat = new Project_category;
@@ -1097,6 +1105,7 @@ class AdminController extends Controller
         $projectcat->project_cat_id = $projectcatid;
         $projectcat->project_category = $request->project_cat_name;
         $projectcat->project_amount = $request->project_amount;
+        $projectcat->distribute_amount = $request->distribute_amount;
         //$projectcat->type = $request->categorytype;
         //$projectcat->datefrom = $request->datefrom;
         //$projectcat->dateto = $request->dateto;
@@ -1237,6 +1246,12 @@ class AdminController extends Controller
         $getamountpro = Project_category::where('project_cat_id', $category)->first();
         $getamount = $getamountpro->project_amount;
         return $getamount;
+    }
+    public function get_Distributor_Amount(Request $request){
+        $category = $request->post('cid');        
+        $getamountpro = Project_category::where('project_cat_id', $category)->first();
+        $getDisamount = $getamountpro->distribute_amount;
+        return $getDisamount;
     }
     //Get Project Amount End
 

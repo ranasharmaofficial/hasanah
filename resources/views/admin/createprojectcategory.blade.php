@@ -62,6 +62,11 @@
                                     <label for="ProjectAmount" class="col-form-label">Set Project Amount <star>*</star></label>
                                     <input class="form-control" required type="number" name="project_amount" value="{{old('project_amount')}}" placeholder="Enter Project Amount" id="ProjectAmount">
                                     <small class="form-text text-danger">@error('project_amount') Project amount is required. @enderror</small>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="ProjectAmount" class="col-form-label">Set Distribute Amount <star>*</star></label>
+                                    <input class="form-control" required type="number" name="distribute_amount" value="{{old('distribute_amount')}}" placeholder="Enter Distribute Amount" id="ProjectAmount">
+                                    <small class="form-text text-danger">@error('distribute_amount') Distribute amount is required. @enderror</small>
                                 </div>  
                                 <div class="col-sm-12 mt-3 text-center">
                                     <button name="add_project_category" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit Now</button>

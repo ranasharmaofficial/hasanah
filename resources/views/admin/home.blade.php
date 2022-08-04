@@ -2,31 +2,7 @@
 @section('title','Home')
 
 @section('content')
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
 
-  function drawChart() {
-
-    var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Work',     11],
-      ['Eat',      2],
-      ['Commute',  2],
-      ['Watch TV', 2],
-      ['Sleep',    7]
-    ]);
-
-    var options = {
-      title: 'My Daily Activities'
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
-  }
-</script>
 <!-- jquery.vectormap css -->
 <link href="{{asset('assets_admin/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
 <!-- DataTables -->
@@ -176,20 +152,7 @@
                         </div>
                     </div><!--End column--->
 
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="flex-1 overflow-hidden">
-                                        <div id="piechart" style="width: 900px; height: 500px;"></div>
-                                    </div>
-                                    <div class="text-primary ms-auto">
-                                        <i class="ri-stack-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--End column--->
+                     
                    
                     
                 </div>
