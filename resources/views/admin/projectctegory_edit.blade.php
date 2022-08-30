@@ -1,9 +1,9 @@
 @extends('admin.layouts.master')
-@section('title','Create Project Category')
+@section('title','Update Project Category')
 @section('content')
     <style>
         .currency_sign{
-            width: 35px;
+            width: 100px;
             outline: none;
             border: none;
             background: transparent;
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 p-2">
                         <div class="flash-message">
                             @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                                 @if (Session::has('alert-' . $msg))
@@ -45,7 +45,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <form method="post" action="{{route('uploadProjectCategory')}}" enctype="multipart/form-data" class="card-body">
+                    <form method="post" action="{{route('admin.updateProjectCategoryDetails')}}" enctype="multipart/form-data" class="card-body">
                         @csrf
                         <h4 class="card-title font-weight-bold text-uppercase text-primary">Project Category Details:-</h4><hr>
                         <div class="container">
@@ -55,14 +55,15 @@
                                     <select class="form-select" required type="text" name="company_id" id="Company">
                                         <option selected disabled value="">---Select Company----</option>
                                         @foreach ($companydata as $citem)
-                                            <option value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
+                                            <option @if($pro_category_data->company_id==$citem->company_id)selected @endif value="{{$citem->company_id}}">{{$citem->company_name}}</option>                                            
                                         @endforeach
                                     </select>
+                                    <input type="hidden" value="{{ $pro_category_data->project_cat_id }}" id="" name="pro_category_id">
                                     <small class="form-text text-danger">@error('company_id') Project category name is required. @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="ProjectName" class="col-form-label">Project Category Name <star>*</star></label>
-                                    <input class="form-control" required type="text" name="project_cat_name" placeholder="Project Category Name" value="{{old('project_cat_name')}}" id="ProjectName">
+                                    <input class="form-control" required value="{{ $pro_category_data->project_category }}" type="text" name="project_cat_name" placeholder="Project Category Name" value="{{old('project_cat_name')}}" id="ProjectName">
                                     <small class="form-text text-danger">@error('project_cat_name') Project category name is required. @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
@@ -71,7 +72,8 @@
                                            <div class="input-group-prepend">
                                              <div class="input-group-text">
                                                 <select name="currency" class="currency_sign">
-                                                    <option value="USD" selected="selected">$</option>
+                                                    <option selected value="{{ $pro_category_data->currency }}">{{ $pro_category_data->currency }}</option>
+                                                    <option value="USD">$</option>
                                                     <option value="EUR">€</option>
                                                     <option value="GBP">United Kingdom Pounds(£)</option>
                                                     <option value="DZD">Algeria Dinars</option>
@@ -154,7 +156,7 @@
 
                                              </div>
                                            </div>
-                                           <input class="form-control" required type="number" name="project_amount" value="{{old('project_amount')}}" placeholder="Enter Project Amount" id="ProjectAmount">
+                                           <input class="form-control" value="{{ $pro_category_data->project_amount }}" required type="number" name="project_amount" placeholder="Enter Project Amount" id="ProjectAmount">
                                          </div>
                                      <small class="form-text text-danger">@error('project_amount') Amount is required. @enderror</small>
                                  </div>
@@ -165,11 +167,11 @@
                                 </div> --}}
                                 <div class="col-sm-4">
                                     <label for="ProjectAmount" class="col-form-label">Set Distribute Amount <star>*</star></label>
-                                    <input class="form-control" required type="number" name="distribute_amount" value="{{old('distribute_amount')}}" placeholder="Enter Distribute Amount" id="ProjectAmount">
+                                    <input class="form-control" required type="number" value="{{ $pro_category_data->distribute_amount }}" name="distribute_amount" placeholder="Enter Distribute Amount" id="ProjectAmount">
                                     <small class="form-text text-danger">@error('distribute_amount') Distribute amount is required. @enderror</small>
                                 </div>  
                                 <div class="col-sm-12 mt-3 text-center">
-                                    <button name="add_project_category" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit Now</button>
+                                    <button name="add_project_category" type="submit" class="btn btn-danger"><i class="fa fa-paper-plane"></i> Update</button>
                                 </div>
                             </div>
                         </div>

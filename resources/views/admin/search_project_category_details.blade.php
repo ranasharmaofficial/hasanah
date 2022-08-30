@@ -1,11 +1,7 @@
 @extends('admin.layouts.master')
 @section('title','Search Project Category')
 @section('content')
-<style>
-    .card{
-        background-color: rgb(234, 230, 255);
-    }
-</style>
+
  <div class="page-content">
     <div class="container-fluid">
 
@@ -59,8 +55,9 @@
                                 <th>Project Category id</th>
                                 <th>Category name</th>
                                 <th>Project amount</th>
+                                <th>Distribute amount</th>
                                 <th>Created At</th>
-                                {{-- <th class="text-center">Action</th> --}}
+                                <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -69,9 +66,21 @@
                                 <td>{{($projectcategories->currentpage()-1) * $projectcategories->perpage() + $key + 1}}</td>
                                 <td>{{$data->project_cat_id}}</td>
                                 <td>{{$data->project_category}}</td>
-                                <td>Rs&nbsp;{{$data->project_amount}}/-</td>
+                                <td>{{ $data->currency }}&nbsp;{{$data->project_amount}}/-</td>
+                                <td>Rs&nbsp;{{$data->distribute_amount}}/-</td>
                                 
                                 <td>{{$data->created_at->format('d-m-Y')}}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button id="btnGroupVerticalDrop1" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                                            <a class="dropdown-item" href="{{ url('admin/project-category-edit/'.$data->id) }}">Edit</a>
+                                            <a class="dropdown-item" href="#">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
                                 {{-- <td class="text-center">
                                     @if ($data->status == 0)
                                     <form action="{{route('unBlockUserContract')}}" method="POST" class="d-inline">

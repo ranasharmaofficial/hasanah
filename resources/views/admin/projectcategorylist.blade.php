@@ -34,6 +34,7 @@
                                 <th>Project Category ID</th>
                                 <th>Category</th>
                                 <th>Project Amount</th>
+                                <th>Distribute Amount</th>
                                 <th>Created At</th>
                             </tr>
                             </thead>
@@ -45,6 +46,7 @@
                                 <td>{{$item->project_cat_id}}</td>
                                 <td>{{$item->project_category}}</td>
                                 <td>{{$item->project_amount}}</td>
+                                <td>{{$item->distribute_amount}}</td>
                                 <td>{{$item->created_at}}</td>
                             </tr>
                             @endforeach

@@ -39,38 +39,62 @@
                                 <div class="col-md-2">
                                     <button class="btn btn-danger" type="submit">Filter</button>
                                 </div>
+                                <div class="col-md-2">
+                                    <a href="{{ url('admin/project-list') }}" class="btn btn-warning">Refresh</a>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="card-body">
-                        
+                        {{-- <form method="get" style="float: right;">
+                            <div class="app-search">
+                                <input name="search" value="" type="text" class="form-control" placeholder="Search here...">
+                                <span id="search_icons" class="ri-search-line"></span>
+                            </div>
+                        </form> --}}
                         <h4 class="card-title">@yield('title')</h4>
+                        <p class="p-0 m-0 text-white">Total Category: <b>{{$projects->total();}}</b>, Page No: <b>{{$projects->currentPage();}}</b></p>
                         <div class="table-responsive">
-                            <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table  id="datatable"  class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="bg-dark text-white">
                                 <tr>
+                                    <th><b>Sl.No.</b></th>
                                     <th><b>Project ID</b></th>
+                                    <th><b>Project Number</b></th>
                                     <th><b>Project Category</b></th>
                                     <th><b>Project Name</b></th>
-                                    <th><b>Company Name</b></th>
-                                    <th><b>Project Amount</b></th>
+                                    <th><b>Order Status</b></th>
+                                    <th><b>Unit Price</b></th>
+                                    <th><b>Address</b></th>
+                                    <th><b>Contractor Name</b></th>
+                                    <th><b>Submit Date</b></th>
+                                    <th><b>Days to Go</b></th>
+                                    <th><b>Project Status</b></th>
+                                    <th><b>Google Location</b></th>
+                                    <th><b>Google Link</b></th>
                                     <th><b>Created At</b></th>
                                 </tr>
                                 </thead>
-    
-    
                                 <tbody>
-                                @foreach ($projects as $item)
-                                <tr>
-                                    <td>{{$item->project_id}}</td>
-                                    <td>{{$item->pro_category->project_category}}</td>
-                                    <td>{{$item->project_name}}</td>
-                                    <td>{{$item->get_company_name->company_name}}</td>
-                                    <td>{{$item->amount}}</td>
-                                    <td>{{$item->created_at}}</td>
-                                </tr>
-                                @endforeach
-    
+                                    @foreach ($projects as $key => $item)
+                                        <tr>
+                                            <td>{{$item->project_id}}</td>
+                                            <td>{{$item->project_id}}</td>
+                                            <td>{{$item->project_number}}</td>
+                                            <td>{{$item->pro_category->project_category}}</td>
+                                            <td>{{$item->project_name}}</td>
+                                            <td>{{$item->project_name}}</td>
+                                            <td>{{$item->get_company_name->company_name}}</td>
+                                            <td>{{$item->amount}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{$item->created_at}}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -99,10 +99,25 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/viewstudent', $data);
     }
-    public function userList(){
+    public function userList(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $userdatas = User::where('role', '4')->paginate(10);
-        return view('admin/userlist', $data, compact('userdatas'));
+        // $userdatas = User::where('role', '4')->paginate(10);
+        $sort_search = null;
+        $contractors = Contractor::join('users', 'users.user_id', '=', 'contractors.user_id')
+                                ->join('companies','companies.company_id','=','contractors.company_id');
+        if ($request->search != null){
+            $contractors = $contractors->where('users.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+                            ->orWhere('users.user_id', "like", "%" . $request->search . "%")
+                            ->orWhere('contractors.user_id', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $contractors = $contractors ->select('contractors.*', 'users.*','companies.company_name as companyName')
+                                ->paginate(10);
+                                // dd($contractors);
+                                // die;
+
+        return view('admin/userlist', $data, compact('contractors','sort_search'));
     }
 
     public function blockUserContract(Request $request){
@@ -156,6 +171,37 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $companydata = Company::all();
         return view('admin/createprojectcategory',$data, compact('companydata'));
+    }
+    public function projectCategoryEdit($id)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $companydata = Company::all();
+        $pro_category_data = Project_category::where('id',$id)->first();
+        return view('admin/projectctegory_edit',$data, compact('companydata','pro_category_data'));
+    }
+    public function updateProjectCategoryDetails(Request $request)
+    {
+        $request->validate([
+            'pro_category_id' => 'required',
+            'company_id' => 'required|max:150',
+            'project_cat_name' => 'required|max:250',
+            'project_amount' => 'required',
+            'distribute_amount' => 'required',
+            'currency' => 'required'
+        ]);
+
+        $update_project_category = Project_category::where('project_cat_id', $request->pro_category_id)
+                            ->update([
+                                    'company_id' => $request->company_id,
+                                    'project_category' => $request->project_cat_name,
+                                    'project_amount' => $request->project_amount,
+                                    'distribute_amount' => $request->distribute_amount,
+                                    'currency' => $request->currency,
+                                ]);
+        if ($update_project_category) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Updated Successfullt'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
     }
     
     public function addCourse(){
@@ -913,7 +959,7 @@ class AdminController extends Controller
             $sort_by = $request->company_id;
             $projects = $projects->where('company_id', $sort_by);
         }
-        $projects = $projects->paginate(35);
+        $projects = $projects->paginate(300);
         $companies = Company::all();
         return view('admin/projectlist', $data, compact('projects','sort_by','companies'));
     }
@@ -926,9 +972,8 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $companylist = Company::all();
         $companyid = $request->get('company_id');
-            return view('admin/search_project_category', $data, compact('companylist'));
-        }
-
+        return view('admin/search_project_category', $data, compact('companylist'));
+    }
     public function searchProjectCategoryDetails(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $companylist = Company::all();
@@ -1090,7 +1135,8 @@ class AdminController extends Controller
             'company_id' => 'required|max:150',
             'project_cat_name' => 'required|max:250',
             'project_amount' => 'required',
-            'distribute_amount' => 'required'
+            'distribute_amount' => 'required',
+            'currency' => 'required'
         ]);
 
         $projectcat = new Project_category;
@@ -1101,6 +1147,7 @@ class AdminController extends Controller
             $projectcatid = date('d').time().rand(1111,9999);
         }
         
+        $projectcat->currency = $request->currency;
         $projectcat->company_id = $request->company_id;
         $projectcat->project_cat_id = $projectcatid;
         $projectcat->project_category = $request->project_cat_name;

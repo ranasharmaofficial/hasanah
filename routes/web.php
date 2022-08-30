@@ -343,6 +343,8 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     
     Route::get('admin/create-project', [AdminController::class, 'createProject'])->name('admin.create-project');
     Route::get('admin/create-project-category', [AdminController::class, 'createProjectCategory'])->name('admin.create-project-category');
+    Route::get('admin/project-category-edit/{id}', [AdminController::class, 'projectCategoryEdit'])->name('admin.projectCategoryEdit');
+    Route::post('updateProjectCategoryDetails', [AdminController::class, 'updateProjectCategoryDetails'])->name('admin.updateProjectCategoryDetails');
     Route::get('admin/project-list', [AdminController::class, 'projectList'])->name('admin.project-list');
     Route::get('admin/project-category-list', [AdminController::class, 'projectCategoryList'])->name('admin.project-category-list');
     Route::get('admin/search-project-category', [AdminController::class,'searchProjectCategory'])->name('admin.search-project-category');

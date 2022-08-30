@@ -28,8 +28,8 @@
                     <div class="card-body">
 
                         <h4 class="card-title">@yield('title')</h4>
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
+                        <table class="table table-bordered dt-responsive nowrap" id="datatable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead class="bg-dark text-white">
                             <tr>
                                 <th>User ID</th>
                                 <th>Name</th>

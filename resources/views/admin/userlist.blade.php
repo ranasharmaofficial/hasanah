@@ -52,32 +52,57 @@ table.border-modal > tbody > tr > td{
                     </div> 
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Supervisor: <b>{{$userdatas->total();}}</b>, Page No: <b>{{$userdatas->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Supervisor: <b>{{$contractors->total();}}</b>, Page No: <b>{{$contractors->currentPage();}}</b></p>
                     </div>
-                    <div class="card-body table-responsive">                        
+                    <div class="card-body table-responsive"> 
+                        <form method="get" style="float: right;">
+                            <div class="app-search">
+                                <input name="search" value="{{$sort_search}}" type="text" class="form-control" placeholder="Search here...">
+                                <span id="search_icons" class="ri-search-line"></span>
+                            </div>
+                        </form>	                       
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                            <tr>
+                            <tr class="bg-dark text-white">
                                 <th>Sl. No.</th>
                                 <th>User ID</th>
                                 <th>Password</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
-                                <th>Created At</th>
+                                <th>Company Name</th>
+                                <th>Joining Date</th>
+                                <th>Ongoing Project</th>
+                                <th>Completed Project</th>
+                                <th>Total Project</th>
+                                <th>Total Amount</th>
+                                <th>Paid Amount</th>
+                                <th>Due Amount</th>
+                                <th>Total Penalty</th>
+                                <th>Score</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($userdatas as $key => $data)
+                            @foreach ($contractors as $key => $data)
                             <tr>
-                                <td>{{($userdatas->currentpage()-1) * $userdatas->perpage() + $key + 1}}</td>
+                                <td>{{($contractors->currentpage()-1) * $contractors->perpage() + $key + 1}}</td>
                                 <td>{{$data->user_id}}</td>
                                 <td>{{$data->password}}</td>
                                 <td>{{$data->name}}</td>
                                 <td>{{$data->mobile}}</td>
                                 <td>{{$data->email}}</td>
+                                <td>{{ $data->companyName }}</td>
                                 <td>{{$data->created_at->format('d-m-Y')}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
                                 <td class="text-center">
                                     @if ($data->status == 0)
                                     <form action="{{route('unBlockUserContract')}}" method="POST" class="d-inline">
@@ -92,7 +117,19 @@ table.border-modal > tbody > tr > td{
                                         <button class="btn btn-danger" type="submit"><i class="fa fa-ban"></i>&nbsp;Block</button>
                                     </form>
                                     @endif
+                                   <hr>
                                     <button type="button" class="btn btn-info d-inline" title="View Details" onclick="showDetails(this)" id="{{$data->user_id}}"><i class="fa fa-eye"></i></button>
+                                    <hr>
+                                    <div class="btn-group" role="group">
+                                        <button id="btnGroupVerticalDrop1" type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Delete</a>
+                                        </div>
+                                    </div>
+                                 
                                 </td>
                             </tr>
                             @endforeach
@@ -100,7 +137,7 @@ table.border-modal > tbody > tr > td{
                                 <td colspan="7">
                                     <nav aria-label="...">
                                         <ul class="pagination justify-content-end mb-0">
-                                            {{$userdatas->links();}}
+                                            {{$contractors->links();}}
                                         </ul>
                                     </nav>
                                 </td>

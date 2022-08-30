@@ -67,7 +67,7 @@
                         <li><a href="{{url('admin/create-project-category')}}">Create Project Category</a></li>
                         <li><a href="{{url('admin/create-project')}}">Create Project</a></li>
                         <li><a href="{{url('admin/project-list')}}">Project List</a></li>
-                        <li><a href="{{url('admin/project-category-list')}}">Project Category List</a></li>
+                        {{-- <li><a href="{{url('admin/project-category-list')}}">Project Category List</a></li> --}}
                         <li><a href="{{url('admin/search-project-category')}}">Search Project Category </a></li>
                         <li><a href="{{url('admin/projectreport')}}">Project Report</a></li>
                     </ul>
