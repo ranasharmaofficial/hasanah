@@ -26,32 +26,46 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <h4 class="card-title">@yield('title')</h4>
                         <table class="table table-bordered dt-responsive nowrap" id="datatable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead class="bg-dark text-white">
                             <tr>
-                                <th>User ID</th>
+                                <th>Sl.No</th>
                                 <th>Name</th>
-                                <th>Mobile</th>
-                                <th>Email</th>
+                                <th>Company Name</th>
+                                <th>User ID</th>
                                 <th>Password</th>
-                                <th>qualification</th>
-                                <th>Dob</th>
+                                <th>Mobile</th>
+                                <th>Date of Joining</th>
+                                <th>Action</th>
                               </tr>
                             </thead>
 
 
                             <tbody>
+                                @php
+                                $s=1;
+                            @endphp 
                                 @foreach ($employee as $item)
                                 <tr>
-                                    <td>{{$item->user_id}}</td>
+                                    <td>{{$s++}}</td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->mobile}}</td>
-                                    <td>{{$item->email}}</td>
+                                    <td>{{ $item->company_ka_name }}</td>
+                                    <td>{{$item->user_id}}</td>
                                     <td>{{$item->password}}</td>
-                                    <td>{{$item->qualification}}</td>
-                                    <td>{{$item->dob}}</td>
+                                    <td>{{$item->mobile}}</td>
+                                    <td>{{$item->created_at}}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupVerticalDrop1" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                                                <a class="dropdown-item" href="{{ url('admin/view-employee/'.$item->employee_id) }}">View Details</a>
+                                                <a class="dropdown-item" href="{{ url('admin/edit-employee/'.$item->employee_id) }}">Edit Details</a>
+                                                {{-- <a class="dropdown-item" href="#">Delete</a> --}}
+                                            </div>
+                                        </div>
+                                    </td>
                                  </tr>
                                 @endforeach
                             </tbody>

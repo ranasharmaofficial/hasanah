@@ -35,7 +35,7 @@ class AdminController extends Controller
             'password'=>'required|min:6|max:20'
         ]);
 
-        $adminInfo = User::where('user_id','=',$request->username)->first();
+        $adminInfo = User::where('user_id','=',$request->username)->where('role','1')->first();
         if (!$adminInfo) {
             return redirect()->route('admin.auth.login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
         } else if ($request->password === $adminInfo->password) {
@@ -200,6 +200,81 @@ class AdminController extends Controller
                                 ]);
         if ($update_project_category) {
             return redirect()->back()->with(session()->flash('alert-success', 'Updated Successfullt'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+
+    //edit company
+    public function editCompany($companyid)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $company_daata  = Company::where('company_id',$companyid)->first();
+        return view('admin/editcompany',$data, compact('company_daata'));
+    }
+    public function editCompanyDetails(Request $request)
+    {
+        // dd($request->all());
+        // die;
+        $request->validate([
+            'established_date' => 'required',
+            'registration_number' => "required",
+            'company_name' => "required",
+            'owner_name' => "required",
+            'panno' => "required",
+            'gst' => "required",
+            'landmark' => "required",
+            'country' => "required",
+            'state' => "required",
+            'city' => "required",
+            'pin_code' => "required",
+            'mobile_no' => "required",
+            'alt_mobile_no' => "required",
+            'email' => "required"
+        ]);
+
+        $update_company_details = Company::where('company_id', $request->company_id)
+                            ->update([
+                                    'established_date' => $request->established_date,
+                                    'registration_number' => $request->registration_number,
+                                    'company_name' => $request->company_name,
+                                    'owner_name' => $request->owner_name,
+                                    'gst_number' => $request->gst,
+                                    'pan_number' => $request->panno,
+                                    'land_mark' => $request->landmark,
+                                    'country' => $request->country,
+                                    'state' => $request->state,
+                                    'city' => $request->city,
+                                    'pin_code' => $request->pin_code,
+                                    'mobile' => $request->mobile_no,
+                                    'alt_mobile' => $request->alt_mobile_no,
+                                    'email' => $request->email,
+                                ]);
+        if ($update_company_details) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Updated Successfullt'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+
+    public function editCompanyLogo(Request $request)
+    {
+        // dd($request->all());
+        // die;
+        $request->validate([
+            'company_logo' => 'required',
+        ]);
+        if ($request->hasfile('company_logo')) {
+            $file = $request->file('company_logo');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'company-logo-'.time().'.'.$extenstion;
+            $file->move(public_path('uploads/company-logo'), $filename);
+        }
+        // $createcompany->logo = $filename;
+        $update_company_logo = Company::where('company_id', $request->comapny_idss)
+                            ->update([
+                                    'logo' => $filename,
+                                ]);
+        if ($update_company_logo) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Logo Updated Successfullt'));
         }
         return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
     }
@@ -670,8 +745,8 @@ class AdminController extends Controller
         ]);
 
         $createcompany = new Company;
-        $createcompany->company_id = rand(99999,111111).date('dmy');
-        $createcompany->registration_number = time().date('Ymd');
+        $createcompany->company_id = rand(99,11).date('dmy');
+        $createcompany->registration_number = rand(99,11).date('ymd');
         $createcompany->company_name = $request->company_name;
         $createcompany->owner_name = $request->owner_name;
         $createcompany->pan_number = $request->panno;
@@ -751,7 +826,8 @@ class AdminController extends Controller
     public function employeeList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $employee = Con_employee::join('users', 'users.user_id', '=', 'con_employees.user_id')
-                ->get(['con_employees.*', 'users.*']);
+                    ->join('companies','companies.company_id','=','con_employees.company_id')
+                ->get(['con_employees.*', 'users.*','companies.company_name as company_ka_name']);
        return view('admin/employeelist',$data, compact('employee'));
     }
     public function viewEmployee(Request $request){
@@ -927,9 +1003,11 @@ class AdminController extends Controller
     public function distributorList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $distributor = Distributor::join('users', 'users.user_id', '=', 'distributors.user_id')
-        ->get(['distributors.*', 'users.*']);
+                ->join('companies','companies.company_id','=','distributors.company_id')
+                ->get(['distributors.*', 'users.*','companies.company_name as company_ka_name']);
         return view('admin/distributorlist',$data, compact('distributor'));
     }
+    
     public function viewDistributor(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id', '=', session('LoggedUser'))->first()];
         $distributorcode = $request->post('distributorcode');
@@ -1177,10 +1255,11 @@ class AdminController extends Controller
             'distribute_amount' => 'required',
             'prjecttype' => 'required',
             'no_of_days' => 'required',
+            'currency' => 'required',
         ]);
 
         $createproject = new Project;
-        $createproject->project_id = date('md').time().rand(1111,9999);
+        $createproject->project_id = date('md').rand(11,99);
         $createproject->company_id = $request->company_id;
         $createproject->project_cat = $request->project_id;
         $createproject->distributor_id = $request->distributor_id;
@@ -1190,6 +1269,7 @@ class AdminController extends Controller
         $createproject->distribute_amount = $request->distribute_amount;
         $createproject->project_type = $request->prjecttype;
         $createproject->no_of_days = $request->no_of_days;
+        $createproject->currency = $request->currency;
         $createproject->save();
         if ($createproject) {
             return redirect()->back()->with(session()->flash('alert-success', 'Project Successfully Created'));
@@ -1294,6 +1374,13 @@ class AdminController extends Controller
         $getamount = $getamountpro->project_amount;
         return $getamount;
     }
+    public function getCurrency(Request $request){
+        $category = $request->post('cid');        
+        $getcurrency = Project_category::where('project_cat_id', $category)->first();
+        $get_currency = $getcurrency->currency;
+        // dd($get_currency);
+        return $get_currency;
+    }
     public function get_Distributor_Amount(Request $request){
         $category = $request->post('cid');        
         $getamountpro = Project_category::where('project_cat_id', $category)->first();
@@ -1309,4 +1396,141 @@ class AdminController extends Controller
         return $getcategory;
     }
     //Get Category End
+    // employee works
+    public function viewEmployeeDetails($employeeid)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $employeedata = Con_employee::where('employee_id', $employeeid)->first();
+        $userdata = User::where('user_id', $employeedata->user_id)->first();
+        $companydata = Company::where('company_id', $employeedata->company_id)->pluck('company_name')->first();
+        return view('admin/viewemployee_details', $data, compact('employeedata', 'companydata', 'userdata'));
+       
+    }
+    public function editEmpDetails($employeeid)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $employeedata = Con_employee::where('employee_id', $employeeid)->first();
+        $userdata = User::where('user_id', $employeedata->user_id)->first();
+        $companydata = Company::where('company_id', $employeedata->company_id)->pluck('company_name')->first();
+        $companylist = Company::get();
+        return view('admin/edit_employee_details', $data, compact('employeedata', 'companydata', 'userdata','companylist'));
+       
+    }
+    public function updateEmployeeDetails(Request $request)
+    {
+        $request->validate([
+            'employee_id' => 'required',
+            'user_id' => 'required',
+            'password' => 'required',
+            'company_id' => 'required',
+            'name' => 'required',
+            'qualification' => 'required',
+            'experience' => 'required',
+            // 'dob' => 'required',
+            'gender' => 'required',
+            'landmark' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'mobile' => 'required',
+            // 'alt_mobile' => 'required',
+            // 'email' => 'required',
+            ]);
+
+        $user_details = User::where('user_id', $request->user_id)
+                            ->update([
+                                    'password' => $request->password,
+                                    'name' => $request->name,
+                                    'email' => $request->email,
+                                    'mobile' => $request->mobile,
+                                ]);
+        $con_emp_details = Con_employee::where('user_id', $request->user_id)
+                            ->update([
+                                    'company_id' => $request->company_id,
+                                    'qualification' => $request->qualification,
+                                    'experience' => $request->experience,
+                                    'dob' => $request->dob,
+                                    'gender' => $request->gender,
+                                    'landmark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pin_code' => $request->pin_code,
+                                    'alt_mobile' => $request->alt_mobile,
+                                ]);
+        
+        if ($user_details && $con_emp_details) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Employee Details Updated Successfully!'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
+
+    // distributor works
+
+    public function viewDistributorDetails($distributorreg)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $employeedata = Distributor::where('distributor_reg', $distributorreg)->first();
+        $userdata = User::where('user_id', $employeedata->user_id)->first();
+        $companydata = Company::where('company_id', $employeedata->company_id)->pluck('company_name')->first();
+        return view('admin/viewdistributor_details', $data, compact('employeedata', 'companydata', 'userdata'));
+    }
+    public function editDistributorDetails($distributorreg)
+    {
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $employeedata = Distributor::where('distributor_reg', $distributorreg)->first();
+        $userdata = User::where('user_id', $employeedata->user_id)->first();
+        $companydata = Company::where('company_id', $employeedata->company_id)->pluck('company_name')->first();
+        $companylist = Company::get();
+        return view('admin/edit_distributor_details', $data, compact('employeedata', 'companydata', 'userdata','companylist'));
+       
+    }
+    public function updateDistributorDetails(Request $request)
+    {
+        $request->validate([
+            'distributor_reg' => 'required',
+            'user_id' => 'required',
+            'password' => 'required',
+            'company_id' => 'required',
+            'name' => 'required',
+            // 'qualification' => 'required',
+            // 'experience' => 'required',
+            // 'dob' => 'required',
+            'gender' => 'required',
+            'landmark' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'mobile' => 'required',
+            // 'alt_mobile' => 'required',
+            // 'email' => 'required',
+            ]);
+
+        $user_details = User::where('user_id', $request->user_id)
+                            ->update([
+                                    'password' => $request->password,
+                                    'name' => $request->name,
+                                    'email' => $request->email,
+                                    'mobile' => $request->mobile,
+                                ]);
+        $con_emp_details = Distributor::where('user_id', $request->user_id)
+                            ->update([
+                                    'company_id' => $request->company_id,
+                                    // 'qualification' => $request->qualification,
+                                    // 'experience' => $request->experience,
+                                    'dob' => $request->dob,
+                                    'gender' => $request->gender,
+                                    'landmark' => $request->landmark,
+                                    'city' => $request->city,
+                                    'state' => $request->state,
+                                    'country' => $request->country,
+                                    'pincode' => $request->pin_code,
+                                    'alt_mobile' => $request->alt_mobile,
+                                ]);
+        
+        if ($user_details && $con_emp_details) {
+            return redirect()->back()->with(session()->flash('alert-info', 'Distributor Details Updated Successfully!'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
 }

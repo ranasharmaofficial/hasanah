@@ -15,4 +15,7 @@ class Project extends Model
     public function get_company_name(){
         return $this->hasOne('App\Models\Company', 'company_id', 'company_id');
     }
+    // public function get_distributor_name(){
+    //     return $this->hasOne('App\Models\Distributor', 'company_id', 'company_id');
+    // }
 }

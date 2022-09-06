@@ -44,7 +44,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li>
                         <li><a href="{{url('admin/employee-list')}}">Employee List</a></li>
-                        <li><a href="{{url('admin/view-employee')}}">View Employee</a></li>
+                        {{-- <li><a href="{{url('admin/view-employee')}}">View Employee</a></li> --}}
                     </ul>
                 </li>
                 <li>
@@ -55,7 +55,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{url('admin/add-distributor')}}">Add Distributor</a></li>
                         <li><a href="{{url('admin/distributor-list')}}">Distributor List</a></li>
-                        <li><a href="{{url('admin/view-distributor')}}">View Distributor</a></li>
+                        {{-- <li><a href="{{url('admin/view-distributor')}}">View Distributor</a></li> --}}
                     </ul>
                 </li>
                 <li>

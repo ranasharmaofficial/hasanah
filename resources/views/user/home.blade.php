@@ -846,7 +846,11 @@
                     <div class="col-sm-6">
                         <label for="projectCategory" class="col-form-label">Project Category <star>*</star></label>
                         <select type="text" class="form-control" name="projectCategory" id="projectCategory" required>
-							<option value="{{$userprojectcategory->project_cat_id}}">{{$userprojectcategory->project_category}}</option>
+							@if(count($userprojectcategory)>0)
+                                @foreach ($userprojectcategory as $item)
+                                    <option value="{{$item->project_cat_id}}">{{$item->project_category}}</option>
+                                @endforeach
+                            @endif
 						</select>
                         <small class="form-text text-danger">@error('projectCategory') {{ $message }} @enderror</small>
                     </div>

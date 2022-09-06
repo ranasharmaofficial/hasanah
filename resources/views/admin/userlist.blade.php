@@ -52,7 +52,7 @@ table.border-modal > tbody > tr > td{
                     </div> 
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Supervisor: <b>{{$contractors->total();}}</b>, Page No: <b>{{$contractors->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Contractor: <b>{{$contractors->total();}}</b>, Page No: <b>{{$contractors->currentPage();}}</b></p>
                     </div>
                     <div class="card-body table-responsive"> 
                         <form method="get" style="float: right;">
@@ -61,7 +61,7 @@ table.border-modal > tbody > tr > td{
                                 <span id="search_icons" class="ri-search-line"></span>
                             </div>
                         </form>	                       
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table  id="datatable"  class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr class="bg-dark text-white">
                                 <th>Sl. No.</th>
@@ -104,7 +104,7 @@ table.border-modal > tbody > tr > td{
                                 <td></td>
                                 
                                 <td class="text-center">
-                                    @if ($data->status == 0)
+                                    {{-- @if ($data->status == 0)
                                     <form action="{{route('unBlockUserContract')}}" method="POST" class="d-inline">
                                         @csrf
                                         <input type="hidden" value="{{$data->user_id}}" name="userid" required>
@@ -117,16 +117,33 @@ table.border-modal > tbody > tr > td{
                                         <button class="btn btn-danger" type="submit"><i class="fa fa-ban"></i>&nbsp;Block</button>
                                     </form>
                                     @endif
-                                   <hr>
-                                    <button type="button" class="btn btn-info d-inline" title="View Details" onclick="showDetails(this)" id="{{$data->user_id}}"><i class="fa fa-eye"></i></button>
-                                    <hr>
+                                   <hr> --}}
+                                   
                                     <div class="btn-group" role="group">
                                         <button id="btnGroupVerticalDrop1" type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Action <i class="mdi mdi-chevron-down"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
                                             <a class="dropdown-item" href="#">Edit</a>
+                                            <hr>
                                             <a class="dropdown-item" href="#">Delete</a>
+                                            <hr>
+                                            @if ($data->status == 0)
+                                            <form action="{{route('unBlockUserContract')}}" method="POST" class="d-inline dropdown-item">
+                                                @csrf
+                                                <input type="hidden" value="{{$data->user_id}}" name="userid" required>
+                                                <button class="btn btn-success" type="submit"><i class="fa fa-check-circle"></i>&nbsp;Un-Block</button>
+                                            </form>
+                                            @else
+                                            <form action="{{route('blockUserContract')}}" method="POST" class="d-inline dropdown-item">
+                                                @csrf
+                                                <input type="hidden" value="{{$data->user_id}}" name="userid" required>
+                                                <button class="btn btn-danger" type="submit"><i class="fa fa-ban"></i>&nbsp;Block</button>
+                                            </form>
+                                            @endif
+                                            <hr>
+                                            <button type="button" class="btn btn-info d-inline dropdown-item" title="View Details" onclick="showDetails(this)" id="{{$data->user_id}}"><i class="fa fa-eye"></i></button>
+                                            <hr>
                                         </div>
                                     </div>
                                  

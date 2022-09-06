@@ -15,6 +15,7 @@ use App\Models\Project_category;
 use App\Models\Upload_comment;
 use App\Models\User_project;
 use App\Models\User_upload_images;
+use App\Models\Wallet;
 
 class EmployeeController extends Controller
 {
@@ -92,6 +93,23 @@ class EmployeeController extends Controller
                         ->paginate(10);
         return view('employee/ongoing-project', $data, compact('employeedata','employeedetails','companydata', 'lastLoginTime', 'userProjects'));
     }
+    public function completedProject(){
+        $data = ['LoggedEmployee'=>User::where('id','=', session('LoggedEmployee'))->first()];
+        $employeedata = User::where('user_id', $data['LoggedEmployee']->user_id)->first();
+        $employeedetails = Con_employee::where('user_id', $data['LoggedEmployee']->user_id)->first();
+        $companydata = Company::where('company_id',$employeedetails->company_id)->first();
+        // dd($distributordetails->distributor_reg);die;
+        $completedProjects = Project::where('project_status', '=', '3')
+                        ->join('user_projects', 'projects.project_id', '=', 'user_projects.project_id')
+                        ->join('companies', 'companies.company_id', '=', 'projects.company_id')
+                        ->join('users', 'user_projects.user_id', '=', 'users.user_id')
+                        ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                        ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*', 'users.name AS contractor_name', 'users.user_id AS username'])
+                        ->paginate(10);
+                        // dd($completedProjects);
+                        // die;
+        return view('employee/completedproject', $data, compact('employeedata', 'employeedetails', 'companydata', 'completedProjects'));
+    }
 
     public function viewProjectDetailsOn(Request $request){
         $data = ['LoggedEmployee'=>User::where('id','=', session('LoggedEmployee'))->first()];
@@ -125,7 +143,60 @@ class EmployeeController extends Controller
             return view('employee/viewProjectDetails',$data, compact('employeedata','employeedetails','flag','companydata','lastLoginTime'));
         }
     }
+    public function project_details($project_id)
+    {
+        $data = ['LoggedEmployee'=>User::where('id','=', session('LoggedEmployee'))->first()];
+        $employeedata = User::where('user_id', $data['LoggedEmployee']->user_id)->first();
+        $employeedetails = Con_employee::where('user_id', $data['LoggedEmployee']->user_id)->first();
+        $companydata = Company::where('company_id',$employeedetails->company_id)->first();
+        $project_details = Project::where('project_id',$project_id)->first();
+        $contractor_user_id = User_project::where('project_id',$project_id)->pluck('user_id')->first();
+        $contractor_details = User::where('user_id',$contractor_user_id)->first();
+        $company_details = Company::where('company_id',$project_details->company_id)->pluck('company_name')->first();
+        
+        // dd($company_details);
+        // die;
+        $user_project_images = User_upload_images::where('project_id', '=', $project_id)
+                                                    ->get();
+        return view('employee/view-project-details',$data, compact('employeedata', 'project_details','companydata','user_project_images','contractor_user_id','contractor_details','company_details'));
+    }
+    public function employeeProjectApprove(Request $request){
+        $request->validate([
+            'contractorid' => 'required',
+            'projectid' => 'required',
+            'companyid' => 'required',
+            'amount' => 'required',
+            'penalty_amount' => 'required',
+        ]);
+        $data = ['LoggedEmployee'=>User::where('id','=', session('LoggedEmployee'))->first()];
 
+        $projectapprove = Wallet::insert([
+            'contractor_id' => $request->contractorid,
+            'approved_by' => $data['LoggedEmployee']->user_id,
+            'project_id' => $request->projectid,
+            'company_id' => $request->companyid,
+            'amount' => $request->amount-$request->penalty_amount,
+            'penalty_amount' => $request->penalty_amount,
+            'cr_dr' => 'Credit',
+        ]);
+
+        $update_project_status = Project::where('project_id', '=', $request->projectid)
+                                        ->update([
+                                            'project_status' => 4,
+                                            'action' => 4,
+                                            'project_report' => 'APPROVED By DISTRIBUTOR',
+                                            'completed_date' => now(),
+                                        ]);
+        $update_user_project_status = User_project::where('project_id', '=', $request->projectid)
+                                                    ->update([
+                                                        'status' => 3
+                                                    ]);
+
+        if ($projectapprove && $update_project_status && $update_user_project_status) {
+            return redirect('employee/completed-project')->with(session()->flash('alert-success', 'Project successfully approved.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
+    }
     public function projectImageDetails(Request $request, $projectid, $userid, $id){
         $data = ['LoggedEmployee'=>User::where('id','=', session('LoggedEmployee'))->first()];
         $employeedata = User::where('user_id', $data['LoggedEmployee']->user_id)->first();

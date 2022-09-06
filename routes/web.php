@@ -224,11 +224,14 @@ Route::group(['middleware'=>['EmployeeAuthCheck']], function(){
     Route::get('employee/home', [EmployeeController::class, 'employeeHome'])->name('employee.home');
     Route::get('employee/logout', [EmployeeController::class, 'employeeLogout'])->name('employee/logout');
     Route::get('employee/ongoing-project', [EmployeeController::class, 'onGoingProject'])->name('employee/ongoing-project');
+    Route::get('employee/completed-project', [EmployeeController::class, 'completedProject'])->name('employee/completed-project');
     Route::get('employee/view-project-details', [EmployeeController::class, 'viewProjectDetailsOn'])->name('employee/view-project-details');
+    Route::get('employee/project-details/{project_id}', [EmployeeController::class, 'project_details'])->name('employee/project-details/{project_id}');
     Route::get('employee/project-image-details/{projectid}/{userid}/{id}', [EmployeeController::class, 'projectImageDetails'])->name('employee/project-image-details/{projectid}/{userid}/{id}');
     Route::post('employee/upload-comment', [EmployeeController::class, 'uploadComment'])->name('employee.upload-comment');
     Route::get('employee/change-password',[EmployeeController::class,'changePassword'])->name('employee.change-password');
     Route::post('employee.change-password', [EmployeeController::class, 'employeeChangePassword'])->name('employee.change-password');
+    Route::post('employee/project-approve', [EmployeeController::class, 'employeeProjectApprove'])->name('employee.project-approve');
 });
 // Employee Modules End
 
@@ -281,6 +284,7 @@ Route::group(['middleware'=>['UserAuthCheck']], function(){
     Route::get('user/applied-project',[UserController::class,'appliedProject']);
     Route::post('applyForProject', [UserController::class, 'applyForProject'])->name('applyForProject');
     Route::get('user/my-project',[UserController::class,'myProject']);
+    Route::get('user/completed-project', [UserController::class, 'completedProject'])->name('user.completed-project');
     Route::get('user/mywallet', [UserController::class, 'myWallet'])->name('user.myWallet');
     Route::get('user/wallet-history', [UserController::class, 'walletHistory'])->name('user.wallet-history');
     // Route::get('user/upload-image',[UserController::class,'uploadImage']);
@@ -352,6 +356,7 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('uploadProjectCategory', [AdminController::class, 'uploadProjectCategory'])->name('uploadProjectCategory');
     Route::post('uploadProjectData', [AdminController::class, 'uploadProjectData'])->name('uploadProjectData');
     Route::post('getamountofproject', [AdminController::class, 'getamountofproject'])->name('getamountofproject');
+    Route::post('getCurrency', [AdminController::class, 'getCurrency'])->name('getCurrency');
     Route::post('get_Distributor_Amount', [AdminController::class, 'get_Distributor_Amount'])->name('get_Distributor_Amount');
     Route::post('getProjectName', [AdminController::class, 'getProjectName'])->name('getProjectName');
     Route::post('getDistributorNames', [AdminController::class, 'getDistributorNames'])->name('getDistributorNames');
@@ -366,6 +371,9 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
 
     Route::get('admin/create-company',[AdminController::class,'createCompany'])->name('admin.create-company');
     Route::get('admin/company-list',[AdminController::class,'companyList'])->name('admin.company-list');
+    Route::get('admin/edit-company/{companyid}',[AdminController::class,'editCompany'])->name('admin.editCompany');
+    Route::post('admin/editCompanyDetails',[AdminController::class,'editCompanyDetails'])->name('admin.editCompanyDetails');
+    Route::post('admin/editCompanyLogo',[AdminController::class,'editCompanyLogo'])->name('admin.editCompanyLogo');
     Route::get('admin/view-company',[AdminController::class,'viewCompany'])->name('admin.view-company');
     Route::post('admin/viewcompany',[AdminController::class,'viewCompany'])->name('admin.viewcompany');
     Route::get('admin/update-company/{companyid}',[AdminController::class,'updateCompany'])->name('admin.update-company.{companyid}');
@@ -411,5 +419,14 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('uploadEvent', [AdminController::class, 'uploadEvent'])->name('uploadEvent');
     Route::post('uploadGalleryImage', [AdminController::class, 'uploadGalleryImage'])->name('uploadGalleryImage');
     Route::post('uploadNotice', [AdminController::class, 'uploadNotice'])->name('uploadNotice');
+
+    Route::get('admin/view-employee/{employeeid}', [AdminController::class, 'viewEmployeeDetails'])->name('admin.view-employee.{employeeid}');
+    Route::get('admin/edit-employee/{employeeid}', [AdminController::class, 'editEmpDetails'])->name('admin.edit-employee.{employeeid}');
+    Route::post('updateEmployeeDetails', [AdminController::class, 'updateEmployeeDetails'])->name('admin.updateEmployeeDetails');
+
+    Route::get('admin/view-distributor/{distributorreg}', [AdminController::class, 'viewDistributorDetails'])->name('admin.view-distributor.{distributorreg}');
+    Route::get('admin/edit-distributor/{distributorreg}', [AdminController::class, 'editDistributorDetails'])->name('admin.edit-distributor.{distributorreg}');
+    Route::post('updateDistributorDetails', [AdminController::class, 'updateDistributorDetails'])->name('admin.updateDistributorDetails');
+
 });
 // Admin Modules End

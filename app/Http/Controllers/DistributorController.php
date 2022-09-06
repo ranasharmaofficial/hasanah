@@ -189,13 +189,15 @@ class DistributorController extends Controller
         $distributordetails = Distributor::where('user_id', $data['LoggedDistributor']->user_id)->first();
         $companydata = Company::where('company_id',$distributordetails->company_id)->first();
         // dd($distributordetails->distributor_reg);die;
-        $completedProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '4')
-                        ->join('user_projects', 'projects.project_id', '=', 'projects.project_id')
+        $completedProjects = Project::where('distributor_id', '=', $distributordetails->distributor_reg)->where('project_status', '=', '3')
+                        ->join('user_projects', 'projects.project_id', '=', 'user_projects.project_id')
                         ->join('companies', 'companies.company_id', '=', 'projects.company_id')
                         ->join('users', 'user_projects.user_id', '=', 'users.user_id')
                         ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
                         ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*', 'users.name AS contractor_name', 'users.user_id AS username'])
                         ->paginate(10);
+                        // dd($completedProjects);
+                        // die;
         return view('distributor/completedproject', $data, compact('distributordata', 'distributordetails', 'companydata', 'completedProjects'));
     }
     public function userList(){
@@ -251,6 +253,9 @@ class DistributorController extends Controller
         ]);
         $updateprequest = Project::where('project_id', $request->project_id)->update([
             "is_asigned" => 2,
+            "action" => 2,
+            "project_status" => 2,
+            "project_report" => 'ONGOING',
         ]);
         $updateprequestst = Project_request::where('user_id', $request->user_id)->update([
             "is_asigned" => 2,

@@ -58,7 +58,9 @@ class UserController extends Controller
     public function userHome(){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->where('role', '4')->first()];
         $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
-        $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
+        $userprojectcategory = Project_category::get();
+        // dd($userprojectcategory);
+        // $userprojectcategory = Project_category::where('project_cat_id', $contractdata->category_id)->first();
         $companydata = Company::where('company_id',$contractdata->company_id)->first();
         $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
         $totaluserproject = User_project::where('user_id', '=', $data['LoggedContractInfo']->user_id)->count();
@@ -210,6 +212,28 @@ class UserController extends Controller
                         // dd($userProjects);
                         // die;
         return view('user/myproject',$data, compact('userProjects','companydata','lastLoginTime'));
+    }
+    public function completedProject(){
+        $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
+        $contractorData = User::where('id', '=', session('LoggedContractorUser'))->first();
+        $contractdata = Contractor::where('user_id', $data['LoggedContractInfo']->user_id)->first();
+        $companydata = Company::where('company_id',$contractdata->company_id)->first();
+        $userloginhistory = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->get();
+        $historycount = count($userloginhistory);
+        if ($historycount == 1) {
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->take(1)->first();
+        } else{
+            $lastLoginTime = User_login_history::where('user_id', $data['LoggedContractInfo']->user_id)->orderBy('id', 'desc')->skip(1)->take(1)->first();
+        } 
+        $userProjects = User_project::where('user_projects.status',2)->where('user_id', '=', $data['LoggedContractInfo']->user_id)
+                        ->join('projects', 'projects.project_id', '=', 'user_projects.project_id')
+                        ->join('companies', 'companies.company_id', '=', 'projects.company_id')
+                        ->join('project_categories', 'project_categories.project_cat_id', '=', 'projects.project_cat')
+                        ->select(['project_categories.*', 'companies.*','projects.*','user_projects.*'])
+                        ->paginate(10);
+                        // dd($userProjects);
+                        // die;
+        return view('user/completed_project',$data, compact('userProjects','companydata','lastLoginTime'));
     }
     public function uploadImage(Request $request){
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
@@ -669,6 +693,7 @@ class UserController extends Controller
             'completed_date' => 'required',
             'project_id' => 'required',
             'user_id' => 'required',
+            'project_complete_remarks' => 'required',
         ]);
         $data = ['LoggedContractInfo'=>User::where('id','=', session('LoggedContractUser'))->first()];
 
@@ -678,6 +703,7 @@ class UserController extends Controller
                                             'action' => 3,
                                             'project_status' => 3,
                                             'project_report' => 'COMPLETED',
+                                            'project_complete_remarks' => $request->project_complete_remarks,
                                             'completed_date' => now(),
                                         ]);
         $update_user_project_status = User_project::where('project_id', '=', $request->project_id)->where('user_id', '=', $request->user_id)

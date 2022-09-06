@@ -38,6 +38,7 @@
                                 <th>Mobile</th>
                                 <th>Email</th>
                                 <th>Logo</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
 
@@ -52,6 +53,17 @@
                             <td>{{$item->mobile}}</td>
                             <td>{{$item->email}}</td>
                             <td><img style="height:100px;" class="img-thumbnail" src="{{asset('uploads/company-logo/'.$item->logo)}}" alt=""></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupVerticalDrop1" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action <i class="mdi mdi-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                                        <a class="dropdown-item" href="{{ url('admin/edit-company/'.$item->company_id) }}">Edit</a>
+                                        {{-- <a class="dropdown-item" href="#">Delete</a> --}}
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                            @endforeach
 

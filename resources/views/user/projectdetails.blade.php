@@ -69,7 +69,7 @@
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Status</td>
-														<td class="text-right">Ongoinf</td>
+														<td class="text-right"><h6 class="text-success font-weight-bold">{{$projectData->project_report}}</h6></td>
 													</tr>
                                                     <tr>
 														<td>Project&nbsp;Amount</td>
@@ -127,14 +127,24 @@
                                     <div class="card-body">
                                         <form method="post" action="{{route('user.markAsCompleted')}}" class="">
                                             @csrf
-                                            <div class="row g-0">
-                                                <div class="col-xl-4 col-sm-6">
+                                            <div class="container row">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="">Select Date<star>*</star></label>
                                                         <input type="date" name="completed_date" class="form-control" required>
                                                         <input type="hidden" name="user_id" value="{{$contractdata->user_id}}" class="form-control" required>
-                                                        <input type="hidden" name="project_id" value="{{$userData->project_id}}" class="form-control" required>
+                                                        <input type="hidden" name="project_id" value="{{$projectData->project_id}}" class="form-control" required>
                                                     </div>
+                                                    
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="">Add remarks<star>*</star></label>
+                                                        <textarea type="text" name="project_complete_remarks" class="form-control" required></textarea>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-2">
                                                     <button class="btn btn-primary my-3">SUBMIT</button>
                                                 </div>
                                             </div>

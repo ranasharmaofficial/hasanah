@@ -119,7 +119,7 @@
                                        <label class="col-form-label" for="projectAmount">Project Amount</label>
                                             <div class="input-group mb-2">
                                               <div class="input-group-prepend">
-                                                <div class="input-group-text">Rs</div>
+                                                <div class="input-group-text"><input readonly type="text" id="currency" name="currency"/></div>
                                               </div>
                                               <input type="number" readonly name="project_amount" required class="form-control" id="projectAmount" placeholder="Project Amount">
                                             </div>
@@ -214,7 +214,21 @@
                 data:'cid='+cid+'&_token={{csrf_token()}}',
                 success:function(result){
                     jQuery('#projectAmount').val(result)
-                    // console.log(result);
+                    console.log(result);
+                }
+            });
+        });
+        jQuery('#project_id').change(function(){
+            let cid=jQuery(this).val();
+            console.log(cid)
+            jQuery.ajax({
+                url:'{{url('getCurrency')}}',
+                type:'post',
+                data:'cid='+cid+'&_token={{csrf_token()}}',
+                success:function(result){
+                    jQuery('#currency').val(result)
+                    // jQuery('#currency').html(result);
+                    // console.log(result);/
                 }
             });
         });
